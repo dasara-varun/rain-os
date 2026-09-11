@@ -9,6 +9,7 @@ license=('GPL3')
 depends=()
 source=(
   "rain-umbrella.svg"
+  "rain-logo.png"
   "rain-urban.colors"
   "rain-rural.colors"
 )
@@ -16,10 +17,12 @@ sha256sums=(
   'SKIP'
   'SKIP'
   'SKIP'
+  'SKIP'
 )
 
 package() {
   install -Dm644 "${srcdir}/rain-umbrella.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/rain-os.svg"
+  install -Dm644 "${srcdir}/rain-logo.png" "${pkgdir}/usr/share/pixmaps/rain-os.png"
   install -Dm644 "${srcdir}/rain-urban.colors" "${pkgdir}/usr/share/color-schemes/RainUrban.colors"
   install -Dm644 "${srcdir}/rain-rural.colors" "${pkgdir}/usr/share/color-schemes/RainRural.colors"
 }

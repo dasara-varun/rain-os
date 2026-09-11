@@ -1,7 +1,7 @@
 # Rain OS
 
 <p align="center">
-  <img src="branding/rain-umbrella.svg" alt="Rain OS Umbrella Logo" width="128" height="128">
+  <img src="branding/rain-logo.png" alt="Rain OS Umbrella Logo" width="160" height="160">
 </p>
 
 <p align="center">

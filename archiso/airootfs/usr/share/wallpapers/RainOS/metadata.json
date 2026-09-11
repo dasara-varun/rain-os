@@ -1,0 +1,13 @@
+{
+  "KPlugin": {
+    "Id": "RainOS",
+    "Name": "Rain OS Glass Umbrella",
+    "Description": "Official Rain OS Default Wallpaper",
+    "Authors": [
+      {
+        "Name": "Rain OS Design Team"
+      }
+    ],
+    "License": "GPLv3"
+  }
+}
