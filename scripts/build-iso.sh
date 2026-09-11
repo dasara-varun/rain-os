@@ -23,6 +23,16 @@ if [[ ! -d "$PROFILE" || ! -s "$PROFILE/packages.x86_64" ]]; then
   exit 1
 fi
 
+# Ensure loop device control exists (essential inside containers & CI runners)
+if [[ ! -c /dev/loop-control ]]; then
+  mknod /dev/loop-control c 10 237 2>/dev/null || true
+fi
+for i in $(seq 0 15); do
+  if [[ ! -b "/dev/loop$i" ]]; then
+    mknod "/dev/loop$i" b 7 "$i" 2>/dev/null || true
+  fi
+done
+
 echo "=========================================================="
 echo "Starting Rain OS Archiso build..."
 echo "Profile directory: $PROFILE"
