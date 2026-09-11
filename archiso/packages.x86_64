@@ -57,7 +57,6 @@ upower
 acpi
 lm_sensors
 apparmor
-apparmor-parser
 firejail
 snapper
 cryptsetup
