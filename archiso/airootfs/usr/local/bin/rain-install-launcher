@@ -2,16 +2,23 @@
 # Rain OS Installer Launcher
 set -euo pipefail
 
-echo "========================================"
-echo "      Rain OS Guided Installer          "
-echo "========================================"
-
 if command -v calamares >/dev/null 2>&1; then
-    exec calamares "$@"
-else
-    echo "Installer binary not yet integrated."
-    echo "To perform manual Arch install, run: archinstall"
-    if command -v archinstall >/dev/null 2>&1; then
+    if [ "$(id -u)" -ne 0 ]; then
+        if command -v pkexec >/dev/null 2>&1; then
+            exec pkexec calamares "$@"
+        else
+            exec sudo calamares "$@"
+        fi
+    else
+        exec calamares "$@"
+    fi
+elif command -v archinstall >/dev/null 2>&1; then
+    if [ "$(id -u)" -ne 0 ]; then
+        exec sudo archinstall "$@"
+    else
         exec archinstall "$@"
     fi
+else
+    echo "No installer found on system." >&2
+    exit 1
 fi

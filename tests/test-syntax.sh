@@ -2,11 +2,17 @@
 # Rain OS Syntax and Integrity Tests
 set -euo pipefail
 
-echo "Running Shell script syntax checks..."
-for sh in scripts/*.sh repository/*.sh packages/*/*/* packages/*/bin/*; do
-    if [[ -f "$sh" ]]; then
-        bash -n "$sh" || { echo "Syntax error in $sh" >&2; exit 1; }
-        echo "  [OK] $sh"
+echo "Running script syntax checks..."
+for f in scripts/*.sh repository/*.sh packages/*/*/* packages/*/bin/*; do
+    if [[ -f "$f" ]]; then
+        first_line="$(head -n 1 "$f" 2>/dev/null || true)"
+        if [[ "$first_line" =~ python || "$f" =~ \.py$ ]]; then
+            python -m py_compile "$f" || { echo "Python syntax error in $f" >&2; exit 1; }
+            echo "  [OK (py)] $f"
+        elif [[ "$first_line" =~ bash || "$first_line" =~ sh || "$f" =~ \.sh$ ]]; then
+            bash -n "$f" || { echo "Bash syntax error in $f" >&2; exit 1; }
+            echo "  [OK (sh)] $f"
+        fi
     fi
 done
 

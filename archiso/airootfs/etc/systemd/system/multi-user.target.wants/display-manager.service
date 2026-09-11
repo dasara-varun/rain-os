@@ -1,0 +1,13 @@
+[Unit]
+Description=Display Manager
+After=rain-live-setup.service systemd-user-sessions.service plymouth-quit.service
+Conflicts=getty@tty1.service
+After=getty@tty1.service
+
+[Service]
+ExecStart=/usr/bin/sddm
+Restart=always
+RestartSec=1s
+
+[Install]
+WantedBy=multi-user.target

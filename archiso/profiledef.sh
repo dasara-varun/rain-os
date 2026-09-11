@@ -19,4 +19,7 @@ file_permissions=(
   ["/etc/sudoers.d/g_wheel"]="0:0:440"
   ["/usr/local/bin/rain-welcome-launcher"]="0:0:755"
   ["/usr/local/bin/rain-install-launcher"]="0:0:755"
+  ["/usr/local/bin/rain-live-setup"]="0:0:755"
+  ["/usr/local/bin/rain-control-center"]="0:0:755"
+  ["/usr/local/bin/rain-first-run-gui"]="0:0:755"
 )

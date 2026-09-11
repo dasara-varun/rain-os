@@ -1,0 +1,22 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-control-center
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS Control Center for health, profiles, kernels, and update safety"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=('python' 'python-pillow' 'tk' 'polkit' 'bash')
+source=(
+  "bin/rain-control-center"
+  "rain-control-center.desktop"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm755 "${srcdir}/bin/rain-control-center" "${pkgdir}/usr/bin/rain-control-center"
+  install -Dm644 "${srcdir}/rain-control-center.desktop" "${pkgdir}/usr/share/applications/rain-control-center.desktop"
+}

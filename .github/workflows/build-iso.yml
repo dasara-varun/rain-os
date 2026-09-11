@@ -27,9 +27,13 @@ jobs:
 
       - name: Validate Specification
         run: |
-          chmod +x scripts/*.sh tests/*.sh
+          chmod +x scripts/*.sh tests/*.sh repository/*.sh
           ./scripts/validate-spec.sh
           ./tests/test-syntax.sh
+
+      - name: Build Rain OS Packages & Repository
+        run: |
+          ./repository/build-repo.sh
 
       - name: Build Rain OS Archiso
         run: |

@@ -1,0 +1,12 @@
+[Unit]
+Description=Rain OS Live Desktop Setup
+Before=sddm.service
+After=systemd-user-sessions.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/rain-live-setup
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

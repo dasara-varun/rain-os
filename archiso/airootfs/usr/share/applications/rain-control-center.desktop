@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Control Center
+GenericName=System Control Center
+Comment=Manage profiles, health, kernels, and system updates
+Exec=/usr/bin/rain-control-center
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;Settings;
+Keywords=control;center;health;profiles;updates;rain;

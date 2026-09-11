@@ -2,6 +2,15 @@
 # Rain OS First-Run & Onboarding Wizard
 set -euo pipefail
 
+# If running in graphical session and GUI binary exists, launch GUI
+if [[ -n "${DISPLAY:-}" || -n "${WAYLAND_DISPLAY:-}" ]]; then
+    if [[ -f /usr/local/bin/rain-first-run-gui ]]; then
+        exec /usr/local/bin/rain-first-run-gui "$@"
+    elif [[ -f /usr/bin/rain-first-run-gui ]]; then
+        exec /usr/bin/rain-first-run-gui "$@"
+    fi
+fi
+
 BOLD="\033[1m"
 BLUE="\033[34m"
 GREEN="\033[32m"

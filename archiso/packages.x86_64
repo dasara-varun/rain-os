@@ -62,6 +62,9 @@ snapper
 cryptsetup
 smartmontools
 archinstall
+python
+python-pillow
+tk
 syslinux
 edk2-shell
 memtest86+

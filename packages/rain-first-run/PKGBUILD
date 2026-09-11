@@ -6,17 +6,20 @@ pkgdesc="Rain OS first-run onboarding checklist and system status utility"
 arch=('any')
 url="https://github.com/dasara-varun/rain-os"
 license=('GPL3')
-depends=('bash' 'coreutils' 'util-linux' 'pciutils')
+depends=('bash' 'coreutils' 'util-linux' 'pciutils' 'python' 'python-pillow' 'tk')
 source=(
   "bin/rain-first-run"
+  "bin/rain-first-run-gui"
   "rain-first-run.desktop"
 )
 sha256sums=(
+  'SKIP'
   'SKIP'
   'SKIP'
 )
 
 package() {
   install -Dm755 "${srcdir}/bin/rain-first-run" "${pkgdir}/usr/bin/rain-first-run"
+  install -Dm755 "${srcdir}/bin/rain-first-run-gui" "${pkgdir}/usr/bin/rain-first-run-gui"
   install -Dm644 "${srcdir}/rain-first-run.desktop" "${pkgdir}/usr/share/applications/rain-first-run.desktop"
 }

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install Rain OS
+GenericName=Live System Installer
+Comment=Install Rain OS permanently to your disk
+Exec=/usr/local/bin/rain-install-launcher
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;
+Keywords=installer;rain;calamares;setup;

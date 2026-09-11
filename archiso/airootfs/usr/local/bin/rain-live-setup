@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Rain OS Live User and Desktop Initialization
+set -euo pipefail
+
+LIVE_USER="liveuser"
+
+if ! id "$LIVE_USER" >/dev/null 2>&1; then
+    useradd -m -g users -G wheel,video,audio,storage,network,power -s /bin/bash "$LIVE_USER"
+    passwd -d "$LIVE_USER" >/dev/null 2>&1 || true
+fi
+
+# Ensure sudo rights without password for wheel
+mkdir -p /etc/sudoers.d
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/00_g_wheel
+chmod 440 /etc/sudoers.d/00_g_wheel
+
+# Setup user desktop shortcuts
+USER_HOME="/home/$LIVE_USER"
+USER_DESKTOP="$USER_HOME/Desktop"
+mkdir -p "$USER_DESKTOP"
+
+if [ -f /usr/share/applications/rain-installer.desktop ]; then
+    cp /usr/share/applications/rain-installer.desktop "$USER_DESKTOP/"
+    chmod +x "$USER_DESKTOP/rain-installer.desktop"
+fi
+
+if [ -f /usr/share/applications/rain-welcome.desktop ]; then
+    cp /usr/share/applications/rain-welcome.desktop "$USER_DESKTOP/"
+    chmod +x "$USER_DESKTOP/rain-welcome.desktop"
+fi
+
+# Autostart Rain Welcome on first login
+AUTOSTART_DIR="$USER_HOME/.config/autostart"
+mkdir -p "$AUTOSTART_DIR"
+if [ -f /usr/share/applications/rain-welcome.desktop ]; then
+    cp /usr/share/applications/rain-welcome.desktop "$AUTOSTART_DIR/"
+fi
+
+# Setup KDE Plasma default wallpaper config
+PLASMA_CONFIG_DIR="$USER_HOME/.config"
+mkdir -p "$PLASMA_CONFIG_DIR"
+cat << 'EOF' > "$PLASMA_CONFIG_DIR/plasma-org.kde.plasma.desktop-appletsrc"
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/RainOS/contents/images/1920x1080.jpg
+SlidePaths=/usr/share/wallpapers/RainOS/contents/images/
+EOF
+
+chown -R "$LIVE_USER:users" "$USER_HOME"
+
+exit 0

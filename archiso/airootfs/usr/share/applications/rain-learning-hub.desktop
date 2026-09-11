@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Learning Hub
+GenericName=Offline Guide & Curriculum
+Comment=Learn Linux and Rain OS with interactive offline lessons
+Exec=konsole -e /usr/bin/rain-guide
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;Education;Documentation;
+Keywords=learning;guide;lessons;help;rain;

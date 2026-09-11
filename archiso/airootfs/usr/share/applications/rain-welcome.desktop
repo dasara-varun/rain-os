@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Welcome
+GenericName=First Run Setup
+Comment=Welcome to Rain OS, setup checklist and system overview
+Exec=/usr/bin/rain-first-run
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;Settings;
+Keywords=welcome;first-run;setup;rain;
