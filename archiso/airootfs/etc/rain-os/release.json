@@ -1,0 +1,8 @@
+{
+  "distribution": "Rain OS",
+  "version": "0.1.0",
+  "channel": "core",
+  "arch": "x86_64",
+  "profile": "core",
+  "support_url": "https://github.com/dasara-varun/rain-os/issues"
+}

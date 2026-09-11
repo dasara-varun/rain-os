@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Rain OS Live Desktop Welcome Launcher
+set -euo pipefail
+
+if command -v rain-first-run >/dev/null 2>&1; then
+    exec rain-first-run "$@"
+elif [[ -f /usr/share/rain/welcome.txt ]]; then
+    cat /usr/share/rain/welcome.txt
+else
+    echo "Welcome to Rain OS Live Environment."
+    echo "Documentation: https://github.com/dasara-varun/rain-os"
+fi

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Rain OS Installer Launcher
+set -euo pipefail
+
+echo "========================================"
+echo "      Rain OS Guided Installer          "
+echo "========================================"
+
+if command -v calamares >/dev/null 2>&1; then
+    exec calamares "$@"
+else
+    echo "Installer binary not yet integrated."
+    echo "To perform manual Arch install, run: archinstall"
+    if command -v archinstall >/dev/null 2>&1; then
+        exec archinstall "$@"
+    fi
+fi
