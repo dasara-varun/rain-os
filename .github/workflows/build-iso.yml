@@ -9,23 +9,29 @@ on:
 jobs:
   build-iso:
     runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Initialize Keyring & Install Build Dependencies
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman -Sy --noconfirm archlinux-keyring
+          pacman -Syu --noconfirm archiso base-devel git dosfstools mtools squashfs-tools python
+
       - name: Validate Specification
         run: |
-          chmod +x scripts/*.sh
+          chmod +x scripts/*.sh tests/*.sh
           ./scripts/validate-spec.sh
+          ./tests/test-syntax.sh
 
-      - name: Build Rain OS Archiso in Container
-        uses: addnab/docker-run-action@v3
-        with:
-          image: archlinux:base-devel
-          options: --privileged -v ${{ github.workspace }}:/build -w /build
-          run: |
-            pacman -Syu --noconfirm archiso git base-devel dosfstools mtools squashfs-tools
-            ./scripts/build-iso.sh
+      - name: Build Rain OS Archiso
+        run: |
+          ./scripts/build-iso.sh
 
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
