@@ -1,0 +1,22 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-recovery-tools
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS system health, recovery runbooks, and secret-scrubbed diagnostics"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=('bash' 'coreutils' 'sed' 'util-linux')
+source=(
+  "bin/rain-recovery"
+  "rain-recovery.desktop"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm755 "${srcdir}/bin/rain-recovery" "${pkgdir}/usr/bin/rain-recovery"
+  install -Dm644 "${srcdir}/rain-recovery.desktop" "${pkgdir}/usr/share/applications/rain-recovery.desktop"
+}

@@ -1,0 +1,22 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-update-preflight
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS pre-transaction update verification and safety wrapper"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=('bash' 'coreutils' 'pacman')
+source=(
+  "bin/rain-update-preflight"
+  "rain-update-preflight.desktop"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm755 "${srcdir}/bin/rain-update-preflight" "${pkgdir}/usr/bin/rain-update-preflight"
+  install -Dm644 "${srcdir}/rain-update-preflight.desktop" "${pkgdir}/usr/share/applications/rain-update-preflight.desktop"
+}

@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Rain OS Recovery & Diagnostics Tool
+set -euo pipefail
+
+BOLD="\033[1m"
+GREEN="\033[32m"
+RED="\033[31m"
+YELLOW="\033[33m"
+CYAN="\033[36m"
+RESET="\033[0m"
+
+usage() {
+    echo -e "${BOLD}${CYAN}Rain OS Recovery Tools${RESET}"
+    echo "Usage: rain-recovery <command>"
+    echo ""
+    echo "Commands:"
+    echo "  status      Check system health, boot kernels, and snapshot availability"
+    echo "  diagnose    Collect sanitized hardware and error logs"
+    echo "  scrub FILE  Scrub sensitive tokens, keys, and passwords from a log file"
+    echo "  help        Show this help message"
+    exit 0
+}
+
+cmd_status() {
+    echo -e "${BOLD}System Recovery & Health Status${RESET}"
+    echo "----------------------------------------"
+    echo -n "Root Mount Point: "
+    findmnt / -o TARGET,FSTYPE,OPTIONS -n || echo "Unknown"
+    echo ""
+    echo "Installed Kernels:"
+    ls -lh /boot/vmlinuz-* 2>/dev/null | awk '{print "  " $9, "(" $5 ")"}' || echo "  No /boot kernels detected"
+    echo ""
+    echo "Snapshot Status:"
+    if command -v snapper >/dev/null 2>&1; then
+        snapper list 2>/dev/null || echo "  Snapper installed but unconfigured"
+    else
+        echo "  No Snapper backend configured"
+    fi
+}
+
+cmd_scrub() {
+    local target="${1:-}"
+    if [[ -z "$target" || ! -f "$target" ]]; then
+        echo "Error: target file not specified or not found." >&2
+        exit 1
+    fi
+    echo "Scrubbing potential secrets from: $target"
+    sed -E -i \
+        -e 's/(password|passwd|secret|token|key|api_key|auth)[[:space:]]*[:=][[:space:]]*[^[:space:]]+/\[REDACTED_SECRET\]/gI' \
+        -e 's/Bearer[[:space:]]+[A-Za-z0-9._~+/-]+=*/Bearer [REDACTED_TOKEN]/gI' \
+        -e 's/BEGIN[[:space:]]+(RSA|OPENSSH|DSA|EC)?[[:space:]]*PRIVATE[[:space:]]+KEY/\[REDACTED_PRIVATE_KEY\]/g' \
+        "$target"
+    echo "Scrubbing complete."
+}
+
+cmd_diagnose() {
+    local out_dir="/tmp/rain-diagnostics-$(date +%Y%m%d%H%M%S)"
+    mkdir -p "$out_dir"
+    echo "Generating sanitized diagnostic bundle in $out_dir..."
+    uname -a > "$out_dir/system.txt"
+    cat /etc/os-release > "$out_dir/os-release.txt" 2>/dev/null || true
+    journalctl -b -p err..emerg > "$out_dir/errors.log" 2>/dev/null || true
+    cmd_scrub "$out_dir/errors.log" 2>/dev/null || true
+    echo "Diagnostic bundle ready: $out_dir"
+}
+
+case "${1:-}" in
+    status) cmd_status ;;
+    diagnose) cmd_diagnose ;;
+    scrub) shift; cmd_scrub "$@" ;;
+    *) usage ;;
+esac

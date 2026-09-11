@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Rain OS Welcome
+Comment=First-run checklist and system overview
+Exec=rain-first-run
+Icon=rain-os
+Terminal=true
+Type=Application
+Categories=System;Utility;
+StartupNotify=true

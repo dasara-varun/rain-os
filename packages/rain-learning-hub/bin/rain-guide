@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Rain OS Offline Learning Hub & Guide Viewer
+set -euo pipefail
+
+LESSONS_DIR="/opt/rain/lessons"
+# Fallback to local directory during development
+if [[ ! -d "$LESSONS_DIR" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    LESSONS_DIR="$SCRIPT_DIR/../lessons"
+fi
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+GREEN="\033[32m"
+RESET="\033[0m"
+
+cmd_list() {
+    echo -e "${BOLD}${CYAN}Rain OS Learning Hub — Available Lessons${RESET}"
+    echo "=========================================================="
+    if [[ -d "$LESSONS_DIR" ]]; then
+        for f in "$LESSONS_DIR"/*.md; do
+            if [[ -f "$f" ]]; then
+                basename "$f" .md | sed 's/-/ /g' | awk '{print "  • " $0}'
+            fi
+        done
+    else
+        echo "No lessons installed."
+    fi
+    echo ""
+    echo "Usage: rain-guide read <lesson-number>"
+    echo "Example: rain-guide read 01"
+}
+
+cmd_read() {
+    local target="${1:-}"
+    local match=""
+    if [[ -z "$target" ]]; then
+        cmd_list
+        exit 0
+    fi
+    for f in "$LESSONS_DIR"/*"$target"*.md; do
+        if [[ -f "$f" ]]; then
+            match="$f"
+            break
+        fi
+    done
+    if [[ -n "$match" && -f "$match" ]]; then
+        if command -v glow >/dev/null 2>&1; then
+            glow "$match"
+        elif command -v bat >/dev/null 2>&1; then
+            bat "$match"
+        elif command -v less >/dev/null 2>&1; then
+            less "$match"
+        else
+            cat "$match"
+        fi
+    else
+        echo "Lesson '$target' not found. Run 'rain-guide list' to see available lessons." >&2
+        exit 1
+    fi
+}
+
+case "${1:-}" in
+    list) cmd_list ;;
+    read) shift; cmd_read "$@" ;;
+    *) cmd_list ;;
+esac

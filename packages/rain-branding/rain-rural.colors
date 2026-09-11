@@ -1,0 +1,23 @@
+[General]
+Name=Rain Rural
+ColorScheme=RainRural
+
+[Colors:Window]
+BackgroundNormal=232,240,245
+ForegroundNormal=23,33,43
+
+[Colors:View]
+BackgroundNormal=255,255,255
+ForegroundNormal=23,33,43
+
+[Colors:Selection]
+BackgroundNormal=57,106,82
+ForegroundNormal=255,255,255
+
+[Colors:Button]
+BackgroundNormal=211,238,247
+ForegroundNormal=23,33,43
+
+[Colors:Tooltip]
+BackgroundNormal=57,106,82
+ForegroundNormal=255,255,255

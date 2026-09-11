@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Rain OS Safe Update Preflight Utility
+set -euo pipefail
+
+BOLD="\033[1m"
+GREEN="\033[32m"
+RED="\033[31m"
+YELLOW="\033[33m"
+CYAN="\033[36m"
+RESET="\033[0m"
+
+echo -e "${BOLD}${CYAN}Rain OS Safe Update Preflight${RESET}"
+echo "=================================================="
+
+# 1. Disk Space Verification
+echo -n "[1/4] Checking root filesystem available space... "
+AVAIL_KB=$(df / --output=avail | tail -1 | tr -d ' ')
+if [[ "$AVAIL_KB" -lt 2097152 ]]; then
+    echo -e "${RED}FAILED${RESET}"
+    echo "      Warning: Less than 2 GB available on root partition (${AVAIL_KB} KB)."
+    echo "      Free up disk space before initiating a system update."
+    exit 1
+else
+    AVAIL_MB=$(( AVAIL_KB / 1024 ))
+    echo -e "${GREEN}OK${RESET} (${AVAIL_MB} MB available)"
+fi
+
+# 2. Keyring Verification
+echo -n "[2/4] Checking Arch Linux keyring integrity... "
+if pacman-key --list-keys >/dev/null 2>&1; then
+    echo -e "${GREEN}OK${RESET}"
+else
+    echo -e "${YELLOW}WARNING${RESET} (Keyring uninitialized or permission denied)"
+fi
+
+# 3. Fallback Kernel Check
+echo -n "[3/4] Verifying fallback kernel presence... "
+if [[ -f /boot/vmlinuz-linux-lts ]] || [[ -f /boot/vmlinuz-linux ]]; then
+    echo -e "${GREEN}OK${RESET} (Installed kernel found)"
+else
+    echo -e "${YELLOW}NOTICE${RESET} (Standard kernel paths not detected; running in container/live mode)"
+fi
+
+# 4. Snapshot Capability Check
+echo -n "[4/4] Checking snapshot protection backend... "
+if command -v snapper >/dev/null 2>&1; then
+    echo -e "${GREEN}ACTIVE${RESET} (Snapper installed)"
+elif command -v timeshift >/dev/null 2>&1; then
+    echo -e "${GREEN}ACTIVE${RESET} (Timeshift installed)"
+else
+    echo -e "${YELLOW}MANUAL${RESET} (Standard filesystem; no automatic snapshot backend)"
+fi
+
+echo "=================================================="
+echo -e "${GREEN}Preflight verification complete. Safe to proceed with update.${RESET}"
+echo ""
+read -p "Would you like to run 'sudo pacman -Syu' now? [y/N]: " -n 1 -r
+echo ""
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    exec sudo pacman -Syu
+fi

@@ -1,0 +1,22 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-first-run
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS first-run onboarding checklist and system status utility"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=('bash' 'coreutils' 'util-linux' 'pciutils')
+source=(
+  "bin/rain-first-run"
+  "rain-first-run.desktop"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm755 "${srcdir}/bin/rain-first-run" "${pkgdir}/usr/bin/rain-first-run"
+  install -Dm644 "${srcdir}/rain-first-run.desktop" "${pkgdir}/usr/share/applications/rain-first-run.desktop"
+}

@@ -1,0 +1,25 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-branding
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS branding assets, color schemes, and desktop identity"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=()
+source=(
+  "rain-umbrella.svg"
+  "rain-urban.colors"
+  "rain-rural.colors"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm644 "${srcdir}/rain-umbrella.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/rain-os.svg"
+  install -Dm644 "${srcdir}/rain-urban.colors" "${pkgdir}/usr/share/color-schemes/RainUrban.colors"
+  install -Dm644 "${srcdir}/rain-rural.colors" "${pkgdir}/usr/share/color-schemes/RainRural.colors"
+}

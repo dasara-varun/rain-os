@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Rain Learning Hub
+Comment=Offline curriculum and guided lessons for Rain OS
+Exec=rain-guide
+Icon=help-browser
+Terminal=true
+Type=Application
+Categories=Documentation;Education;
+StartupNotify=true

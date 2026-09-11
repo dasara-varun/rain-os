@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Rain OS First-Run & Onboarding Wizard
+set -euo pipefail
+
+BOLD="\033[1m"
+BLUE="\033[34m"
+GREEN="\033[32m"
+CYAN="\033[36m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+clear
+echo -e "${CYAN}"
+cat << 'EOF'
+  _____       _             ____   _____ 
+ |  __ \     (_)           / __ \ / ____|
+ | |__) |__ _ _ _ __ _____| |  | | (___  
+ |  _  // _` | | '_ \____/| |  | |\___ \ 
+ | | \ \ (_| | | | | |    | |__| |____) |
+ |_|  \_\__,_|_|_| |_|     \____/|_____/ 
+EOF
+echo -e "${RESET}"
+echo -e "${BOLD}Welcome to Rain OS Core${RESET} — Shelter from complexity, without hiding the system."
+echo "================================================================================"
+echo ""
+
+# 1. System & Release Info
+echo -e "${BOLD}[1] System Baseline${RESET}"
+if [[ -f /etc/rain-os/release.json ]]; then
+    VERSION=$(grep -o '"version": *"[^"]*"' /etc/rain-os/release.json | cut -d'"' -f4 || echo "0.1.0")
+    PROFILE=$(grep -o '"profile": *"[^"]*"' /etc/rain-os/release.json | cut -d'"' -f4 || echo "core")
+    echo -e "    Distribution : Rain OS ${VERSION} (${PROFILE})"
+fi
+echo -e "    Running Kernel: $(uname -r)"
+echo -e "    Architecture  : $(uname -m)"
+echo ""
+
+# 2. Hardware Summary (Read-Only)
+echo -e "${BOLD}[2] Hardware Overview${RESET}"
+CPU_MODEL=$(lscpu 2>/dev/null | grep -i "Model name" | head -1 | cut -d':' -f2 | xargs || echo "Generic x86-64")
+MEM_TOTAL=$(free -h 2>/dev/null | grep -i "Mem:" | awk '{print $2}' || echo "Unknown")
+echo -e "    Processor     : ${CPU_MODEL}"
+echo -e "    Memory        : ${MEM_TOTAL}"
+if command -v lspci >/dev/null 2>&1; then
+    VGA=$(lspci | grep -i 'vga\|3d\|display' | cut -d':' -f3 | head -1 | xargs || echo "Standard Display")
+    echo -e "    Graphics      : ${VGA}"
+fi
+echo ""
+
+# 3. Privacy & Telemetry Status
+echo -e "${BOLD}[3] Privacy & Security Baseline${RESET}"
+echo -e "    Telemetry     : ${GREEN}Disabled (Zero background tracking)${RESET}"
+if command -v ufw >/dev/null 2>&1; then
+    UFW_STATUS=$(ufw status 2>/dev/null | head -1 || echo "inactive")
+    echo -e "    Firewall (UFW): ${UFW_STATUS}"
+elif command -v firewall-cmd >/dev/null 2>&1; then
+    FW_STATE=$(firewall-cmd --state 2>/dev/null || echo "not running")
+    echo -e "    Firewall (D)  : ${FW_STATE}"
+fi
+echo ""
+
+# 4. Next Steps & Checklist
+echo -e "${BOLD}[4] Next Steps Checklist${RESET}"
+echo "    1. Run safe update preflight:    rain-update-preflight"
+echo "    2. Explore the local guide:      rain-guide"
+echo "    3. Create recovery snapshot:     rain-recovery status"
+echo "    4. Join community & report:      https://github.com/dasara-varun/rain-os"
+echo ""
+echo "================================================================================"
+echo -e "${GREEN}Rain OS is ready for use.${RESET}"

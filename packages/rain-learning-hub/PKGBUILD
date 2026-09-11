@@ -1,0 +1,31 @@
+# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+pkgname=rain-learning-hub
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Rain OS offline learning curriculum, state-aware guides, and lesson viewer"
+arch=('any')
+url="https://github.com/dasara-varun/rain-os"
+license=('GPL3')
+depends=('bash' 'coreutils' 'sed')
+source=(
+  "bin/rain-guide"
+  "rain-guide.desktop"
+  "lessons/01-welcome.md"
+  "lessons/02-updates.md"
+  "lessons/03-recovery.md"
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+)
+
+package() {
+  install -Dm755 "${srcdir}/bin/rain-guide" "${pkgdir}/usr/bin/rain-guide"
+  install -Dm644 "${srcdir}/rain-guide.desktop" "${pkgdir}/usr/share/applications/rain-guide.desktop"
+  
+  install -d "${pkgdir}/opt/rain/lessons"
+  install -m644 "${srcdir}/lessons"/*.md "${pkgdir}/opt/rain/lessons/"
+}

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Rain Recovery & Diagnostics
+Comment=Inspect system health, boot kernels, snapshots, and scrub diagnostic logs
+Exec=rain-recovery status
+Icon=system-reboot
+Terminal=true
+Type=Application
+Categories=System;Utility;
+StartupNotify=true
