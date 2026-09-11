@@ -1,0 +1,15 @@
+flowchart LR
+  A[Source repositories] --> B[PKGBUILD review]
+  B --> C[Clean builder]
+  C --> D[Package tests]
+  D --> E[Sign packages]
+  E --> F[Rain repository]
+  F --> G[Archiso profile]
+  G --> H[VM smoke tests]
+  H --> I[Hardware matrix]
+  I --> J[Generate ISO checksums SBOM manifest]
+  J --> K[Release candidate]
+  K --> L[Community review]
+  L --> M[Curated ISO release]
+  M --> N[Feedback and incident records]
+  N --> A

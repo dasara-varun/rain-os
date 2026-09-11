@@ -1,0 +1,8 @@
+component,upstream_url,version_or_commit,license,source_type,local_patch,owner,test_status,update_cadence,removal_or_upstream_plan
+EndeavourOS ISO profile,https://github.com/endeavouros-team/EndeavourOS-ISO,TO_BE_PINNED,TO_BE_REVIEWED,vendored/adapted,none,build-team,not-started,per-ISO,upstream-compatible profile
+EndeavourOS hardware helper,https://github.com/endeavouros-team/PKGBUILDS,TO_BE_PINNED,TO_BE_REVIEWED,reused package,none,hardware-team,not-started,monthly,remove if upstream adapter fails
+CachyOS chwd,https://github.com/CachyOS/chwd,TO_BE_PINNED,TO_BE_REVIEWED,reused package,none,hardware-team,not-started,monthly,upstream contribution
+CachyOS kernel recipes,https://github.com/CachyOS/linux-cachyos,TO_BE_PINNED,TO_BE_REVIEWED,selected source,none,performance-team,not-started,per-kernel-release,remove if unsupported
+CachyOS settings,https://github.com/CachyOS/CachyOS-settings,TO_BE_PINNED,TO_BE_REVIEWED,selected configuration,none,performance-team,not-started,per-profile-release,upstream or delete
+Athena OS security concepts,https://github.com/Athena-OS,TO_BE_PINNED,TO_BE_REVIEWED,design reference,none,security-team,not-started,per-profile-release,Rain-original implementation
+Athena devotio,https://github.com/Athena-OS/devotio,TO_BE_PINNED,TO_BE_REVIEWED,rescue candidate,none,recovery-team,not-started,per-release,remove if unsafe or unmaintained

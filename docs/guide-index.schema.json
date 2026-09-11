@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rain OS Guide Index",
+  "type": "object",
+  "required": ["schema", "guide_version", "minimum_rain_version", "bundle_sha256", "pages"],
+  "properties": {
+    "schema": {"type": "integer", "minimum": 1},
+    "guide_version": {"type": "string"},
+    "minimum_rain_version": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "bundle_url": {"type": "string", "format": "uri"},
+    "bundle_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "signature_url": {"type": "string", "format": "uri"},
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "audience", "profiles"],
+        "properties": {
+          "id": {"type": "string"},
+          "path": {"type": "string"},
+          "audience": {"type": "string"},
+          "profiles": {"type": "array", "items": {"type": "string"}},
+          "desktop_environments": {"type": "array", "items": {"type": "string"}},
+          "requires": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+# Rain OS Build Artifacts & Output
+out/
+work/
+*.iso
+*.iso.sha256
+*.iso.sig
+*.qcow2
+*.img
+*.vdi
+*.vmdk
+
+# Package build artifacts
+packages/*/*.pkg.tar.zst
+packages/*/*.pkg.tar.xz
+packages/*/src/
+packages/*/pkg/
+repository/repo/
+
+# Logs & temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini

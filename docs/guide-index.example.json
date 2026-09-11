@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "guide_version": "0.1.0",
+  "minimum_rain_version": "0.1.0",
+  "generated_at": "RELEASE_BUILD_TIME",
+  "bundle_url": "https://docs.example.invalid/rain-guide-0.1.0.tar.zst",
+  "bundle_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "signature_url": "https://docs.example.invalid/rain-guide-0.1.0.sig",
+  "pages": [
+    {"id":"core.update","path":"03 Keep It Healthy/ Safe update checklist.md","audience":"all","profiles":["core","flow","forge","shield","pocket"]},
+    {"id":"btrfs.rollback","path":"99 Recovery/Restore a snapshot.md","audience":"btrfs-users","profiles":["core","flow","forge","shield","pocket"],"requires":["btrfs"]},
+    {"id":"kde.desktop","path":"01 Everyday Desktop/KDE Plasma.md","audience":"desktop-users","profiles":["core","flow","forge","shield","pocket"],"desktop_environments":["kde"]}
+  ]
+}

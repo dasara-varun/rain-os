@@ -1,0 +1,11 @@
+tool,source,license,install_surface,pinned_version_or_commit,enabled_hooks_or_services,owner,review_status,uninstall,notes
+ECC,https://github.com/affaan-m/ECC,MIT,project-local or builder environment,TO_BE_PINNED,review hooks and MCP,tooling-team,not-reviewed,document after install,official source only
+gstack,https://github.com/garrytan/gstack,MIT,builder environment,TO_BE_PINNED,review setup and browser skills,tooling-team,not-reviewed,document after install,do not auto-deploy
+taste-skill,https://github.com/Leonxlnx/taste-skill,MIT,npx skills add,TO_BE_PINNED,skill files only,design-team,not-reviewed,npx skills remove if supported,design guidance only
+ponytail,https://github.com/DietrichGebert/ponytail,MIT,builder plugin,TO_BE_PINNED,lifecycle hooks require review,tooling-team,not-reviewed,run documented uninstall,do not remove safety requirements
+headroom,https://github.com/headroomlabs-ai/headroom,Apache-2.0,builder local proxy or library,TO_BE_PINNED,proxy/MCP optional,tooling-team,not-reviewed,headroom unwrap and uninstall,prefer local-only mode
+my-claude-code-setup,https://github.com/centminmod/my-claude-code-setup,MIT,reviewed templates,TO_BE_PINNED,project instructions only,tooling-team,not-reviewed,remove copied templates,do not copy secrets
+GSD Core,https://github.com/open-gsd/gsd-core,MIT,npx installer,TO_BE_PINNED,project skills/commands,release-team,not-reviewed,document installer removal,based on current repo after move
+skill-find,https://github.com/vercel-labs/skills,VERIFY,skill discovery,TO_BE_PINNED,discovery only,tooling-team,not-reviewed,not applicable,review each result
+Ralph loop,https://github.com/frankbria/ralph-claude-code,VERIFY,builder script,TO_BE_PINNED,loop runner,release-team,not-reviewed,remove loop runner,bounded iterations only
+Everything Claude Code,NO_SINGLE_CANONICAL_SOURCE,VERIFY,curated catalog,TO_BE_PINNED,per-item review,tooling-team,not-reviewed,per-item removal,catalog label not package
