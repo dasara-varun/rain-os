@@ -39,7 +39,7 @@ echo "Profile directory: $PROFILE"
 echo "Output directory : $OUT"
 echo "=========================================================="
 
-mkarchiso -v -w "$OUT/work" -o "$OUT" "$PROFILE"
+mkarchiso -v -w "$OUT/work" -o "$OUT" -C "$PROFILE/pacman.conf" "$PROFILE"
 
 echo "=========================================================="
 echo "ISO build completed successfully!"
