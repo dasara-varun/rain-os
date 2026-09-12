@@ -7,13 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     container:
       image: archlinux:latest
       options: --privileged -v /dev:/dev
-    permissions:
-      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -76,16 +74,43 @@ jobs:
           echo ":: Release SHA256SUMS:"
           cat SHA256SUMS
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          files: |
+          name: release-assets
+          path: |
             out/*.iso
             out/*.tar.gz
             out/packages/*.pkg.tar.zst
             out/SHA256SUMS
             out/rain-os-sbom.json
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Release Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-assets
+          path: release-assets
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            release-assets/*.iso
+            release-assets/*.tar.gz
+            release-assets/*.pkg.tar.zst
+            release-assets/packages/*.pkg.tar.zst
+            release-assets/SHA256SUMS
+            release-assets/rain-os-sbom.json
           generate_release_notes: true
           draft: false
           prerelease: false
-
