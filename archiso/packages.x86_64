@@ -19,8 +19,6 @@ sddm
 mesa
 vulkan-radeon
 vulkan-intel
-vulkan-tools
-lib32-mesa
 btrfs-progs
 e2fsprogs
 dosfstools
@@ -56,10 +54,8 @@ upower
 acpi
 lm_sensors
 apparmor
-firejail
 snapper
 cryptsetup
-smartmontools
 archinstall
 python
 python-pillow

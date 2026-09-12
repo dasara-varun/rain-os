@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912133818",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260912144142",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T08:08:18.144118+00:00",
+    "timestamp": "2026-09-12T09:11:42.274680+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -408,34 +408,6 @@
     {
       "type": "operating-system",
       "name": "vulkan-intel",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "vulkan-tools",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "library",
-      "name": "lib32-mesa",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -939,20 +911,6 @@
     },
     {
       "type": "operating-system",
-      "name": "firejail",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "snapper",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -968,20 +926,6 @@
     {
       "type": "operating-system",
       "name": "cryptsetup",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "smartmontools",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
