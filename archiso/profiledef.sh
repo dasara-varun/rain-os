@@ -22,4 +22,8 @@ file_permissions=(
   ["/usr/local/bin/rain-live-setup"]="0:0:755"
   ["/usr/local/bin/rain-control-center"]="0:0:755"
   ["/usr/local/bin/rain-first-run-gui"]="0:0:755"
+  ["/usr/local/bin/rain-btrfs-snapshot"]="0:0:755"
+  ["/usr/local/bin/rain-hardware-report"]="0:0:755"
+  ["/usr/local/bin/rain-guide"]="0:0:755"
+  ["/opt/rain"]="0:0:755"
 )

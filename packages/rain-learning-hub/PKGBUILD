@@ -11,10 +11,14 @@ source=(
   "bin/rain-guide"
   "rain-guide.desktop"
   "lessons/01-welcome.md"
-  "lessons/02-updates.md"
-  "lessons/03-recovery.md"
+  "lessons/02-updates-and-safety.md"
+  "lessons/03-snapshots-and-recovery.md"
+  "lessons/04-running-windows-apps.md"
+  "lessons/05-hardware-and-drivers.md"
 )
 sha256sums=(
+  'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+# Rain OS Hardware & Driver Detection Wizard
+# Scans system hardware, GPU drivers, Wi-Fi adapters, and power profiles
+set -euo pipefail
+
+HARDWARE_JSON="/etc/rain-os/hardware.json"
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+RESET="\033[0m"
+
+output_json=0
+if [[ "${1:-}" == "--json" ]]; then
+    output_json=1
+fi
+
+# CPU Detection
+cpu_model="Unknown CPU"
+cpu_cores=1
+if [[ -f /proc/cpuinfo ]]; then
+    cpu_model=$(grep -m 1 "model name" /proc/cpuinfo | cut -d: -f2 | sed 's/^[ \t]*//' || echo "Unknown CPU")
+    cpu_cores=$(grep -c "^processor" /proc/cpuinfo || echo 1)
+fi
+
+# Memory Detection
+total_mem="Unknown"
+if command -v free >/dev/null 2>&1; then
+    total_mem=$(free -h | awk '/^Mem:/ {print $2}')
+fi
+
+# GPU Detection
+gpu_lines=""
+has_nvidia=0
+has_amd=0
+has_intel=0
+nvidia_driver_active=0
+
+if command -v lspci >/dev/null 2>&1; then
+    gpu_lines=$(lspci | grep -E "VGA compatible controller|3D controller|Display controller" || echo "")
+fi
+
+if echo "$gpu_lines" | grep -qi "NVIDIA"; then
+    has_nvidia=1
+    if [[ -d /sys/module/nvidia ]]; then
+        nvidia_driver_active=1
+    fi
+fi
+if echo "$gpu_lines" | grep -qi "AMD\|ATI\|Radeon"; then
+    has_amd=1
+fi
+if echo "$gpu_lines" | grep -qi "Intel"; then
+    has_intel=1
+fi
+
+# Network / Wi-Fi Detection
+wifi_devs=""
+has_broadcom_wl=0
+if command -v lspci >/dev/null 2>&1; then
+    wifi_devs=$(lspci | grep -i "Network controller" || echo "")
+    if echo "$wifi_devs" | grep -qi "Broadcom"; then
+        has_broadcom_wl=1
+    fi
+fi
+
+# Power Profile
+power_profile="standard"
+if command -v powerprofilesctl >/dev/null 2>&1; then
+    power_profile=$(powerprofilesctl get 2>/dev/null || echo "unsupported")
+fi
+
+# Save to /etc/rain-os/hardware.json if writable
+if [[ -w /etc/rain-os ]]; then
+    cat <<EOF > "$HARDWARE_JSON"
+{
+  "cpu": {
+    "model": "$cpu_model",
+    "cores": $cpu_cores
+  },
+  "memory": "$total_mem",
+  "gpu": {
+    "nvidia": $((has_nvidia == 1 ? 1 : 0)),
+    "nvidia_driver": $((nvidia_driver_active == 1 ? 1 : 0)),
+    "amd": $((has_amd == 1 ? 1 : 0)),
+    "intel": $((has_intel == 1 ? 1 : 0))
+  },
+  "wifi_broadcom": $((has_broadcom_wl == 1 ? 1 : 0)),
+  "power_profile": "$power_profile",
+  "scanned_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+}
+EOF
+fi
+
+if [[ "$output_json" -eq 1 ]]; then
+    if [[ -f "$HARDWARE_JSON" ]]; then
+        cat "$HARDWARE_JSON"
+    else
+        echo "{\"cpu\":\"$cpu_model\",\"memory\":\"$total_mem\",\"nvidia\":$has_nvidia,\"amd\":$has_amd,\"intel\":$has_intel}"
+    fi
+    exit 0
+fi
+
+# Human-Readable Output
+echo -e "${BOLD}${CYAN}Rain OS Hardware & Driver Assistant${RESET}"
+echo "=========================================================="
+echo -e "${BOLD}Processor:${RESET}   $cpu_model ($cpu_cores logical cores)"
+echo -e "${BOLD}Memory:${RESET}      $total_mem total system RAM"
+echo -e "${BOLD}Power Mode:${RESET}  $power_profile"
+echo ""
+
+echo -e "${BOLD}${CYAN}Graphics & Display Subsystem:${RESET}"
+if [[ -n "$gpu_lines" ]]; then
+    while IFS= read -r line; do
+        echo -e "  ? ${line}"
+    done <<< "$gpu_lines"
+else
+    echo "  ? Integrated display / standard graphics controller detected."
+fi
+
+echo ""
+echo -e "${BOLD}Driver Recommendations & Status:${RESET}"
+if [[ "$has_nvidia" -eq 1 ]]; then
+    if [[ "$nvidia_driver_active" -eq 1 ]]; then
+        echo -e "  [${GREEN}ACTIVE${RESET}] NVIDIA proprietary kernel module is loaded and operational."
+    else
+        echo -e "  [${YELLOW}ACTION${RESET}] NVIDIA GPU detected. Open-source nouveau active."
+        echo -e "           Recommended for 3D/Gaming: Install proprietary driver via:"
+        echo -e "           ${BOLD}sudo pacman -S nvidia-dkms nvidia-utils${RESET}"
+    fi
+    if [[ "$has_intel" -eq 1 || "$has_amd" -eq 1 ]]; then
+        echo -e "  [${BLUE}HYBRID${RESET}] Hybrid GPU laptop configuration detected."
+        echo -e "           Run applications on discrete GPU using: ${BOLD}prime-run <command>${RESET}"
+    fi
+fi
+
+if [[ "$has_amd" -eq 1 ]]; then
+    echo -e "  [${GREEN}ACTIVE${RESET}] AMD Radeon graphics detected with native open-source amdgpu kernel driver."
+    echo -e "           Vulkan acceleration provided by Mesa RADV (vulkan-radeon)."
+fi
+
+if [[ "$has_intel" -eq 1 && "$has_nvidia" -eq 0 ]]; then
+    echo -e "  [${GREEN}ACTIVE${RESET}] Intel graphics detected with open-source Mesa drivers."
+fi
+
+echo ""
+echo -e "${BOLD}${CYAN}Network & Wireless:${RESET}"
+if [[ -n "$wifi_devs" ]]; then
+    echo -e "  ? ${wifi_devs}"
+    if [[ "$has_broadcom_wl" -eq 1 ]]; then
+        echo -e "  [${YELLOW}NOTICE${RESET}] Broadcom wireless chip detected. If Wi-Fi is inactive, install:"
+        echo -e "           ${BOLD}sudo pacman -S broadcom-wl-dkms${RESET}"
+    else
+        echo -e "  [${GREEN}ACTIVE${RESET}] Wireless adapter supported by native Linux kernel modules."
+    fi
+else
+    echo -e "  ? Ethernet / Standard network interfaces managed by NetworkManager."
+fi
+
+echo ""
+echo -e "${GREEN}Hardware scan complete. Diagnostics stored locally in /etc/rain-os/hardware.json${RESET}"

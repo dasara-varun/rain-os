@@ -126,6 +126,7 @@ class RainWelcomeApp(tk.Tk):
 
         self._create_btn(right_card, "🚀  Install Rain OS to Disk", self._run_installer, highlight=True)
         self._create_btn(right_card, "⚙️  Rain Control Center", self._run_control_center)
+        self._create_btn(right_card, "🖥️  Hardware & Driver Wizard", self._run_hardware_wizard)
         self._create_btn(right_card, "🛡️  System Recovery & Health", self._run_recovery)
         self._create_btn(right_card, "🔄  Update Safety Preflight", self._run_preflight)
         self._create_btn(right_card, "📖  Rain Learning Hub (Lessons)", self._run_learning_hub)
@@ -228,6 +229,21 @@ class RainWelcomeApp(tk.Tk):
             subprocess.Popen(cmd)
         except Exception:
             messagebox.showinfo("Control Center", "Launching Rain Control Center...")
+
+    def _run_hardware_wizard(self):
+        paths = ["/usr/local/bin/rain-hardware-report", "/usr/bin/rain-hardware-report"]
+        found = None
+        for p in paths:
+            if os.path.exists(p):
+                found = p
+                break
+        if found:
+            try:
+                subprocess.Popen(["konsole", "-e", found])
+            except Exception:
+                subprocess.Popen([found])
+        else:
+            messagebox.showinfo("Hardware Wizard", "Run 'rain-hardware-report' in terminal.")
 
     def _run_recovery(self):
         try:

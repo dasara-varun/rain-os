@@ -113,6 +113,7 @@ class RainControlCenter(tk.Tk):
 
         actions = tk.Frame(card, bg=CARD_BG)
         actions.pack(fill="x", padx=20, pady=20)
+        self._make_button(actions, "Hardware & Drivers", lambda: subprocess.Popen(["konsole", "-e", "rain-hardware-report"]))
         self._make_button(actions, "Run Diagnostic Scanner", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "status"]))
         self._make_button(actions, "Scrub Log Secrets", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "scrub"]))
 

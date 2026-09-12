@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# Rain OS Automated Btrfs Snapshot & Rollback Guard
+# Called automatically before pacman transactions via 00-rain-pre-snapshot.hook
+set -euo pipefail
+
+SNAPSHOT_DIR="/.snapshots"
+LOG_FILE="/var/lib/rain/update-history.jsonl"
+MAX_PRE_SNAPSHOTS=10
+
+mkdir -p "$(dirname "$LOG_FILE")"
+
+is_btrfs() {
+    if ! command -v findmnt >/dev/null 2>&1; then
+        return 1
+    fi
+    local fstype
+    fstype=$(findmnt -n -o FSTYPE / 2>/dev/null || echo "")
+    [[ "$fstype" == "btrfs" ]]
+}
+
+log_history() {
+    local action="$1"
+    local status="$2"
+    local detail="$3"
+    local ts
+    ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    echo "{\"timestamp\":\"$ts\",\"action\":\"$action\",\"status\":\"$status\",\"detail\":\"$detail\"}" >> "$LOG_FILE" 2>/dev/null || true
+}
+
+cmd_pre_upgrade() {
+    if ! is_btrfs; then
+        # On ext4, XFS, or live ISO, gracefully skip without error
+        echo ":: Rain OS: Root is not Btrfs. Skipping pre-transaction snapshot."
+        log_history "pre-upgrade" "skipped" "non-btrfs root"
+        exit 0
+    fi
+
+    local timestamp
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    local snap_name="pre-upgrade-${timestamp}"
+    local snap_dest="${SNAPSHOT_DIR}/${snap_name}"
+
+    mkdir -p "$SNAPSHOT_DIR"
+
+    # If snapper configuration exists, use snapper for unified timeline
+    if command -v snapper >/dev/null 2>&1 && snapper -c root list >/dev/null 2>&1; then
+        echo ":: Rain OS: Capturing pre-upgrade snapshot with Snapper..."
+        snapper -c root create -t pre -d "Rain OS pre-upgrade snapshot ${timestamp}" 2>/dev/null || true
+        log_history "pre-upgrade" "success" "snapper root"
+    else
+        # Direct btrfs subvolume snapshot
+        echo ":: Rain OS: Creating read-only Btrfs snapshot -> $snap_dest"
+        if btrfs subvolume snapshot -r / "$snap_dest" >/dev/null 2>&1; then
+            echo ":: Rain OS: Snapshot $snap_name created successfully."
+            log_history "pre-upgrade" "success" "$snap_name"
+        else
+            echo ":: Rain OS: Warning - could not create snapshot in $SNAPSHOT_DIR" >&2
+            log_history "pre-upgrade" "failed" "btrfs error"
+        fi
+    fi
+
+    # Prune oldest automated snapshots if exceeding limit
+    if [[ -d "$SNAPSHOT_DIR" ]]; then
+        local count
+        count=$(find "$SNAPSHOT_DIR" -maxdepth 1 -name "pre-upgrade-*" | wc -l)
+        if [[ "$count" -gt "$MAX_PRE_SNAPSHOTS" ]]; then
+            local to_delete=$((count - MAX_PRE_SNAPSHOTS))
+            find "$SNAPSHOT_DIR" -maxdepth 1 -name "pre-upgrade-*" | sort | head -n "$to_delete" | while read -r old_snap; do
+                echo ":: Rain OS: Pruning old snapshot: $(basename "$old_snap")"
+                btrfs subvolume delete "$old_snap" >/dev/null 2>&1 || rm -rf "$old_snap" 2>/dev/null || true
+            done
+        fi
+    fi
+}
+
+cmd_manual() {
+    local desc="${1:-Manual user snapshot}"
+    if ! is_btrfs; then
+        echo "Error: Root filesystem is not Btrfs." >&2
+        exit 1
+    fi
+    local timestamp
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    local snap_name="manual-${timestamp}"
+    local snap_dest="${SNAPSHOT_DIR}/${snap_name}"
+
+    mkdir -p "$SNAPSHOT_DIR"
+    echo "Creating manual Btrfs snapshot: $snap_name ($desc)..."
+    if btrfs subvolume snapshot -r / "$snap_dest"; then
+        echo "Manual snapshot created successfully at $snap_dest"
+        log_history "manual-snapshot" "success" "$desc ($snap_name)"
+    else
+        echo "Failed to create manual snapshot." >&2
+        exit 1
+    fi
+}
+
+cmd_list() {
+    echo "Rain OS Btrfs Snapshots"
+    echo "=========================================================="
+    if ! is_btrfs; then
+        echo "Root filesystem is not Btrfs. Snapshots are not active."
+        exit 0
+    fi
+
+    if command -v snapper >/dev/null 2>&1 && snapper -c root list >/dev/null 2>&1; then
+        snapper -c root list
+    elif [[ -d "$SNAPSHOT_DIR" ]]; then
+        local found=0
+        for s in "$SNAPSHOT_DIR"/*; do
+            if [[ -d "$s" ]]; then
+                echo "  ? $(basename "$s")  (Created: $(stat -c %y "$s" 2>/dev/null | cut -d. -f1 || echo 'unknown'))"
+                found=1
+            fi
+        done
+        if [[ "$found" -eq 0 ]]; then
+            echo "No snapshots found in $SNAPSHOT_DIR"
+        fi
+    else
+        echo "Snapshot directory $SNAPSHOT_DIR does not exist."
+    fi
+}
+
+case "${1:-}" in
+    pre-upgrade) cmd_pre_upgrade ;;
+    post-upgrade) log_history "post-upgrade" "complete" "transaction finished" ;;
+    manual) shift; cmd_manual "$@" ;;
+    list) cmd_list ;;
+    *)
+        echo "Usage: rain-btrfs-snapshot {pre-upgrade|post-upgrade|manual [desc]|list}"
+        exit 1
+        ;;
+esac

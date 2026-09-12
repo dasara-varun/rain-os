@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Creating Rain OS pre-transaction Btrfs snapshot...
+When = PreTransaction
+Exec = /usr/local/bin/rain-btrfs-snapshot pre-upgrade
