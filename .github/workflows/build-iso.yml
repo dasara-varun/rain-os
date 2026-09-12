@@ -71,8 +71,14 @@ jobs:
           mkdir -p out/packages
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
           tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
+          echo ":: Copying branding assets and creating clean source archive..."
+          cp branding/rain-wallpaper-4k.jpg out/
+          cp branding/rain-logo-4k.png out/
+          cp branding/rain-umbrella.svg out/
+          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD
           cd out
-          find . -type f ! -name "SHA256SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
           echo ":: Artifact SHA256SUMS:"
           cat SHA256SUMS
 
@@ -84,7 +90,11 @@ jobs:
             out/*.iso
             out/*.tar.gz
             out/packages/*.pkg.tar.zst
+            out/*.jpg
+            out/*.png
+            out/*.svg
             out/SHA256SUMS
+            out/SHA512SUMS
             out/rain-os-sbom.json
           if-no-files-found: error
           retention-days: 14

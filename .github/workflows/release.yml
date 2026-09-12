@@ -72,8 +72,14 @@ jobs:
           mkdir -p out/packages
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
           tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
+          echo ":: Copying branding assets and creating clean source archive..."
+          cp branding/rain-wallpaper-4k.jpg out/
+          cp branding/rain-logo-4k.png out/
+          cp branding/rain-umbrella.svg out/
+          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD
           cd out
-          find . -type f ! -name "SHA256SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
           echo ":: Release SHA256SUMS:"
           cat SHA256SUMS
 
@@ -85,7 +91,11 @@ jobs:
             out/*.iso
             out/*.tar.gz
             out/packages/*.pkg.tar.zst
+            out/*.jpg
+            out/*.png
+            out/*.svg
             out/SHA256SUMS
+            out/SHA512SUMS
             out/rain-os-sbom.json
           if-no-files-found: error
           retention-days: 7
@@ -121,7 +131,8 @@ jobs:
               fi
             fi
           done
-          find . -type f ! -name "SHA256SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
           echo ":: Final Release SHA256SUMS:"
           cat SHA256SUMS
 
@@ -130,6 +141,16 @@ jobs:
 
           **Shelter from complexity, without hiding the system.**
 
+          ### Official Release Assets
+          - `rain-os-1.0.0-x86_64.iso`: Bootable live installation medium with Plasma 6 Desktop, Calamares installer, and dual-kernel stack.
+          - `rain-os-1.0.0-source.tar.gz`: Complete, clean source code repository tree for offline builds and auditable verification.
+          - `rain-os-packages-1.0.0.tar.gz`: Pre-built custom Rain OS pacman package repository archive.
+          - `rain-wallpaper-4k.jpg`: Official 4K high-resolution default desktop wallpaper (3840x2160).
+          - `rain-logo-4k.png`: Official 4K transparent branding emblem (3840x2160).
+          - `rain-umbrella.svg`: Scalable vector emblem and application icon.
+          - `rain-os-sbom.json`: Full CycloneDX v1.5 Software Bill of Materials cataloging all bundled software and open-source licenses.
+          - `SHA256SUMS` & `SHA512SUMS`: Cryptographic integrity checksums for all release files.
+
           ### Key Included Capabilities
           - **Universal Software Center**: KDE Discover, Flathub Flatpak integration, native AppImage execution (FUSE2), and Windows Compatibility Bridge (Bottles, Wine, Steam Proton, Quickemu).
           - **Multi-Screen & Devices**: Multi-monitor assistant (`rain-display-manager`), fractional DPI scaling, KDE Connect phone pairing (Android/iOS), Bluetooth, and Avahi/Samba local network discovery.
@@ -137,7 +158,17 @@ jobs:
           - **COSMIC Desktop Profile**: System76 Rust-based COSMIC desktop environment profile option.
           - **C Native Engine**: Compiled C system and display probe (`rain-probe`) with sub-millisecond execution.
           - **Btrfs Snapshot Safety**: Automatic pre-upgrade snapshots (`00-rain-pre-snapshot.hook`), preflight health checks, and rollback utilities.
-          - **Software Bill of Materials (SBOM)**: Full CycloneDX v1.5 manifest cataloging all bundled software and open-source licenses.
+
+          ### Verification
+          Verify cryptographic integrity before flashing:
+          ```bash
+          sha256sum -c SHA256SUMS
+          sha512sum -c SHA512SUMS
+          ```
+          EOF
+
+          if ls *.part-* 1> /dev/null 2>&1; then
+            cat << 'PARTEOF' >> /tmp/release_notes.md
 
           ### Reassembling Multi-Part ISO
           Due to GitHub Release's 2.0 GiB ceiling per asset, large images are provided as multi-part assets:
@@ -150,9 +181,8 @@ jobs:
             ```cmd
             copy /b rain-os-1.0.0-x86_64.iso.part-aa + rain-os-1.0.0-x86_64.iso.part-ab rain-os-1.0.0-x86_64.iso
             ```
-
-          *The complete single unsplit ISO is also available directly via the GitHub Actions Artifacts tab.*
-          EOF
+          PARTEOF
+          fi
 
           mapfile -t ASSETS < <(find . -type f)
           echo ":: Publishing ${#ASSETS[@]} release asset(s) to $GITHUB_REPOSITORY ($GITHUB_REF_NAME)..."
