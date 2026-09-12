@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-recovery-tools
-pkgver=0.1.0
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="Rain OS system health, recovery runbooks, and secret-scrubbed diagnostics"
 arch=('any')

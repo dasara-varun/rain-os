@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-first-run
-pkgver=0.1.0
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="Rain OS first-run onboarding checklist and system status utility"
 arch=('any')

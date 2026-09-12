@@ -23,7 +23,7 @@ Rain OS is privacy-preserving by default. It does not require an account, collec
 ```json
 {
   "distribution": "Rain OS",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "channel": "core",
   "iso_build": "YYYYMMDD.N",
   "arch": "x86_64",

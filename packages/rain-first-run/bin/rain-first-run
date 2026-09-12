@@ -36,7 +36,7 @@ echo ""
 # 1. System & Release Info
 echo -e "${BOLD}[1] System Baseline${RESET}"
 if [[ -f /etc/rain-os/release.json ]]; then
-    VERSION=$(grep -o '"version": *"[^"]*"' /etc/rain-os/release.json | cut -d'"' -f4 || echo "0.1.0")
+    VERSION=$(grep -o '"version": *"[^"]*"' /etc/rain-os/release.json | cut -d'"' -f4 || echo "1.0.0")
     PROFILE=$(grep -o '"profile": *"[^"]*"' /etc/rain-os/release.json | cut -d'"' -f4 || echo "core")
     echo -e "    Distribution : Rain OS ${VERSION} (${PROFILE})"
 fi

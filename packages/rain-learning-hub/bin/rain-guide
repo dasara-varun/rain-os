@@ -101,17 +101,17 @@ cmd_search() {
 cmd_status() {
     echo -e "${BOLD}${CYAN}Rain OS Guide & System Status${RESET}"
     echo "=========================================================="
-    local os_ver="0.1.0 (Core)"
+    local os_ver="1.0.0 (Core)"
     if [[ -f "$RELEASE_FILE" ]] && command -v jq >/dev/null 2>&1; then
-        os_ver=$(jq -r '.version // "0.1.0"' "$RELEASE_FILE")
+        os_ver=$(jq -r '.version // "1.0.0"' "$RELEASE_FILE")
     fi
     local profile="core"
     if [[ -f "$PROFILE_FILE" ]]; then
         profile=$(grep '^RAIN_PROFILE=' "$PROFILE_FILE" | cut -d= -f2 || echo "core")
     fi
-    local guide_ver="0.1.0"
+    local guide_ver="1.0.0"
     if [[ -f "$INDEX_FILE" ]] && command -v jq >/dev/null 2>&1; then
-        guide_ver=$(jq -r '.guide_version // "0.1.0"' "$INDEX_FILE")
+        guide_ver=$(jq -r '.guide_version // "1.0.0"' "$INDEX_FILE")
     fi
     local fs_type="ext4"
     if command -v findmnt >/dev/null 2>&1; then

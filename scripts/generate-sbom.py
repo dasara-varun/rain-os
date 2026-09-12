@@ -22,13 +22,13 @@ def generate_sbom(packages_file, output_file):
     components = []
     # Rain OS Core Packages
     rain_packages = [
-        ("rain-branding", "0.1.0", "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
-        ("rain-first-run", "0.1.0", "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
-        ("rain-control-center", "0.1.0", "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
-        ("rain-learning-hub", "0.1.0", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
-        ("rain-recovery-tools", "0.1.0", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
-        ("rain-update-preflight", "0.1.0", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
-        ("rain-probe", "0.1.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe")
+        ("rain-branding", "1.0.0", "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
+        ("rain-first-run", "1.0.0", "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
+        ("rain-control-center", "1.0.0", "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
+        ("rain-learning-hub", "1.0.0", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
+        ("rain-recovery-tools", "1.0.0", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
+        ("rain-update-preflight", "1.0.0", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
+        ("rain-probe", "1.0.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe")
     ]
 
     for name, ver, lic, desc in rain_packages:
@@ -64,7 +64,7 @@ def generate_sbom(packages_file, output_file):
             "component": {
                 "type": "operating-system",
                 "name": "Rain OS",
-                "version": "0.1.0",
+                "version": "1.0.0",
                 "description": "Independent commercial-grade desktop Linux distribution with Btrfs safety and app compatibility."
             }
         },

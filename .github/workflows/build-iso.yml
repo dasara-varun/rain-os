@@ -65,13 +65,27 @@ jobs:
         run: |
           python scripts/generate-sbom.py
 
+      - name: Bundle Package Repository & Generate Checksums
+        run: |
+          echo ":: Bundling Rain OS package repository..."
+          mkdir -p out/packages
+          cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
+          tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
+          cd out
+          sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json > SHA256SUMS
+          echo ":: Artifact SHA256SUMS:"
+          cat SHA256SUMS
+
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
         with:
           name: rain-os-iso
           path: |
             out/*.iso
+            out/*.tar.gz
+            out/packages/*.pkg.tar.zst
             out/SHA256SUMS
             out/rain-os-sbom.json
           if-no-files-found: error
           retention-days: 14
+

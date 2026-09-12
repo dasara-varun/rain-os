@@ -33,23 +33,23 @@
 ## Key Features & Architecture
 
 ```text
-???????????????????????????????????????????????????????????????????????????
-?                           Rain OS Desktop                               ?
-?      KDE Plasma (Default)  ?  COSMIC Rust Profile  ?  Multi-Screen      ?
-???????????????????????????????????????????????????????????????????????????
-?        Native Linux Apps          ?      Windows Compatibility          ?
-? Discover ? Flatpak ? AppImage     ? Bottles ? Wine ? Proton ? Quickemu  ?
-???????????????????????????????????????????????????????????????????????????
-?                          Rain Integration Hub                           ?
-?  Rain Welcome  ?  Control Center  ?  Learning Hub  ?  Hardware Wizard   ?
-???????????????????????????????????????????????????????????????????????????
-?                          Safety & Recovery                              ?
-?   Btrfs Subvolumes (@, @home, @snapshots) ? Pacman Pre-Snapshot Hook    ?
-?   Dual Kernels (linux + linux-lts) ? Update Preflight ? Diagnostic Bundler?
-???????????????????????????????????????????????????????????????????????????
-?                          Arch Linux Core Base                           ?
-?         PipeWire ? NetworkManager ? Firewalld ? SDDM ? Calamares        ?
-???????????????????????????????????????????????????????????????????????????
++---------------------------------------------------------------------------+
+|                              Rain OS Desktop                              |
+|         KDE Plasma (Default)  •  COSMIC Profile  •  Multi-Screen          |
++---------------------------------------------------------------------------+
+|          Native Linux Apps           |       Windows Compatibility        |
+|   Discover • Flatpak • AppImage      |  Bottles • Wine • Proton • Quickemu|
++---------------------------------------------------------------------------+
+|                            Rain Integration Hub                           |
+|    Rain Welcome  •  Control Center  •  Learning Hub  •  Hardware Wizard   |
++---------------------------------------------------------------------------+
+|                            Safety & Recovery                              |
+|     Btrfs Subvolumes (@, @home, @snapshots) • Pacman Pre-Snapshot Hook    |
+|     Dual Kernels (linux + linux-lts) • Update Preflight • Rollback Tool   |
++---------------------------------------------------------------------------+
+|                            Arch Linux Core Base                           |
+|           PipeWire • NetworkManager • Firewalld • SDDM • Calamares        |
++---------------------------------------------------------------------------+
 ```
 
 ### 1. App Store & Software Ecosystem
@@ -81,8 +81,8 @@ Switch system profiles instantly in the Control Center or terminal (`rain-profil
 
 ## Visual Identity & 4K Design System
 
-- **Master Emblem**: Ultra-HD 4096?4096 glowing umbrella logo mark ([`branding/rain-logo-4k.png`](branding/rain-logo-4k.png)).
-- **4K UHD Wallpaper**: Native 3840?2160 background canvas ([`branding/rain-wallpaper-4k.jpg`](branding/rain-wallpaper-4k.jpg)).
+- **Master Emblem**: Ultra-HD 4096×4096 glowing umbrella logo mark ([`branding/rain-logo-4k.png`](branding/rain-logo-4k.png)).
+- **4K UHD Wallpaper**: Native 3840×2160 background canvas ([`branding/rain-wallpaper-4k.jpg`](branding/rain-wallpaper-4k.jpg)).
 - **Palette**: **Urban Rain** (`#1E222B` dark slate background, `#282D37` surface cards, `#E83E38` crimson accent).
 - **Terminal Fastfetch**: Beautiful Rain OS ASCII umbrella logo displayed on Konsole launch.
 
@@ -121,6 +121,49 @@ sudo pacman -S --needed archiso git base-devel qemu-system-x86 edk2-ovmf
 ./tests/test-syntax.sh
 sudo ./scripts/build-iso.sh
 ```
+
+---
+
+## Releases & Package Distribution
+
+### Official Version Releases & Tags
+Releases are cryptographically signed and tagged with semantic versioning (`v1.0.0`, `v1.1.0`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
+
+```bash
+# Tag and trigger a commercial release
+git tag -a v1.0.0 -m "Rain OS Version 1.0.0 Production Release"
+git push origin v1.0.0
+```
+
+### Released Assets & Manifests
+Every official release provides the following downloadable artifacts:
+1. **`rain-os-1.0.0-x86_64.iso`**: The full bootable live distribution ISO with Calamares graphical installer, hardware drivers, KDE Plasma, COSMIC profile, and universal app ecosystem.
+2. **`rain-os-packages-1.0.0.tar.gz`**: Archive containing the compiled Rain OS local package repository (`rain.db.tar.zst`) and all `.pkg.tar.zst` packages.
+3. **`rain-os-sbom.json`**: CycloneDX v1.5 Software Bill of Materials cataloging all bundled software, libraries, and open-source licenses.
+4. **`SHA256SUMS`**: SHA-256 cryptographic hashes for verifying file integrity before flashing.
+5. **Standalone Packages (`*.pkg.tar.zst`)**:
+   - `rain-branding`: Icons, 4K wallpapers, and color schemes
+   - `rain-control-center`: Unified GUI control center & profile manager
+   - `rain-first-run`: Onboarding wizard and hardware detector
+   - `rain-learning-hub`: Interactive offline guides and `rain-guide`
+   - `rain-recovery-tools`: Btrfs rollback guide and diagnostic bundler
+   - `rain-update-preflight`: Pre-transaction snapshot and kernel safety checks
+   - `rain-probe`: High-performance native C hardware & display probe
+
+### Installing Packages on Existing Systems
+```bash
+# Extract the repository archive or install individual packages directly:
+sudo pacman -U packages/rain-control-center-1.0.0-1-any.pkg.tar.zst
+sudo pacman -U packages/rain-probe-1.0.0-1-x86_64.pkg.tar.zst
+```
+
+### Flashing to USB
+- **Ventoy**: Simply copy `rain-os-1.0.0-x86_64.iso` to your Ventoy USB drive.
+- **Rufus (Windows)**: Select the ISO, choose Partition Scheme `GPT` or `MBR`, and select **DD Image mode** when prompted.
+- **Linux (`dd`)**:
+  ```bash
+  sudo dd if=rain-os-1.0.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
+  ```
 
 ---
 

@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912125222",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260912130556",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T07:22:22.556958+00:00",
+    "timestamp": "2026-09-12T07:35:56.563394+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -15,7 +15,7 @@
     "component": {
       "type": "operating-system",
       "name": "Rain OS",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "description": "Independent commercial-grade desktop Linux distribution with Btrfs safety and app compatibility."
     }
   },
@@ -23,7 +23,7 @@
     {
       "type": "application",
       "name": "rain-branding",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -38,7 +38,7 @@
     {
       "type": "application",
       "name": "rain-first-run",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -53,7 +53,7 @@
     {
       "type": "application",
       "name": "rain-control-center",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -68,7 +68,7 @@
     {
       "type": "application",
       "name": "rain-learning-hub",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -83,7 +83,7 @@
     {
       "type": "application",
       "name": "rain-recovery-tools",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -98,7 +98,7 @@
     {
       "type": "application",
       "name": "rain-update-preflight",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -113,7 +113,7 @@
     {
       "type": "application",
       "name": "rain-probe",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {

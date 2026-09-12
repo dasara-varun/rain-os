@@ -63,7 +63,7 @@ class RainWelcomeApp(tk.Tk):
 
         title_label = tk.Label(
             title_box,
-            text="Rain OS 0.1.0 (Core)",
+            text="Rain OS 1.0.0 (Core)",
             font=("Segoe UI", 20, "bold"),
             fg=TEXT_COLOR,
             bg=BG_COLOR,
@@ -206,7 +206,7 @@ class RainWelcomeApp(tk.Tk):
                 pass
 
         return [
-            ("Distribution:", "Rain OS 0.1.0"),
+            ("Distribution:", "Rain OS 1.0.0"),
             ("Active Profile:", "Core (Standard)"),
             ("Kernel:", kernel),
             ("Architecture:", arch),
