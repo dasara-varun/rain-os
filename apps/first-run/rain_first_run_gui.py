@@ -9,13 +9,13 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
-BG_COLOR = "#0a101a"
-CARD_BG = "#131e2e"
+BG_COLOR = "#1e222b"
+CARD_BG = "#282d37"
 TEXT_COLOR = "#f0f6fc"
-TEXT_MUTED = "#8b949e"
-ACCENT_COLOR = "#48aeff"
-ACCENT_HOVER = "#7ad4ff"
-BORDER_COLOR = "#233348"
+TEXT_MUTED = "#9ba3af"
+ACCENT_COLOR = "#e83e38"
+ACCENT_HOVER = "#ff5751"
+BORDER_COLOR = "#383e4c"
 
 class RainWelcomeApp(tk.Tk):
     def __init__(self):

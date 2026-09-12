@@ -3,21 +3,21 @@ Name=Rain Urban (Dark)
 ColorScheme=RainUrban
 
 [Colors:Window]
-BackgroundNormal=31,45,56
+BackgroundNormal=30,34,43
 ForegroundNormal=244,248,251
 
 [Colors:View]
-BackgroundNormal=23,33,43
+BackgroundNormal=24,28,36
 ForegroundNormal=244,248,251
 
 [Colors:Selection]
-BackgroundNormal=23,105,170
+BackgroundNormal=232,62,56
 ForegroundNormal=255,255,255
 
 [Colors:Button]
-BackgroundNormal=35,51,64
+BackgroundNormal=40,45,55
 ForegroundNormal=244,248,251
 
 [Colors:Tooltip]
-BackgroundNormal=16,59,80
+BackgroundNormal=24,28,36
 ForegroundNormal=244,248,251
