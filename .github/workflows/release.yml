@@ -110,12 +110,55 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo ":: Inspecting downloaded release assets:"
-          find release-assets -type f -exec ls -lh {} +
-          mapfile -t ASSETS < <(find release-assets -type f)
+          cd release-assets
+          for f in *; do
+            if [ -f "$f" ]; then
+              fsize=$(stat -c%s "$f")
+              if [ "$fsize" -ge 2100000000 ]; then
+                echo "Notice: $f is ${fsize} bytes (exceeds GitHub Release 2GB ceiling). Splitting into multi-part files..."
+                split -b 1800M "$f" "${f}.part-"
+                rm -f "$f"
+              fi
+            fi
+          done
+          sha256sum * packages/*.pkg.tar.zst 2>/dev/null > SHA256SUMS || sha256sum * > SHA256SUMS
+          echo ":: Final Release SHA256SUMS:"
+          cat SHA256SUMS
+
+          cat << 'EOF' > /tmp/release_notes.md
+## Rain OS Version 1.0.0 Commercial Production Release
+
+**Shelter from complexity, without hiding the system.**
+
+### Key Included Capabilities
+- **Universal Software Center**: KDE Discover, Flathub Flatpak integration, native AppImage execution (FUSE2), and Windows Compatibility Bridge (Bottles, Wine, Steam Proton, Quickemu).
+- **Multi-Screen & Devices**: Multi-monitor assistant (`rain-display-manager`), fractional DPI scaling, KDE Connect phone pairing (Android/iOS), Bluetooth, and Avahi/Samba local network discovery.
+- **Hardware Driver Stack**: Comprehensive drivers for NVIDIA, AMD Radeon, Intel Iris/Arc, and legacy fallback displays (`xf86-video-vesa`, `fbdev`), broad Wi-Fi chipsets, and dual-kernel stability (`linux` + `linux-lts`).
+- **COSMIC Desktop Profile**: System76 Rust-based COSMIC desktop environment profile option.
+- **C Native Engine**: Compiled C system and display probe (`rain-probe`) with sub-millisecond execution.
+- **Btrfs Snapshot Safety**: Automatic pre-upgrade snapshots (`00-rain-pre-snapshot.hook`), preflight health checks, and rollback utilities.
+- **Software Bill of Materials (SBOM)**: Full CycloneDX v1.5 manifest cataloging all bundled software and open-source licenses.
+
+### Reassembling Multi-Part ISO
+Due to GitHub Release's 2.0 GiB ceiling per asset, large images are provided as multi-part assets:
+- **Linux / macOS**:
+  ```bash
+  cat rain-os-1.0.0-x86_64.iso.part-* > rain-os-1.0.0-x86_64.iso
+  sha256sum -c SHA256SUMS
+  ```
+- **Windows (PowerShell / Command Prompt)**:
+  ```cmd
+  copy /b rain-os-1.0.0-x86_64.iso.part-aa + rain-os-1.0.0-x86_64.iso.part-ab rain-os-1.0.0-x86_64.iso
+  ```
+
+*The complete single unsplit ISO is also available directly via the GitHub Actions Artifacts tab.*
+EOF
+
+          mapfile -t ASSETS < <(find . -type f)
           echo ":: Publishing ${#ASSETS[@]} release asset(s) to $GITHUB_REPOSITORY ($GITHUB_REF_NAME)..."
           gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
             --repo "$GITHUB_REPOSITORY" \
             --title "Rain OS $GITHUB_REF_NAME" \
-            --generate-notes \
+            --notes-file /tmp/release_notes.md \
             --verify-tag || gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" --clobber
           echo ":: Successfully published GitHub Release $GITHUB_REF_NAME"
