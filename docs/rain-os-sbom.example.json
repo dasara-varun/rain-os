@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912144142",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260912174458",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T09:11:42.274680+00:00",
+    "timestamp": "2026-09-12T12:14:58.378573+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -926,6 +926,34 @@
     {
       "type": "operating-system",
       "name": "cryptsetup",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "mkinitcpio",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "mkinitcpio-archiso",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
