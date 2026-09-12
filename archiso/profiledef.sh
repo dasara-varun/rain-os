@@ -25,5 +25,9 @@ file_permissions=(
   ["/usr/local/bin/rain-btrfs-snapshot"]="0:0:755"
   ["/usr/local/bin/rain-hardware-report"]="0:0:755"
   ["/usr/local/bin/rain-guide"]="0:0:755"
+  ["/usr/local/bin/rain-profile"]="0:0:755"
+  ["/usr/local/bin/rain-kernel"]="0:0:755"
+  ["/usr/local/bin/rain-recovery"]="0:0:755"
+  ["/usr/local/bin/rain-update-preflight"]="0:0:755"
   ["/opt/rain"]="0:0:755"
 )

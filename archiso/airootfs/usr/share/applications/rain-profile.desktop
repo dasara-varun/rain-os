@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Profile Switcher
+GenericName=System Profile Manager
+Comment=Switch between Core, Flow, Forge, Shield, and Pocket system profiles
+Exec=konsole -e rain-profile
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;Settings;
+Keywords=profile;flow;forge;shield;pocket;performance;rain;

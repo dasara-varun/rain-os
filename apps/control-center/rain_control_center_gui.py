@@ -124,24 +124,30 @@ class RainControlCenter(tk.Tk):
         tk.Label(card, text="Performance & Role Profiles", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
         tk.Label(card, text="Profiles tune governors, memory thresholds, and security policies without lock-in.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
 
+        def _switch_profile(p_key):
+            try:
+                subprocess.Popen(["konsole", "-e", "rain-profile", "set", p_key])
+            except Exception:
+                subprocess.Popen(["rain-profile", "set", p_key])
+
         profiles = [
-            ("Core (Active)", "Balanced power & stability, LTS kernel baseline, daily work.", True),
-            ("Flow", "Performance governor, low latency audio/graphics, gamemode ready.", False),
-            ("Forge", "Developer profile with compiler toolchains, docker, and profiling tools.", False),
-            ("Shield", "Hardened AppArmor profiles, strict network firewalls, sandbox wrappers.", False)
+            ("Core (Balanced)", "Balanced power & stability, LTS kernel baseline, daily work.", "core"),
+            ("Flow (Performance)", "Performance governor, low latency audio/graphics, gamemode ready.", "flow"),
+            ("Forge (Development)", "Developer profile with compiler toolchains, inotify watches, containers.", "forge"),
+            ("Shield (Hardened)", "Hardened AppArmor profiles, strict network firewalls, sandbox wrappers.", "shield"),
+            ("Pocket (Battery & Low RAM)", "Powersave CPU governor, aggressive memory reclaiming, battery tuning.", "pocket")
         ]
 
-        for name, desc, active in profiles:
+        for name, desc, p_key in profiles:
             prow = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
-            prow.pack(fill="x", padx=20, pady=6)
+            prow.pack(fill="x", padx=20, pady=5)
             t_frame = tk.Frame(prow, bg="#182538")
-            t_frame.pack(side="left", padx=12, pady=10, fill="both", expand=True)
+            t_frame.pack(side="left", padx=12, pady=8, fill="both", expand=True)
 
-            tk.Label(t_frame, text=name, font=("Segoe UI", 11, "bold"), fg=ACCENT_COLOR if active else TEXT_COLOR, bg="#182538").pack(anchor="w")
-            tk.Label(t_frame, text=desc, font=("Segoe UI", 9), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
+            tk.Label(t_frame, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
+            tk.Label(t_frame, text=desc, font=("Segoe UI", 8), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
 
-            btn_txt = "Active" if active else "Switch"
-            self._make_button(prow, btn_txt, lambda n=name: messagebox.showinfo("Profile", f"Switching to {n} profile..."), side="right")
+            self._make_button(prow, "Apply", lambda pk=p_key: _switch_profile(pk), side="right")
 
     def _build_kernels_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
@@ -150,22 +156,27 @@ class RainControlCenter(tk.Tk):
         tk.Label(card, text="Dual-Kernel Retention & Selection", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
         tk.Label(card, text="Rain OS always retains both the standard and LTS kernels for guaranteed boot safety.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
 
+        def _set_kernel(k_type):
+            try:
+                subprocess.Popen(["konsole", "-e", "rain-kernel", "set-default", k_type])
+            except Exception:
+                subprocess.Popen(["rain-kernel", "set-default", k_type])
+
         kernels = [
-            ("Linux (Arch Standard)", "Bleeding-edge upstream kernel for newest hardware drivers.", True),
-            ("Linux LTS (Long Term Support)", "Rock-solid fallback kernel for long-term stability and recovery.", False)
+            ("Linux (Arch Standard)", "Bleeding-edge upstream kernel for newest hardware drivers.", "generic"),
+            ("Linux LTS (Long Term Support)", "Rock-solid fallback kernel for long-term stability and recovery.", "lts")
         ]
 
-        for kname, kdesc, is_cur in kernels:
+        for kname, kdesc, k_type in kernels:
             krow = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
             krow.pack(fill="x", padx=20, pady=8)
             info = tk.Frame(krow, bg="#182538")
             info.pack(side="left", padx=12, pady=10, fill="both", expand=True)
 
-            tk.Label(info, text=kname, font=("Segoe UI", 11, "bold"), fg=ACCENT_COLOR if is_cur else TEXT_COLOR, bg="#182538").pack(anchor="w")
+            tk.Label(info, text=kname, font=("Segoe UI", 11, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
             tk.Label(info, text=kdesc, font=("Segoe UI", 9), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
 
-            btn_label = "Current Default" if is_cur else "Set as Boot Default"
-            self._make_button(krow, btn_label, lambda k=kname: messagebox.showinfo("Kernel Manager", f"Updated default bootloader entry to {k}"), side="right")
+            self._make_button(krow, "Set as Default", lambda kt=k_type: _set_kernel(kt), side="right")
 
     def _build_updates_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Hardware & Drivers
+GenericName=Hardware Assistant
+Comment=Detect system hardware, GPU drivers, Wi-Fi adapters, and power modes
+Exec=konsole -e rain-hardware-report
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;HardwareSettings;
+Keywords=hardware;drivers;gpu;nvidia;wifi;power;rain;

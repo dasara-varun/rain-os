@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# Rain OS Dual-Kernel Manager (Spec Page 38 & 41)
+# Manages active and default boot kernels (linux generic vs linux-lts)
+set -euo pipefail
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RED="\033[31m"
+RESET="\033[0m"
+
+running_kernel=$(uname -r)
+
+cmd_list() {
+    echo -e "${BOLD}${CYAN}Rain OS Kernel Status & Boot Selection${RESET}"
+    echo "=========================================================="
+    echo -e "  Running Kernel:       ${BOLD}${GREEN}${running_kernel}${RESET}"
+    echo ""
+    echo -e "${BOLD}Installed Kernels in /boot:${RESET}"
+    local count=0
+    for k in /boot/vmlinuz-*; do
+        if [[ -f "$k" ]]; then
+            kname=$(basename "$k" | sed 's/vmlinuz-//')
+            local marker=""
+            if echo "$running_kernel" | grep -q "$kname"; then
+                marker=" ${GREEN}(RUNNING)${RESET}"
+            fi
+            echo -e "  ? ${BOLD}${kname}${RESET}${marker}"
+            count=$((count + 1))
+        fi
+    done
+    if [[ "$count" -eq 0 ]]; then
+        echo "  ? No kernels in /boot (Live ISO / container environment)"
+    fi
+
+    echo ""
+    echo -e "${BOLD}Dual-Kernel Guarantee:${RESET}"
+    echo "  ? linux:      Rolling generic kernel with newest hardware drivers."
+    echo "  ? linux-lts:  Long-Term Support kernel for certified stability and fallback."
+    echo ""
+    echo "Commands:"
+    echo "  rain-kernel set-default lts       Set Linux LTS as default boot kernel"
+    echo "  rain-kernel set-default generic   Set Linux Generic as default boot kernel"
+}
+
+cmd_set_default() {
+    local target="${1:-}"
+    if [[ "$target" != "lts" && "$target" != "generic" ]]; then
+        echo "Error: please specify 'lts' or 'generic'." >&2
+        echo "Usage: rain-kernel set-default <lts|generic>" >&2
+        exit 1
+    fi
+
+    echo -e "Configuring default boot kernel to: ${BOLD}${target}${RESET}..."
+
+    # Check for systemd-boot
+    if [[ -f /boot/loader/loader.conf ]]; then
+        local entry_name="rain-lts.conf"
+        [[ "$target" == "generic" ]] && entry_name="rain.conf"
+        if sed -i "s/^default .*/default ${entry_name}/" /boot/loader/loader.conf 2>/dev/null; then
+            echo -e "${GREEN}systemd-boot updated to boot ${entry_name} by default.${RESET}"
+        else
+            echo "Notice: Could not write to /boot/loader/loader.conf (run with sudo if installed)."
+        fi
+    # Check for GRUB
+    elif command -v grub-set-default >/dev/null 2>&1; then
+        echo "Updating GRUB default boot entry..."
+        # Search menu entries
+        local menu_id="0"
+        [[ "$target" == "lts" ]] && menu_id="1"
+        grub-set-default "$menu_id" 2>/dev/null || true
+        echo -e "${GREEN}GRUB default set successfully.${RESET}"
+    else
+        echo -e "${YELLOW}Notice: System is running in Live ISO mode. Default boot selection applies to installed systems.${RESET}"
+    fi
+}
+
+cmd_status() {
+    cmd_list
+}
+
+case "${1:-}" in
+    list) cmd_list ;;
+    status) cmd_status ;;
+    set-default) shift; cmd_set_default "$@" ;;
+    *) cmd_list ;;
+esac
