@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912130556",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260912133818",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T07:35:56.563394+00:00",
+    "timestamp": "2026-09-12T08:08:18.144118+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -128,20 +128,6 @@
     {
       "type": "operating-system",
       "name": "base",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "base-devel",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [

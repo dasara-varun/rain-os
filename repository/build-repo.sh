@@ -15,20 +15,19 @@ echo "=========================================================="
 
 # 1. Build all packages in packages/ if makepkg is present
 if command -v makepkg >/dev/null 2>&1; then
+    if [[ "${EUID}" -eq 0 ]]; then
+        id -u builduser >/dev/null 2>&1 || useradd -m -d /home/builduser builduser
+        chown -R builduser:builduser "$ROOT/packages" "$REPO_DIR"
+    fi
+
     for pkg_dir in "$ROOT"/packages/*; do
         if [[ -d "$pkg_dir" && -f "$pkg_dir/PKGBUILD" ]]; then
             pkg_basename="$(basename "$pkg_dir")"
             echo "--- Building package: $pkg_basename ---"
             (
                 cd "$pkg_dir"
-                # If running as root, makepkg requires special care or a non-root user
                 if [[ "${EUID}" -eq 0 ]]; then
-                    if id -u nobody >/dev/null 2>&1; then
-                        chown -R nobody:nobody "$pkg_dir"
-                        su -s /bin/bash nobody -c "makepkg -f --nodeps --skipchecksums --skippgpcheck" || true
-                    else
-                        makepkg --asroot -f --nodeps || true
-                    fi
+                    su - builduser -c "cd '$pkg_dir' && makepkg -f --nodeps --skipchecksums --skippgpcheck" || true
                 else
                     makepkg -f --nodeps --skipchecksums --skippgpcheck || true
                 fi

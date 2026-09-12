@@ -96,6 +96,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download Release Artifacts
         uses: actions/download-artifact@v4
         with:
@@ -109,9 +112,10 @@ jobs:
           echo ":: Inspecting downloaded release assets:"
           find release-assets -type f -exec ls -lh {} +
           mapfile -t ASSETS < <(find release-assets -type f)
-          echo ":: Publishing ${#ASSETS[@]} release asset(s)..."
+          echo ":: Publishing ${#ASSETS[@]} release asset(s) to $GITHUB_REPOSITORY ($GITHUB_REF_NAME)..."
           gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
+            --repo "$GITHUB_REPOSITORY" \
             --title "Rain OS $GITHUB_REF_NAME" \
             --generate-notes \
-            --verify-tag || gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --clobber
+            --verify-tag || gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" --clobber
           echo ":: Successfully published GitHub Release $GITHUB_REF_NAME"
