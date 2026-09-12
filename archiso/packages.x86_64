@@ -9,10 +9,7 @@ linux-firmware-realtek
 linux-firmware-broadcom
 linux-firmware-atheros
 linux-firmware-mediatek
-linux-firmware-radeon
 linux-firmware-amd
-linux-firmware-cirrus
-linux-firmware-ti
 networkmanager
 firewalld
 pipewire
@@ -48,7 +45,6 @@ rsync
 curl
 wget
 git
-vim
 nano
 htop
 fastfetch
@@ -82,8 +78,6 @@ bluedevil
 avahi
 nss-mdns
 libmtp
-kio-extras
-gvfs-smb
 xf86-video-amdgpu
 xf86-video-nouveau
 xf86-video-fbdev
