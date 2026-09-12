@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install Rain OS to Disk
+GenericName=System Installer
+Comment=Install Rain OS permanently to SSD or hard drive
+Exec=rain-install-launcher
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;

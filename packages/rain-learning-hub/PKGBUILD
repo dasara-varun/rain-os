@@ -15,8 +15,12 @@ source=(
   "lessons/03-snapshots-and-recovery.md"
   "lessons/04-running-windows-apps.md"
   "lessons/05-hardware-and-drivers.md"
+  "lessons/06-app-store-and-software.md"
+  "lessons/07-displays-and-devices.md"
 )
 sha256sums=(
+  'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

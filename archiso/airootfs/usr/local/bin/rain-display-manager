@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Rain OS Multi-Screen & Display Configuration Assistant
+# Integrates with KScreen for Wayland & X11 multi-monitor environments
+set -euo pipefail
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+cmd_status() {
+    echo -e "${BOLD}${CYAN}Rain OS Multi-Screen Display Manager${RESET}"
+    echo "=========================================================="
+    
+    local found=0
+    if command -v kscreen-doctor >/dev/null 2>&1; then
+        echo -e "${BOLD}Active Displays (via KScreen):${RESET}"
+        kscreen-doctor -o 2>/dev/null || true
+        found=1
+    fi
+
+    if [[ "$found" -eq 0 ]]; then
+        echo -e "${BOLD}Hardware Display Outputs (DRM Subsystem):${RESET}"
+        for d in /sys/class/drm/card*-*; do
+            if [[ -f "$d/status" ]]; then
+                cname=$(basename "$d")
+                status=$(cat "$d/status")
+                if [[ "$status" == "connected" ]]; then
+                    echo -e "  ? ${GREEN}${cname}${RESET}: Connected"
+                    found=1
+                else
+                    echo -e "  ? ${cname}: Disconnected"
+                fi
+            fi
+        done
+    fi
+
+    echo ""
+    echo -e "${BOLD}Multi-Screen Capabilities:${RESET}"
+    echo "  ? Per-monitor fractional DPI scaling (100%, 125%, 150%, 200%)"
+    echo "  ? Variable Refresh Rate (VRR / FreeSync / G-Sync)"
+    echo "  ? Independent display arrangement, rotation, and primary monitor selection"
+    echo ""
+    echo "Usage:"
+    echo "  rain-display-manager gui      Launch graphical display configuration"
+    echo "  rain-display-manager status   Show display output status"
+}
+
+cmd_gui() {
+    if command -v kcmshell6 >/dev/null 2>&1; then
+        exec kcmshell6 kcm_kscreen
+    elif command -v systemsettings >/dev/null 2>&1; then
+        exec systemsettings kcm_kscreen
+    elif command -v arandr >/dev/null 2>&1; then
+        exec arandr
+    else
+        echo "Launching display status..."
+        cmd_status
+    fi
+}
+
+case "${1:-}" in
+    gui|settings) cmd_gui ;;
+    status) cmd_status ;;
+    *) cmd_status ;;
+esac

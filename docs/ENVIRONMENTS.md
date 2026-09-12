@@ -22,7 +22,7 @@ Rain OS should support familiar environments through package groups and a single
 | **MATE** | Traditional desktop users and modest hardware | Smaller upstream ecosystem than KDE/GNOME |
 | **LXQt** | Very low resource systems | Some integrations need additional testing |
 | **Budgie** | Simple modern desktop | Smaller maintainer/support surface |
-| **COSMIC** | Users interested in a newer desktop | Rapid development requires versioned testing |
+| **COSMIC** | Users interested in a modern Rust desktop | Available via `rain-profile set cosmic` or `rain-install-cosmic` |
 
 ### Experimental / advanced
 

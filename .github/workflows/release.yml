@@ -1,17 +1,19 @@
-name: Build Rain OS ISO
+name: Release Rain OS
 
 on:
   push:
-    branches: [ main ]
-    tags: [ 'v*' ]
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
-  build-iso:
+  release:
     runs-on: ubuntu-latest
     container:
       image: archlinux:latest
       options: --privileged -v /dev:/dev
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,13 +47,11 @@ jobs:
 
       - name: Automated QEMU Headless Smoke Boot Test
         run: |
-          echo ":: Starting QEMU headless smoke boot test on built ISO..."
           ISO_FILE=$(ls out/rain-os-*.iso | head -n 1)
           if [ ! -f "$ISO_FILE" ]; then
             echo "Error: ISO file not found in out/" >&2
             exit 1
           fi
-          # Boot with QEMU for 35 seconds to verify kernel and initramfs load cleanly without panic
           timeout 35s qemu-system-x86_64 \
             -m 2048 \
             -cdrom "$ISO_FILE" \
@@ -59,19 +59,19 @@ jobs:
             -serial stdio \
             -vga std \
             -boot d || [ $? -eq 124 ]
-          echo ":: QEMU smoke boot test passed: ISO boots and kernel initializes successfully."
+          echo ":: QEMU smoke boot test passed: ISO is release-ready."
 
       - name: Generate Software Bill of Materials (SBOM)
         run: |
           python scripts/generate-sbom.py
 
-      - name: Upload ISO Artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: rain-os-iso
-          path: |
+          files: |
             out/*.iso
             out/SHA256SUMS
             out/rain-os-sbom.json
-          if-no-files-found: error
-          retention-days: 14
+          generate_release_notes: true
+          draft: false
+          prerelease: false

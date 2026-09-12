@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Rain OS COSMIC Desktop Installer (Rust-based modern desktop)
+set -euo pipefail
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+echo -e "${BOLD}${CYAN}Rain OS ? COSMIC Desktop Environment Installer${RESET}"
+echo "=========================================================="
+echo "COSMIC is System76's modern, lightning-fast Rust-based desktop environment."
+echo "Features: Modular applets, Wayland-native compositor (cosmic-comp), and automatic tiling."
+echo ""
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo -e "${YELLOW}Notice: Root permissions required to install system packages.${RESET}"
+    exec sudo "$0" "$@"
+fi
+
+echo "Installing COSMIC desktop components..."
+COSMIC_PKGS=(
+    cosmic-session
+    cosmic-comp
+    cosmic-panel
+    cosmic-applets
+    cosmic-settings
+    cosmic-terminal
+    cosmic-files
+)
+
+if pacman -S --needed --noconfirm "${COSMIC_PKGS[@]}" 2>/dev/null; then
+    echo -e "${GREEN}COSMIC desktop packages installed successfully!${RESET}"
+    echo "You can now select 'COSMIC' at the SDDM login screen."
+else
+    echo -e "${YELLOW}Notice: Some COSMIC packages may be in Arch extra or AUR.${RESET}"
+    echo "Attempting installation of cosmic-session meta-package..."
+    pacman -S --needed --noconfirm cosmic-session || true
+fi

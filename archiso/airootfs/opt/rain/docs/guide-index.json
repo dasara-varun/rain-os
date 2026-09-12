@@ -68,6 +68,32 @@
         "shield",
         "pocket"
       ]
+    },
+    {
+      "id": "apps.software",
+      "path": "06-app-store-and-software.md",
+      "audience": "all",
+      "profiles": [
+        "core",
+        "flow",
+        "forge",
+        "shield",
+        "pocket",
+        "cosmic"
+      ]
+    },
+    {
+      "id": "devices.multiscreen",
+      "path": "07-displays-and-devices.md",
+      "audience": "all",
+      "profiles": [
+        "core",
+        "flow",
+        "forge",
+        "shield",
+        "pocket",
+        "cosmic"
+      ]
     }
   ]
 }

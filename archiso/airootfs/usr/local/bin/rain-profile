@@ -28,12 +28,13 @@ cmd_list() {
     echo -e "${BOLD}${CYAN}Rain OS Profiles${RESET}"
     echo "=========================================================="
     
-    local p_core="" p_flow="" p_forge="" p_shield="" p_pocket=""
+    local p_core="" p_flow="" p_forge="" p_shield="" p_pocket="" p_cosmic=""
     [[ "$current" == "core" ]] && p_core=" ${GREEN}(ACTIVE)${RESET}"
     [[ "$current" == "flow" ]] && p_flow=" ${GREEN}(ACTIVE)${RESET}"
     [[ "$current" == "forge" ]] && p_forge=" ${GREEN}(ACTIVE)${RESET}"
     [[ "$current" == "shield" ]] && p_shield=" ${GREEN}(ACTIVE)${RESET}"
     [[ "$current" == "pocket" ]] && p_pocket=" ${GREEN}(ACTIVE)${RESET}"
+    [[ "$current" == "cosmic" ]] && p_cosmic=" ${GREEN}(ACTIVE)${RESET}"
 
     echo -e "  ${BOLD}1. core${RESET}${p_core}"
     echo "     Standard balanced baseline. LTS kernel fallback, daily desktop stability."
@@ -50,7 +51,10 @@ cmd_list() {
     echo -e "  ${BOLD}5. pocket${RESET}${p_pocket}"
     echo "     Low-resource & battery optimization. Powersave governor, aggressive memory reclaim."
     echo ""
-    echo "Usage: rain-profile set <core|flow|forge|shield|pocket>"
+    echo -e "  ${BOLD}6. cosmic${RESET}${p_cosmic}"
+    echo "     Modern Rust-based desktop environment (System76 COSMIC session & auto-tiler)."
+    echo ""
+    echo "Usage: rain-profile set <core|flow|forge|shield|pocket|cosmic>"
 }
 
 cmd_status() {
@@ -91,14 +95,20 @@ cmd_set() {
     fi
 
     case "$target" in
-        core|flow|forge|shield|pocket) ;;
+        core|flow|forge|shield|pocket|cosmic) ;;
         *)
-            echo -e "${RED}Error: Invalid profile '$target'. Choose from core, flow, forge, shield, pocket.${RESET}" >&2
+            echo -e "${RED}Error: Invalid profile '$target'. Choose from core, flow, forge, shield, pocket, cosmic.${RESET}" >&2
             exit 1
             ;;
     esac
 
     echo -e "${BOLD}Applying Rain OS profile:${RESET} ${CYAN}${target}${RESET}..."
+
+    if [[ "$target" == "cosmic" ]]; then
+        if [[ -x /usr/local/bin/rain-install-cosmic ]]; then
+            /usr/local/bin/rain-install-cosmic || true
+        fi
+    fi
 
     # Apply Governor
     if command -v powerprofilesctl >/dev/null 2>&1; then

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Display & Multi-Screen Settings
+GenericName=Display Configuration
+Comment=Configure multi-monitor layout, resolution, refresh rate, and scaling
+Exec=rain-display-manager gui
+Icon=preferences-desktop-display
+Terminal=false
+StartupNotify=true
+Categories=Settings;HardwareSettings;
+Keywords=display;monitor;screen;multiscreen;scaling;resolution;rain;

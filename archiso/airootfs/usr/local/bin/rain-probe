@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Rain OS Fast Hardware Probe Fallback Wrapper
+# (Replaced by compiled C binary /usr/local/bin/rain-probe on built ISO)
+set -euo pipefail
+
+if [[ "${1:-}" == "--json" ]]; then
+    exec /usr/local/bin/rain-hardware-report --json
+else
+    echo -e "\033[1m\033[36mRain OS Native Hardware & Display Probe\033[0m"
+    echo "=========================================================="
+    /usr/local/bin/rain-hardware-report
+fi

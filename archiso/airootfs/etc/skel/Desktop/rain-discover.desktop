@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Software App Store
+GenericName=App Store & Packages
+Comment=Install native Linux applications and Flatpaks from Flathub
+Exec=plasma-discover
+Icon=plasmagik
+Terminal=false
+StartupNotify=true
+Categories=System;PackageManager;

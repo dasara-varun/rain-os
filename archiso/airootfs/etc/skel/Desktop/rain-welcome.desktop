@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain OS Welcome
+GenericName=First Run Onboarding
+Comment=First run welcome checklist and hardware overview
+Exec=rain-welcome-launcher
+Icon=rain-os
+Terminal=false
+StartupNotify=true
+Categories=System;

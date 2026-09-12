@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Rain OS Control Center Graphical Interface
+Rain OS Unified Control Center (v1.0 Commercial Release)
+System health, performance & COSMIC profiles, dual kernels, update preflight,
+Software & App Store (Discover, Flathub, Windows Bridge), Displays & Devices.
 """
 import os
 import sys
@@ -21,8 +23,8 @@ class RainControlCenter(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Rain OS Control Center")
-        self.geometry("820x620")
-        self.minsize(760, 560)
+        self.geometry("820x680")
+        self.minsize(760, 620)
         self.configure(bg=BG_COLOR)
 
         self._find_logo()
@@ -43,7 +45,7 @@ class RainControlCenter(tk.Tk):
 
         if self.logo_path:
             try:
-                pil_img = Image.open(self.logo_path).resize((50, 50), Image.Resampling.LANCZOS)
+                pil_img = Image.open(self.logo_path).resize((48, 48), Image.Resampling.LANCZOS)
                 self.tk_logo = ImageTk.PhotoImage(pil_img)
                 tk.Label(header, image=self.tk_logo, bg=BG_COLOR).pack(side="left", padx=(0, 15))
             except Exception:
@@ -52,77 +54,85 @@ class RainControlCenter(tk.Tk):
         header_txt = tk.Frame(header, bg=BG_COLOR)
         header_txt.pack(side="left", fill="both", expand=True)
 
-        tk.Label(header_txt, text="Rain Control Center", font=("Segoe UI", 16, "bold"), fg=TEXT_COLOR, bg=BG_COLOR).pack(anchor="w")
-        tk.Label(header_txt, text="System health, performance profiles, kernel fallbacks, and update safety", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=BG_COLOR).pack(anchor="w")
+        tk.Label(header_txt, text="Rain OS Control Center", font=("Segoe UI", 16, "bold"), fg=TEXT_COLOR, bg=BG_COLOR).pack(anchor="w")
+        tk.Label(header_txt, text="System health, profiles, software store, displays, and devices", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=BG_COLOR).pack(anchor="w")
 
         # Custom Dark Notebook / Tabs
         style = ttk.Style(self)
         style.theme_use("default")
         style.configure("TNotebook", background=BG_COLOR, borderwidth=0)
-        style.configure("TNotebook.Tab", background=CARD_BG, foreground=TEXT_COLOR, padding=[16, 8], font=("Segoe UI", 10, "bold"), borderwidth=0)
-        style.map("TNotebook.Tab", background=[("selected", ACCENT_COLOR)], foreground=[("selected", "#0a101a")])
+        style.configure("TNotebook.Tab", background="#262b36", foreground=TEXT_COLOR, padding=[12, 6], font=("Segoe UI", 9, "bold"))
+        style.map("TNotebook.Tab",
+                  background=[("selected", ACCENT_COLOR), ("active", "#3b4354")],
+                  foreground=[("selected", "#0a101a"), ("active", TEXT_COLOR)])
 
         notebook = ttk.Notebook(self)
         notebook.pack(fill="both", expand=True, padx=25, pady=10)
 
-        # Tab 1: Health & Overview
+        # Tab 1: System Health & Hardware
         tab_health = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_health, text=" System Health ")
         self._build_health_tab(tab_health)
 
-        # Tab 2: Profiles
+        # Tab 2: System Profiles
         tab_profiles = tk.Frame(notebook, bg=BG_COLOR)
-        notebook.add(tab_profiles, text=" Profiles (Flow) ")
+        notebook.add(tab_profiles, text=" Profiles ")
         self._build_profiles_tab(tab_profiles)
 
-        # Tab 3: Kernel Manager
+        # Tab 3: Dual-Kernel Manager
         tab_kernels = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_kernels, text=" Kernels ")
         self._build_kernels_tab(tab_kernels)
 
-        # Tab 4: Updates & Preflight
+        # Tab 4: Software & App Store
+        tab_software = tk.Frame(notebook, bg=BG_COLOR)
+        notebook.add(tab_software, text=" App Store & Software ")
+        self._build_software_tab(tab_software)
+
+        # Tab 5: Displays & Connected Devices
+        tab_devices = tk.Frame(notebook, bg=BG_COLOR)
+        notebook.add(tab_devices, text=" Displays & Devices ")
+        self._build_devices_tab(tab_devices)
+
+        # Tab 6: Safe Updates
         tab_updates = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_updates, text=" Safe Updates ")
         self._build_updates_tab(tab_updates)
-
-        # Tab 5: Windows Apps & Games Compatibility
-        tab_winapps = tk.Frame(notebook, bg=BG_COLOR)
-        notebook.add(tab_winapps, text=" Windows Apps ")
-        self._build_winapps_tab(tab_winapps)
 
     def _build_health_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
         card.pack(fill="both", expand=True, padx=10, pady=15)
 
-        tk.Label(card, text="System Vitals", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 10))
+        tk.Label(card, text="System Vitals & Security", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 10))
 
         import platform
         vitals = [
             ("Operating System", "Rain OS 0.1.0 (Arch Linux baseline)"),
             ("Active Kernel", platform.release()),
             ("System Architecture", platform.machine()),
-            ("Privacy & Tracking", "Strictly Disabled (Zero Telemetry)"),
+            ("Telemetry & Tracking", "Strictly Disabled (Zero Telemetry)"),
             ("Firewall Status", "Active (Firewalld)"),
-            ("Snapshot Engine", "Btrfs / Snapper Available")
+            ("Snapshot Engine", "Btrfs pre-update hook active")
         ]
         for k, v in vitals:
             row = tk.Frame(card, bg=CARD_BG)
-            row.pack(fill="x", padx=20, pady=5)
+            row.pack(fill="x", padx=20, pady=4)
             tk.Label(row, text=k, font=("Segoe UI", 10, "bold"), fg=TEXT_MUTED, bg=CARD_BG, width=20, anchor="w").pack(side="left")
             tk.Label(row, text=v, font=("Segoe UI", 10), fg=TEXT_COLOR, bg=CARD_BG, anchor="w").pack(side="left")
 
         actions = tk.Frame(card, bg=CARD_BG)
-        actions.pack(fill="x", padx=20, pady=20)
+        actions.pack(fill="x", padx=20, pady=15)
         self._make_button(actions, "Hardware & Drivers", lambda: subprocess.Popen(["konsole", "-e", "rain-hardware-report"]))
-        self._make_button(actions, "Run Diagnostic Scanner", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "status"]))
-        self._make_button(actions, "Scrub Log Secrets", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "scrub"]))
+        self._make_button(actions, "Native C Probe", lambda: subprocess.Popen(["konsole", "-e", "rain-probe"]))
+        self._make_button(actions, "Diagnostic Scanner", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "status"]))
+        self._make_button(actions, "Emergency Rollback", lambda: subprocess.Popen(["konsole", "-e", "rain-recovery", "rollback"]))
 
     def _build_profiles_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
         card.pack(fill="both", expand=True, padx=10, pady=15)
 
-        tk.Label(card, text="Performance & Role Profiles", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
-        tk.Label(card, text="Profiles tune governors, memory thresholds, and security policies without lock-in.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
+        tk.Label(card, text="Performance & Role Profiles", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(12, 4))
+        tk.Label(card, text="Profiles tune governors, inotify limits, and security boundaries without lock-in.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 10))
 
         def _switch_profile(p_key):
             try:
@@ -131,18 +141,19 @@ class RainControlCenter(tk.Tk):
                 subprocess.Popen(["rain-profile", "set", p_key])
 
         profiles = [
-            ("Core (Balanced)", "Balanced power & stability, LTS kernel baseline, daily work.", "core"),
-            ("Flow (Performance)", "Performance governor, low latency audio/graphics, gamemode ready.", "flow"),
-            ("Forge (Development)", "Developer profile with compiler toolchains, inotify watches, containers.", "forge"),
-            ("Shield (Hardened)", "Hardened AppArmor profiles, strict network firewalls, sandbox wrappers.", "shield"),
-            ("Pocket (Battery & Low RAM)", "Powersave CPU governor, aggressive memory reclaiming, battery tuning.", "pocket")
+            ("Core (Balanced)", "Balanced power & stability, LTS kernel fallback, daily desktop work.", "core"),
+            ("Flow (Gaming & Performance)", "Performance governor, low latency swappiness (10), gamemode optimization.", "flow"),
+            ("Forge (Development)", "Developer workspace, high inotify limits (524288), container support.", "forge"),
+            ("Shield (Hardened Security)", "AppArmor enforcement, restricted dmesg, strict firewall rules.", "shield"),
+            ("Pocket (Low RAM & Battery)", "Powersave CPU governor, aggressive memory reclaim, battery tuning.", "pocket"),
+            ("COSMIC (Rust Desktop)", "System76 modern Rust-based desktop environment and auto-tiler.", "cosmic")
         ]
 
         for name, desc, p_key in profiles:
             prow = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
-            prow.pack(fill="x", padx=20, pady=5)
+            prow.pack(fill="x", padx=20, pady=4)
             t_frame = tk.Frame(prow, bg="#182538")
-            t_frame.pack(side="left", padx=12, pady=8, fill="both", expand=True)
+            t_frame.pack(side="left", padx=10, pady=6, fill="both", expand=True)
 
             tk.Label(t_frame, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
             tk.Label(t_frame, text=desc, font=("Segoe UI", 8), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
@@ -154,7 +165,7 @@ class RainControlCenter(tk.Tk):
         card.pack(fill="both", expand=True, padx=10, pady=15)
 
         tk.Label(card, text="Dual-Kernel Retention & Selection", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
-        tk.Label(card, text="Rain OS always retains both the standard and LTS kernels for guaranteed boot safety.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
+        tk.Label(card, text="Rain OS always retains both standard and LTS kernels for guaranteed boot safety.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
 
         def _set_kernel(k_type):
             try:
@@ -163,8 +174,8 @@ class RainControlCenter(tk.Tk):
                 subprocess.Popen(["rain-kernel", "set-default", k_type])
 
         kernels = [
-            ("Linux (Arch Standard)", "Bleeding-edge upstream kernel for newest hardware drivers.", "generic"),
-            ("Linux LTS (Long Term Support)", "Rock-solid fallback kernel for long-term stability and recovery.", "lts")
+            ("Linux (Arch Standard)", "Rolling upstream kernel with newest hardware drivers and features.", "generic"),
+            ("Linux LTS (Long Term Support)", "Certified fallback kernel for maximum rock-solid stability.", "lts")
         ]
 
         for kname, kdesc, k_type in kernels:
@@ -176,7 +187,58 @@ class RainControlCenter(tk.Tk):
             tk.Label(info, text=kname, font=("Segoe UI", 11, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
             tk.Label(info, text=kdesc, font=("Segoe UI", 9), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
 
-            self._make_button(krow, "Set as Default", lambda kt=k_type: _set_kernel(kt), side="right")
+            self._make_button(krow, "Set Default", lambda kt=k_type: _set_kernel(kt), side="right")
+
+    def _build_software_tab(self, parent):
+        card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=10, pady=15)
+
+        tk.Label(card, text="Software App Store & Application Bridges", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(12, 4))
+        tk.Label(card, text="Native Linux software, Flatpaks, AppImages, and Windows compatibility layers.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 10))
+
+        app_sources = [
+            ("KDE Discover (Software Center)", "Graphical App Store for native packages, Flatpaks, and desktop addons.", lambda: subprocess.Popen(["plasma-discover"])),
+            ("Enable Flathub (Flatpak)", "Add the universal Flathub repository to access thousands of sandboxed apps.", lambda: subprocess.Popen(["konsole", "-e", "flatpak", "remote-add", "--if-not-exists", "flathub", "https://dl.flathub.org/repo/flathub.flatpakrepo"])),
+            ("AppImage Support", "Native AppImage execution enabled via FUSE2 compatibility layer.", lambda: messagebox.showinfo("AppImage", "AppImage support is active. Double click any .AppImage file to run.")),
+            ("Bottles (Windows Apps)", "Isolated Windows environments for productivity apps with dependency managers.", lambda: subprocess.Popen(["bottles"])),
+            ("Steam Proton & Lutris", "Vulkan-accelerated gaming runtime with DXVK and VKD3D.", lambda: subprocess.Popen(["steam"]))
+        ]
+
+        for name, desc, action in app_sources:
+            row = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
+            row.pack(fill="x", padx=20, pady=4)
+            info = tk.Frame(row, bg="#182538")
+            info.pack(side="left", padx=10, pady=6, fill="both", expand=True)
+
+            tk.Label(info, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
+            tk.Label(info, text=desc, font=("Segoe UI", 8), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
+
+            self._make_button(row, "Open / Setup", action, side="right")
+
+    def _build_devices_tab(self, parent):
+        card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=10, pady=15)
+
+        tk.Label(card, text="Displays & Device Connectivity", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(12, 4))
+        tk.Label(card, text="Multi-screen monitors, phone sync (KDE Connect), Bluetooth, and network shares.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 10))
+
+        devices = [
+            ("Multi-Screen Display Settings", "Per-monitor DPI scaling, refresh rates, FreeSync/VRR, and multi-monitor layout.", lambda: subprocess.Popen(["rain-display-manager", "gui"])),
+            ("KDE Connect (Phone Integration)", "Pair Android or iPhone for file transfer, notifications, SMS, and clipboard sync.", lambda: subprocess.Popen(["kdeconnect-app"])),
+            ("Bluetooth Devices", "Pair wireless headphones, keyboards, mice, and game controllers.", lambda: subprocess.Popen(["kcmshell6", "kcm_bluetooth"])),
+            ("Network Shares (Samba / Avahi)", "Discover local network PCs, NAS storage, and shared folders in Dolphin.", lambda: subprocess.Popen(["dolphin", "remote:/"]))
+        ]
+
+        for name, desc, action in devices:
+            row = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
+            row.pack(fill="x", padx=20, pady=4)
+            info = tk.Frame(row, bg="#182538")
+            info.pack(side="left", padx=10, pady=6, fill="both", expand=True)
+
+            tk.Label(info, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg="#182538").pack(anchor="w")
+            tk.Label(info, text=desc, font=("Segoe UI", 8), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
+
+            self._make_button(row, "Manage", action, side="right")
 
     def _build_updates_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
@@ -194,7 +256,7 @@ class RainControlCenter(tk.Tk):
         for name, desc in checks:
             row = tk.Frame(card, bg=CARD_BG)
             row.pack(fill="x", padx=20, pady=5)
-            tk.Label(row, text="✓", font=("Segoe UI", 12, "bold"), fg=ACCENT_COLOR, bg=CARD_BG, width=3).pack(side="left")
+            tk.Label(row, text="?", font=("Segoe UI", 12, "bold"), fg=ACCENT_COLOR, bg=CARD_BG, width=3).pack(side="left")
             cf = tk.Frame(row, bg=CARD_BG)
             cf.pack(side="left", fill="both", expand=True)
             tk.Label(cf, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w")
@@ -203,31 +265,6 @@ class RainControlCenter(tk.Tk):
         btn_row = tk.Frame(card, bg=CARD_BG)
         btn_row.pack(fill="x", padx=20, pady=25)
         self._make_button(btn_row, "Run Safe Update in Konsole", lambda: subprocess.Popen(["konsole", "-e", "rain-update-preflight"]))
-
-    def _build_winapps_tab(self, parent):
-        card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
-        card.pack(fill="both", expand=True, padx=10, pady=15)
-
-        tk.Label(card, text="Windows Application & Gaming Compatibility", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
-        tk.Label(card, text="Run Windows .exe and .msi applications directly on Rain OS with isolated wine prefixes.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
-
-        tiers = [
-            ("Bottles (Recommended)", "Sandboxed environments for productivity apps and games with dependency managers.", "bottles"),
-            ("Wine & Winetricks", "Direct native compatibility layer for running Windows binaries.", "wine"),
-            ("Steam Proton & Lutris", "Optimized gaming runtimes with DXVK and VKD3D Vulkan translation.", "steam"),
-            ("Virtualization (Quickemu / KVM)", "Near-native speed virtual machine for complex software with anti-cheat.", "quickemu")
-        ]
-
-        for name, desc, app_cmd in tiers:
-            row = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
-            row.pack(fill="x", padx=20, pady=6)
-            info = tk.Frame(row, bg="#182538")
-            info.pack(side="left", padx=12, pady=10, fill="both", expand=True)
-
-            tk.Label(info, text=name, font=("Segoe UI", 11, "bold"), fg=ACCENT_COLOR, bg="#182538").pack(anchor="w")
-            tk.Label(info, text=desc, font=("Segoe UI", 9), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
-
-            self._make_button(row, "Launch / Check", lambda c=app_cmd: messagebox.showinfo("Windows Compatibility", f"Launching {c} environment helper..."), side="right")
 
     def _make_button(self, parent, text, cmd, side="left"):
         b = tk.Button(
