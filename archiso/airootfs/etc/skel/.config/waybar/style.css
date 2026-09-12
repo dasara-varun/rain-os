@@ -1,0 +1,31 @@
+/* Rain OS Waybar Theme: Tokyo Night (Rain) */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 13px;
+}
+
+window#waybar {
+    background: rgba(26, 27, 38, 0.85);
+    color: #a9b1d6;
+    border-bottom: 2px solid #f7768e;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #a9b1d6;
+}
+
+#workspaces button.active {
+    color: #f7768e;
+    border-bottom: 2px solid #f7768e;
+}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    padding: 0 10px;
+    margin: 4px 2px;
+    background: #24283b;
+    border-radius: 6px;
+    color: #a9b1d6;
+}

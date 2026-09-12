@@ -125,6 +125,7 @@ class RainWelcomeApp(tk.Tk):
         actions_title.pack(anchor="w", padx=15, pady=(15, 10))
 
         self._create_btn(right_card, "🚀  Install Rain OS to Disk", self._run_installer, highlight=True)
+        self._create_btn(right_card, "🖵  Desktop & WM Selector", self._run_desktop_selector)
         self._create_btn(right_card, "⚙️  Rain Control Center", self._run_control_center)
         self._create_btn(right_card, "🖥️  Hardware & Driver Wizard", self._run_hardware_wizard)
         self._create_btn(right_card, "🛡️  System Recovery & Health", self._run_recovery)

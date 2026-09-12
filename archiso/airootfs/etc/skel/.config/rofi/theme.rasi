@@ -1,0 +1,24 @@
+/* Rain OS Rofi Theme: Tokyo Night (Rain) */
+* {
+    bg: #1a1b26;
+    fg: #a9b1d6;
+    card: #24283b;
+    accent: #f7768e;
+    border: #414868;
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    background-color: @bg;
+    border: 2px solid @accent;
+    border-radius: 12px;
+    width: 600px;
+    padding: 20px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color: #ffffff;
+    border-radius: 6px;
+}

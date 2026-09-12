@@ -32,5 +32,6 @@ file_permissions=(
   ["/usr/local/bin/rain-probe"]="0:0:755"
   ["/usr/local/bin/rain-display-manager"]="0:0:755"
   ["/usr/local/bin/rain-install-cosmic"]="0:0:755"
+  ["/usr/local/bin/rain-desktop-selector"]="0:0:755"
   ["/opt/rain"]="0:0:755"
 )
