@@ -75,7 +75,9 @@ jobs:
           cp branding/rain-wallpaper-4k.jpg out/
           cp branding/rain-logo-4k.png out/
           cp branding/rain-umbrella.svg out/
-          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD
+          git config --global --add safe.directory '*' || true
+          export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD || tar -czf out/rain-os-1.0.0-source.tar.gz --exclude='.git' --exclude='out' --exclude='work' --transform='s,^\.,rain-os-1.0.0,' .
           cd out
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
