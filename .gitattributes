@@ -1,0 +1,19 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.conf text eol=lf
+*.cfg text eol=lf
+packages.x86_64 text eol=lf
+bootstrap_packages.x86_64 text eol=lf
+profiledef.sh text eol=lf
+PKGBUILD text eol=lf
+Makefile text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.jpg binary
+*.png binary
+*.svg text eol=lf
+*.tar.gz binary
+*.pkg.tar.zst binary
+*.iso binary
