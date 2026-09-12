@@ -28,7 +28,8 @@ def generate_sbom(packages_file, output_file):
         ("rain-learning-hub", "1.0.0", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
         ("rain-recovery-tools", "1.0.0", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
         ("rain-update-preflight", "1.0.0", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
-        ("rain-probe", "1.0.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe")
+        ("rain-probe", "1.0.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe"),
+        ("rain-desktop-selector", "1.0.0", "GPL-3.0-or-later", "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes")
     ]
 
     for name, ver, lic, desc in rain_packages:

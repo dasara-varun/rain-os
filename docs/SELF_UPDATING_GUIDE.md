@@ -48,9 +48,21 @@ Forge + containers -> show Podman/Docker and development lessons
 | Emergency recovery | ISO/package release | Yes | Rain release team |
 | Core maintenance | Package and monthly ISO | Yes | Rain docs team |
 | Desktop guides | Desktop/profile updates | Yes | Environment maintainers |
+| Window managers & themes | Desktop selector / Omarchy updates | Yes | Rain OS desktop team |
 | Profile guides | Profile release | Yes | Profile owners |
 | External reference links | Index refresh | No guarantee | Rain docs team |
 | Community articles | Separate, labeled clearly | Optional | Community |
+
+### Desktop & Window Manager Switching (`rain-desktop-selector`)
+Users can launch the CachyOS-style selector from the application menu or command line:
+```text
+rain-desktop-selector                  # Launch interactive GUI
+rain-desktop-selector --list           # List available desktops and active session
+rain-desktop-selector --switch hyprland # Switch default session to Hyprland
+rain-desktop-selector --theme tokyo-night # Apply Omarchy theme across all desktop components
+rain-desktop-selector --wallpaper 1    # Set wallpaper to Flagship 4K Hero
+```
+Supported sessions include KDE Plasma 6 (flagship default), Hyprland, GNOME Shell, i3-wm, Sway, Niri, River, Gamescope+MangoHUD, COSMIC Desktop, and XFCE4.
 
 ## Trust and safety
 

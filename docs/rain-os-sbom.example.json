@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912174458",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260912200255",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T12:14:58.378573+00:00",
+    "timestamp": "2026-09-12T14:32:55.131537+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -123,6 +123,21 @@
         }
       ],
       "description": "High-performance native C hardware and display probe",
+      "origin": "rain-os-core-repository"
+    },
+    {
+      "type": "application",
+      "name": "rain-desktop-selector",
+      "version": "1.0.0",
+      "publisher": "Rain OS Contributors",
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ],
+      "description": "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes",
       "origin": "rain-os-core-repository"
     },
     {
@@ -1430,6 +1445,160 @@
     {
       "type": "operating-system",
       "name": "iwd",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "hyprland",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "waybar",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "rofi",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "swaybg",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "dunst",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "kitty",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "i3-wm",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "i3status",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "picom",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "sway",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "feh",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [

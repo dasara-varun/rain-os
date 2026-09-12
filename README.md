@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO"></a>
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml/badge.svg" alt="Validate Spec"></a>
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg" alt="Release Pipeline"></a>
+  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.0.0" alt="Release Pipeline"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg" alt="License: GPL 3.0"></a>
 </p>
 
@@ -35,13 +35,14 @@
 ```text
 +---------------------------------------------------------------------------+
 |                              Rain OS Desktop                              |
-|         KDE Plasma (Default)  •  COSMIC Profile  •  Multi-Screen          |
+|    KDE Plasma 6 (Flagship) • Hyprland • GNOME • i3 • Sway • Niri • River  |
+|    Gamescope+MangoHUD • COSMIC Desktop • XFCE4 • Multi-Screen Support     |
 +---------------------------------------------------------------------------+
 |          Native Linux Apps           |       Windows Compatibility        |
 |   Discover • Flatpak • AppImage      |  Bottles • Wine • Proton • Quickemu|
 +---------------------------------------------------------------------------+
 |                            Rain Integration Hub                           |
-|    Rain Welcome  •  Control Center  •  Learning Hub  •  Hardware Wizard   |
+|  Desktop Selector • Omarchy Engine • Control Center • Hardware Wizard     |
 +---------------------------------------------------------------------------+
 |                            Safety & Recovery                              |
 |     Btrfs Subvolumes (@, @home, @snapshots) • Pacman Pre-Snapshot Hook    |
@@ -52,13 +53,38 @@
 +---------------------------------------------------------------------------+
 ```
 
-### 1. App Store & Software Ecosystem
+### 1. CachyOS-Style Desktop & Window Manager Selector (`rain-desktop-selector`)
+- **1-Click Switching**: Seamlessly switch between or install full Desktop Environments and tiling compositors:
+  - **KDE Plasma 6**: Modern, translucent glass UI, customized as the default flagship.
+  - **Hyprland**: Dynamic Wayland tiling compositor with fluid animations, rounded corners, and blur.
+  - **GNOME Shell**: Distraction-free, gesture-driven workflow.
+  - **i3-wm**: Ultra-lightweight manual X11 tiling window manager.
+  - **Sway**: i3-compatible Wayland compositor with tear-free rendering.
+  - **Niri**: Modern scrollable-tiling Wayland compositor with endless horizontal ribbon workspace.
+  - **River**: Dynamic tiling Wayland compositor with rich tag-based workspace management.
+  - **Gamescope + MangoHUD**: SteamOS-style gaming session with integer scaling and performance HUD.
+  - **COSMIC Desktop**: System76 next-generation Rust-based desktop environment.
+  - **XFCE 4**: Classic, modular, low-overhead desktop for legacy hardware.
+
+### 2. Official Omarchy Themes Engine (22 Signature Themes)
+Integrated directly into the desktop selector, adapted from `omacom/omarchy` with unified palettes across Hyprland, Waybar, Rofi, Alacritty, and desktop settings:
+- `tokyo-night` • `catppuccin` • `catppuccin-latte` • `everforest` • `gruvbox` • `kanagawa`
+- `matte-black` • `nord` • `rose-pine` • `solitude` • `vantablack` • `ethereal`
+- `flexoki-light` • `hackerman` • `last-horizon` • `lumon` • `lupine` • `miasma`
+- `osaka-jade` • `retro-82` • `ristretto` • `white`
+
+### 3. 12 Pristine 4K Anime Rain Wallpapers
+- High-definition 3840×2160 UHD native wallpapers inspired by the Rain OS aesthetic.
+- Zero white cuts, zero watermarks, zero slogans, and zero blurriness.
+- 1-click wallpaper switcher built into `rain-desktop-selector` and KDE System Settings.
+
+### 4. App Store & Software Ecosystem
 - **KDE Discover**: Graphical Software Center for discovering and updating native packages and system add-ons.
 - **Flathub Integration**: One-click enablement for thousands of sandboxed Flatpak applications.
 - **Native AppImage Support**: `fuse2` compatibility layer pre-installed, allowing AppImages to launch instantly without manual terminal setup.
 - **Windows Apps & Gaming Bridge**: Direct control over Bottles, Wine, Steam Proton, and Quickemu/KVM virtual machine fallbacks directly in the Control Center.
 
-### 2. Multi-Screen & Device Synchronization
+### 5. Multi-Screen & Device Synchronization
 - **Multi-Monitor Display Manager**: Per-monitor refresh rates, fractional scaling (100%, 125%, 150%, 200%), monitor rotation, and primary display selection powered by `kscreen`.
 - **KDE Connect Integration**: Wirelessly link your Android or iOS smartphone to share clipboards, receive notifications, respond to messages, and transfer files.
 - **Local Network Sharing**: Samba and Avahi mDNS pre-configured for instant discovery of shared folders and NAS storage in Dolphin.
