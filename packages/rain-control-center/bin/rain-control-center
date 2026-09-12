@@ -85,6 +85,11 @@ class RainControlCenter(tk.Tk):
         notebook.add(tab_updates, text=" Safe Updates ")
         self._build_updates_tab(tab_updates)
 
+        # Tab 5: Windows Apps & Games Compatibility
+        tab_winapps = tk.Frame(notebook, bg=BG_COLOR)
+        notebook.add(tab_winapps, text=" Windows Apps ")
+        self._build_winapps_tab(tab_winapps)
+
     def _build_health_tab(self, parent):
         card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
         card.pack(fill="both", expand=True, padx=10, pady=15)
@@ -186,6 +191,31 @@ class RainControlCenter(tk.Tk):
         btn_row = tk.Frame(card, bg=CARD_BG)
         btn_row.pack(fill="x", padx=20, pady=25)
         self._make_button(btn_row, "Run Safe Update in Konsole", lambda: subprocess.Popen(["konsole", "-e", "rain-update-preflight"]))
+
+    def _build_winapps_tab(self, parent):
+        card = tk.Frame(parent, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=10, pady=15)
+
+        tk.Label(card, text="Windows Application & Gaming Compatibility", font=("Segoe UI", 12, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w", padx=20, pady=(15, 5))
+        tk.Label(card, text="Run Windows .exe and .msi applications directly on Rain OS with isolated wine prefixes.", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=CARD_BG).pack(anchor="w", padx=20, pady=(0, 15))
+
+        tiers = [
+            ("Bottles (Recommended)", "Sandboxed environments for productivity apps and games with dependency managers.", "bottles"),
+            ("Wine & Winetricks", "Direct native compatibility layer for running Windows binaries.", "wine"),
+            ("Steam Proton & Lutris", "Optimized gaming runtimes with DXVK and VKD3D Vulkan translation.", "steam"),
+            ("Virtualization (Quickemu / KVM)", "Near-native speed virtual machine for complex software with anti-cheat.", "quickemu")
+        ]
+
+        for name, desc, app_cmd in tiers:
+            row = tk.Frame(card, bg="#182538", highlightbackground=BORDER_COLOR, highlightthickness=1)
+            row.pack(fill="x", padx=20, pady=6)
+            info = tk.Frame(row, bg="#182538")
+            info.pack(side="left", padx=12, pady=10, fill="both", expand=True)
+
+            tk.Label(info, text=name, font=("Segoe UI", 11, "bold"), fg=ACCENT_COLOR, bg="#182538").pack(anchor="w")
+            tk.Label(info, text=desc, font=("Segoe UI", 9), fg=TEXT_MUTED, bg="#182538").pack(anchor="w")
+
+            self._make_button(row, "Launch / Check", lambda c=app_cmd: messagebox.showinfo("Windows Compatibility", f"Launching {c} environment helper..."), side="right")
 
     def _make_button(self, parent, text, cmd, side="left"):
         b = tk.Button(

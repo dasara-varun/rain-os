@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo "Running script syntax checks..."
-for f in scripts/*.sh repository/*.sh packages/*/*/* packages/*/bin/*; do
+for f in scripts/*.sh scripts/*.py repository/*.sh packages/*/*/* packages/*/bin/* apps/*/*.py; do
     if [[ -f "$f" ]]; then
         first_line="$(head -n 1 "$f" 2>/dev/null || true)"
         if [[ "$first_line" =~ python || "$f" =~ \.py$ ]]; then
