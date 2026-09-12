@@ -16,7 +16,8 @@
         "flow",
         "forge",
         "shield",
-        "pocket"
+        "pocket",
+        "cosmic"
       ]
     },
     {
@@ -28,7 +29,8 @@
         "flow",
         "forge",
         "shield",
-        "pocket"
+        "pocket",
+        "cosmic"
       ],
       "requires": [
         "btrfs"
@@ -43,7 +45,8 @@
         "flow",
         "forge",
         "shield",
-        "pocket"
+        "pocket",
+        "cosmic"
       ],
       "desktop_environments": [
         "kde"
