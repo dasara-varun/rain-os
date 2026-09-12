@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -70,7 +73,7 @@ jobs:
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
           tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
           cd out
-          sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json > SHA256SUMS
+          sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json packages/*.pkg.tar.zst > SHA256SUMS 2>/dev/null || sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json > SHA256SUMS
           echo ":: Release SHA256SUMS:"
           cat SHA256SUMS
 
@@ -99,18 +102,16 @@ jobs:
           name: release-assets
           path: release-assets
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Publish Official GitHub Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: |
-            release-assets/*.iso
-            release-assets/*.tar.gz
-            release-assets/*.pkg.tar.zst
-            release-assets/packages/*.pkg.tar.zst
-            release-assets/SHA256SUMS
-            release-assets/rain-os-sbom.json
-          generate_release_notes: true
-          draft: false
-          prerelease: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ":: Inspecting downloaded release assets:"
+          find release-assets -type f -exec ls -lh {} +
+          mapfile -t ASSETS < <(find release-assets -type f)
+          echo ":: Publishing ${#ASSETS[@]} release asset(s)..."
+          gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
+            --title "Rain OS $GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag || gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --clobber
+          echo ":: Successfully published GitHub Release $GITHUB_REF_NAME"
