@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy lupine */
+window#waybar {
+    background-color: rgba(250, 250, 250, 0.88);
+    color: #212121;
+    border-bottom: 2px solid #3264eb;
+}
+#workspaces button.active {
+    background-color: #3264eb;
+    color: #fafafa;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #d0d0d0;
+    color: #212121;
+}

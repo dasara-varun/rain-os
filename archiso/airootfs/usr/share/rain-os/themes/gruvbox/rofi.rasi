@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy gruvbox */
+* {
+    background: #282828;
+    foreground: #d4be98;
+    accent: #7daea3;
+    selected: #504945;
+    border-color: #7daea3;
+}

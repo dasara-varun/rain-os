@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy ethereal */
+* {
+    background: #060B1E;
+    foreground: #ffcead;
+    accent: #7d82d9;
+    selected: #252e56;
+    border-color: #7d82d9;
+}

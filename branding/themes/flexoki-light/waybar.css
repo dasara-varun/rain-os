@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy flexoki-light */
+window#waybar {
+    background-color: rgba(255, 252, 240, 0.88);
+    color: #100F0F;
+    border-bottom: 2px solid #205EA6;
+}
+#workspaces button.active {
+    background-color: #205EA6;
+    color: #FFFCF0;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #CECDC3;
+    color: #100F0F;
+}

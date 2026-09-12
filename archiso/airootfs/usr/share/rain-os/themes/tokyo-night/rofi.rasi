@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy tokyo-night */
+* {
+    background: #1a1b26;
+    foreground: #a9b1d6;
+    accent: #7aa2f7;
+    selected: #292e42;
+    border-color: #7aa2f7;
+}

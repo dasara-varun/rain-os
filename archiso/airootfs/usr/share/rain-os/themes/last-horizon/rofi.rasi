@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy last-horizon */
+* {
+    background: #0c0b0c;
+    foreground: #FAFCFB;
+    accent: #b59790;
+    selected: #584e51;
+    border-color: #b59790;
+}

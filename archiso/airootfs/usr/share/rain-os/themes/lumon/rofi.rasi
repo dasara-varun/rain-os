@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy lumon */
+* {
+    background: #16242d;
+    foreground: #d6e2ee;
+    accent: #8bc9eb;
+    selected: #243d56;
+    border-color: #8bc9eb;
+}

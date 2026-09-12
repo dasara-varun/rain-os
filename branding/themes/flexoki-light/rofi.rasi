@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy flexoki-light */
+* {
+    background: #FFFCF0;
+    foreground: #100F0F;
+    accent: #205EA6;
+    selected: #CECDC3;
+    border-color: #205EA6;
+}

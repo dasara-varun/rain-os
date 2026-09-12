@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy matte-black */
+* {
+    background: #121212;
+    foreground: #bebebe;
+    accent: #e68e0d;
+    selected: #2a2a2a;
+    border-color: #e68e0d;
+}

@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy everforest */
+window#waybar {
+    background-color: rgba(45, 53, 59, 0.88);
+    color: #d3c6aa;
+    border-bottom: 2px solid #7fbbb3;
+}
+#workspaces button.active {
+    background-color: #7fbbb3;
+    color: #2d353b;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #3d484d;
+    color: #d3c6aa;
+}

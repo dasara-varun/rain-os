@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy miasma */
+* {
+    background: #222222;
+    foreground: #c2c2b0;
+    accent: #78824b;
+    selected: #383838;
+    border-color: #78824b;
+}

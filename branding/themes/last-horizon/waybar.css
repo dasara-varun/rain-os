@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy last-horizon */
+window#waybar {
+    background-color: rgba(12, 11, 12, 0.88);
+    color: #FAFCFB;
+    border-bottom: 2px solid #b59790;
+}
+#workspaces button.active {
+    background-color: #b59790;
+    color: #0c0b0c;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #584e51;
+    color: #FAFCFB;
+}

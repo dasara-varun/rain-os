@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy catppuccin */
+* {
+    background: #1e1e2e;
+    foreground: #cdd6f4;
+    accent: #89b4fa;
+    selected: #45475a;
+    border-color: #89b4fa;
+}

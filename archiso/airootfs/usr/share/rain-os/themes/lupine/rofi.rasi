@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy lupine */
+* {
+    background: #fafafa;
+    foreground: #212121;
+    accent: #3264eb;
+    selected: #d0d0d0;
+    border-color: #3264eb;
+}

@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy retro-82 */
+window#waybar {
+    background-color: rgba(5, 24, 46, 0.88);
+    color: #f6dcac;
+    border-bottom: 2px solid #faa968;
+}
+#workspaces button.active {
+    background-color: #faa968;
+    color: #05182e;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #134e5a;
+    color: #f6dcac;
+}

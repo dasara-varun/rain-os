@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy hackerman */
+* {
+    background: #0B0C16;
+    foreground: #ddf7ff;
+    accent: #82FB9C;
+    selected: #1f253a;
+    border-color: #82FB9C;
+}

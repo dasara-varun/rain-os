@@ -1,0 +1,222 @@
+[
+  {
+    "id": "tokyo-night",
+    "name": "Tokyo Night",
+    "mode": "dark",
+    "background": "#1a1b26",
+    "foreground": "#a9b1d6",
+    "accent": "#7aa2f7",
+    "muted": "#414868",
+    "source": "omacom/omarchy/themes/tokyo-night"
+  },
+  {
+    "id": "catppuccin",
+    "name": "Catppuccin",
+    "mode": "dark",
+    "background": "#1e1e2e",
+    "foreground": "#cdd6f4",
+    "accent": "#89b4fa",
+    "muted": "#585b70",
+    "source": "omacom/omarchy/themes/catppuccin"
+  },
+  {
+    "id": "catppuccin-latte",
+    "name": "Catppuccin Latte",
+    "mode": "light",
+    "background": "#eff1f5",
+    "foreground": "#4c4f69",
+    "accent": "#1e66f5",
+    "muted": "#acb0be",
+    "source": "omacom/omarchy/themes/catppuccin-latte"
+  },
+  {
+    "id": "ethereal",
+    "name": "Ethereal",
+    "mode": "dark",
+    "background": "#060B1E",
+    "foreground": "#ffcead",
+    "accent": "#7d82d9",
+    "muted": "#6d7db6",
+    "source": "omacom/omarchy/themes/ethereal"
+  },
+  {
+    "id": "everforest",
+    "name": "Everforest",
+    "mode": "dark",
+    "background": "#2d353b",
+    "foreground": "#d3c6aa",
+    "accent": "#7fbbb3",
+    "muted": "#475258",
+    "source": "omacom/omarchy/themes/everforest"
+  },
+  {
+    "id": "flexoki-light",
+    "name": "Flexoki Light",
+    "mode": "light",
+    "background": "#FFFCF0",
+    "foreground": "#100F0F",
+    "accent": "#205EA6",
+    "muted": "#B7B5AC",
+    "source": "omacom/omarchy/themes/flexoki-light"
+  },
+  {
+    "id": "gruvbox",
+    "name": "Gruvbox",
+    "mode": "dark",
+    "background": "#282828",
+    "foreground": "#d4be98",
+    "accent": "#7daea3",
+    "muted": "#665c54",
+    "source": "omacom/omarchy/themes/gruvbox"
+  },
+  {
+    "id": "hackerman",
+    "name": "Hackerman",
+    "mode": "dark",
+    "background": "#0B0C16",
+    "foreground": "#ddf7ff",
+    "accent": "#82FB9C",
+    "muted": "#2d3450",
+    "source": "omacom/omarchy/themes/hackerman"
+  },
+  {
+    "id": "kanagawa",
+    "name": "Kanagawa",
+    "mode": "dark",
+    "background": "#1f1f28",
+    "foreground": "#dcd7ba",
+    "accent": "#dcd7ba",
+    "muted": "#54546D",
+    "source": "omacom/omarchy/themes/kanagawa"
+  },
+  {
+    "id": "last-horizon",
+    "name": "Last Horizon",
+    "mode": "dark",
+    "background": "#0c0b0c",
+    "foreground": "#FAFCFB",
+    "accent": "#b59790",
+    "muted": "#584e51",
+    "source": "omacom/omarchy/themes/last-horizon"
+  },
+  {
+    "id": "lumon",
+    "name": "Lumon",
+    "mode": "dark",
+    "background": "#16242d",
+    "foreground": "#d6e2ee",
+    "accent": "#8bc9eb",
+    "muted": "#304860",
+    "source": "omacom/omarchy/themes/lumon"
+  },
+  {
+    "id": "lupine",
+    "name": "Lupine",
+    "mode": "light",
+    "background": "#fafafa",
+    "foreground": "#212121",
+    "accent": "#3264eb",
+    "muted": "#9e9e9e",
+    "source": "omacom/omarchy/themes/lupine"
+  },
+  {
+    "id": "matte-black",
+    "name": "Matte Black",
+    "mode": "dark",
+    "background": "#121212",
+    "foreground": "#bebebe",
+    "accent": "#e68e0d",
+    "muted": "#333333",
+    "source": "omacom/omarchy/themes/matte-black"
+  },
+  {
+    "id": "miasma",
+    "name": "Miasma",
+    "mode": "dark",
+    "background": "#222222",
+    "foreground": "#c2c2b0",
+    "accent": "#78824b",
+    "muted": "#666666",
+    "source": "omacom/omarchy/themes/miasma"
+  },
+  {
+    "id": "nord",
+    "name": "Nord",
+    "mode": "dark",
+    "background": "#2e3440",
+    "foreground": "#d8dee9",
+    "accent": "#81a1c1",
+    "muted": "#4c566a",
+    "source": "omacom/omarchy/themes/nord"
+  },
+  {
+    "id": "osaka-jade",
+    "name": "Osaka Jade",
+    "mode": "dark",
+    "background": "#111c18",
+    "foreground": "#C1C497",
+    "accent": "#509475",
+    "muted": "#53685B",
+    "source": "omacom/omarchy/themes/osaka-jade"
+  },
+  {
+    "id": "retro-82",
+    "name": "Retro 82",
+    "mode": "dark",
+    "background": "#05182e",
+    "foreground": "#f6dcac",
+    "accent": "#faa968",
+    "muted": "#2a6b78",
+    "source": "omacom/omarchy/themes/retro-82"
+  },
+  {
+    "id": "ristretto",
+    "name": "Ristretto",
+    "mode": "dark",
+    "background": "#2c2525",
+    "foreground": "#e6d9db",
+    "accent": "#f38d70",
+    "muted": "#72696a",
+    "source": "omacom/omarchy/themes/ristretto"
+  },
+  {
+    "id": "rose-pine",
+    "name": "Rose Pine",
+    "mode": "light",
+    "background": "#faf4ed",
+    "foreground": "#575279",
+    "accent": "#56949f",
+    "muted": "#cecacd",
+    "source": "omacom/omarchy/themes/rose-pine"
+  },
+  {
+    "id": "solitude",
+    "name": "Solitude",
+    "mode": "dark",
+    "background": "#101315",
+    "foreground": "#cacccc",
+    "accent": "#798186",
+    "muted": "#4b4e55",
+    "source": "omacom/omarchy/themes/solitude"
+  },
+  {
+    "id": "vantablack",
+    "name": "Vantablack",
+    "mode": "dark",
+    "background": "#000000",
+    "foreground": "#ffffff",
+    "accent": "#8d8d8d",
+    "muted": "#7a7a7a",
+    "source": "omacom/omarchy/themes/vantablack"
+  },
+  {
+    "id": "white",
+    "name": "White",
+    "mode": "light",
+    "background": "#ffffff",
+    "foreground": "#000000",
+    "accent": "#6e6e6e",
+    "muted": "#808080",
+    "source": "omacom/omarchy/themes/white"
+  }
+]

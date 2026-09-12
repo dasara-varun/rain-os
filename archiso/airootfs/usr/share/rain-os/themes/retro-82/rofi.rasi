@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy retro-82 */
+* {
+    background: #05182e;
+    foreground: #f6dcac;
+    accent: #faa968;
+    selected: #134e5a;
+    border-color: #faa968;
+}

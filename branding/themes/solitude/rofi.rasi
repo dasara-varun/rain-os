@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy solitude */
+* {
+    background: #101315;
+    foreground: #cacccc;
+    accent: #798186;
+    selected: #343d41;
+    border-color: #798186;
+}

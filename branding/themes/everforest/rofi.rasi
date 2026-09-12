@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy everforest */
+* {
+    background: #2d353b;
+    foreground: #d3c6aa;
+    accent: #7fbbb3;
+    selected: #3d484d;
+    border-color: #7fbbb3;
+}

@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy osaka-jade */
+* {
+    background: #111c18;
+    foreground: #C1C497;
+    accent: #509475;
+    selected: #32473B;
+    border-color: #509475;
+}

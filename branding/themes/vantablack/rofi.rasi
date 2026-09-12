@@ -1,0 +1,8 @@
+/* Rain OS Rofi Theme - Adapted from Omarchy vantablack */
+* {
+    background: #000000;
+    foreground: #ffffff;
+    accent: #8d8d8d;
+    selected: #1a1a1a;
+    border-color: #8d8d8d;
+}

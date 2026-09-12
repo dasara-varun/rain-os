@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy white */
+window#waybar {
+    background-color: rgba(255, 255, 255, 0.88);
+    color: #000000;
+    border-bottom: 2px solid #6e6e6e;
+}
+#workspaces button.active {
+    background-color: #6e6e6e;
+    color: #ffffff;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #c0c0c0;
+    color: #000000;
+}

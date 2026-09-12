@@ -1,0 +1,14 @@
+/* Rain OS Waybar Theme - Adapted from Omarchy osaka-jade */
+window#waybar {
+    background-color: rgba(17, 28, 24, 0.88);
+    color: #C1C497;
+    border-bottom: 2px solid #509475;
+}
+#workspaces button.active {
+    background-color: #509475;
+    color: #111c18;
+}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    background-color: #32473B;
+    color: #C1C497;
+}
