@@ -10,7 +10,7 @@ Themes are environmental skins over one accessible component system. They change
 
 | Theme | Character | Palette direction | Best use |
 |---|---|---|---|
-| **Urban Rain** | Wet streets, window reflections, transit lines, quiet city light | Slate, electric blue, rain-glass cyan, amber streetlight | Default desktop and productivity |
+| **Urban Rain** | Dark slate, silver-white canopy panels, crimson inner accent, white handle | Slate (#1E222B), crimson (#E83E38), silver, crisp white | Default desktop and productivity |
 | **Rural Rain** | Fields, hedgerows, farm roads, soft overcast skies | Moss, clay, cloud grey, muted blue | Calm workspaces and low-distraction use |
 | **Coastal Rain** | Sea mist, rain on glass, grey horizon, lighthouse accents | Deep navy, sea teal, foam, warm beacon amber | Dark mode and widescreen desktops |
 | **Forest Rain** | Leaves, shaded paths, clean water, diffuse light | Pine, fern, water blue, soft stone | Focus and reading |
@@ -30,13 +30,14 @@ The umbrella mark remains the same across themes. Theme changes are reversible a
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | `rain-ink` | `#17212B` | `#F4F8FB` | Primary text |
-| `rain-sky` | `#1769AA` | `#72C7FF` | Links and primary action |
-| `rain-cloud` | `#E8F0F5` | `#1F2D38` | Surfaces |
-| `rain-water` | `#D3EEF7` | `#103B50` | Informational background |
+| `rain-slate` | `#F0F4F8` | `#1E222B` | Canvas and window backgrounds |
+| `rain-sky` | `#1769AA` | `#72C7FF` | Links and secondary action |
+| `rain-cloud` | `#E8F0F5` | `#282D37` | Surfaces and cards |
+| `rain-water` | `#D3EEF7` | `#383E4C` | Borders and informational background |
 | `rain-moss` | `#396A52` | `#8AC9A2` | Rural/forest accent |
 | `rain-coast` | `#0F4C5C` | `#63D5D0` | Coastal accent |
 | `rain-amber` | `#B66A00` | `#FFC45C` | Caution and performance |
-| `rain-red` | `#B42318` | `#FF8A80` | Destructive/error states |
+| `rain-red` | `#B42318` | `#E83E38` | Signature umbrella accent and active highlights |
 | `rain-green` | `#18794E` | `#65D69B` | Healthy/success |
 
 ## Typography, components, and accessibility
