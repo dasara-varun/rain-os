@@ -73,7 +73,7 @@ jobs:
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
           tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
           cd out
-          sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json packages/*.pkg.tar.zst > SHA256SUMS 2>/dev/null || sha256sum rain-os-*.iso rain-os-packages-*.tar.gz rain-os-sbom.json > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           echo ":: Release SHA256SUMS:"
           cat SHA256SUMS
 
@@ -121,7 +121,7 @@ jobs:
               fi
             fi
           done
-          sha256sum * packages/*.pkg.tar.zst 2>/dev/null > SHA256SUMS || sha256sum * > SHA256SUMS
+          find . -type f ! -name "SHA256SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           echo ":: Final Release SHA256SUMS:"
           cat SHA256SUMS
 
