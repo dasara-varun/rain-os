@@ -27,6 +27,17 @@ Rain OS operates on a strict **reuse-first strategy**: we do not invent custom p
 
 ---
 
+## Visual Identity & Design System
+
+Rain OS features a clean, modern aesthetic centered on the umbrella mark — symbolizing shelter, reliability, and user control.
+
+- **Logo Mark**: Modern silver-white umbrella canopy with a crimson/coral inner accent and white handle ([`branding/rain-logo.png`](branding/rain-logo.png)).
+- **Default Wallpaper**: Centered 1080p high-definition canvas on dark slate (`#1E222B`) ([`archiso/airootfs/usr/share/wallpapers/RainOS/`](archiso/airootfs/usr/share/wallpapers/RainOS/)).
+- **Icon Suite**: Full FreeDesktop hicolor hierarchy (`32x32` to `512x512`) integrated across application menus, dock panels, and desktop launchers.
+- **Theme Palette**: **Urban Rain** (dark slate `#1E222B`, card surfaces `#282D37`, active crimson accent `#E83E38`) and **Rural Rain** (calm overcast tones).
+
+---
+
 ## Repository Map
 
 | Path | Purpose |

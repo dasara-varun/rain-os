@@ -23,6 +23,11 @@ sha256sums=(
 package() {
   install -Dm644 "${srcdir}/rain-umbrella.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/rain-os.svg"
   install -Dm644 "${srcdir}/rain-logo.png" "${pkgdir}/usr/share/pixmaps/rain-os.png"
+  for s in 32 48 64 128 256 512; do
+    if [[ -f "${startdir:-.}/icons/${s}x${s}/rain-os.png" ]]; then
+      install -Dm644 "${startdir:-.}/icons/${s}x${s}/rain-os.png" "${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/rain-os.png"
+    fi
+  done
   install -Dm644 "${srcdir}/rain-urban.colors" "${pkgdir}/usr/share/color-schemes/RainUrban.colors"
   install -Dm644 "${srcdir}/rain-rural.colors" "${pkgdir}/usr/share/color-schemes/RainRural.colors"
 }

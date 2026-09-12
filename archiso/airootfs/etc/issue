@@ -8,6 +8,6 @@
  Rain OS 0.1.0 Core (\l)
  Shelter from complexity, without hiding the system.
 
- Welcome to the live environment. Default live user: rain / password: rain
- Type 'rain-first-run' or start the graphical installer from the desktop.
+ Welcome to the live environment. Default live user: liveuser (passwordless sudo)
+ Type 'rain-first-run' or launch 'Install Rain OS' directly from the desktop.
 
