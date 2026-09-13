@@ -187,6 +187,13 @@ Rain OS 1.2.1 features automated storage scan fallback (`archisosearchfilename`)
 
 ---
 
+## Problem Audit & Advancement Roadmap
+
+For a detailed analysis of build pipeline diagnostics, root-cause resolutions, iconography specifications, the transition to **COSMIC Desktop** as default, and the migration to `cosmic-store`, see:
+- [`docs/PROBLEMS_AND_ADVANCEMENTS.md`](docs/PROBLEMS_AND_ADVANCEMENTS.md): The master technical specification and gap analysis for Rain OS production readiness.
+
+---
+
 ## License & Provenance
 
 Rain OS source code, scripts, and original artwork are licensed under the [GNU General Public License v3.0](LICENSE). Upstream components, kernels, firmware, and packages adhere to their respective licenses as cataloged in [`manifests/PROVENANCE_LEDGER.csv`](manifests/PROVENANCE_LEDGER.csv).

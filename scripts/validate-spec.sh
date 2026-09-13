@@ -22,6 +22,7 @@ required=(
   docs/guide-index.schema.json
   docs/guide-index.example.json
   docs/USER_LEARNING_PATH.md
+  docs/PROBLEMS_AND_ADVANCEMENTS.md
   manifests/PACKAGES.md
   manifests/UPSTREAM_COMPONENTS.md
   manifests/PROVENANCE_LEDGER.csv
