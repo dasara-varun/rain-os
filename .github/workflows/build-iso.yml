@@ -68,16 +68,18 @@ jobs:
       - name: Bundle Package Repository & Generate Checksums
         run: |
           echo ":: Bundling Rain OS package repository..."
+          VERSION=$(grep '^iso_version=' archiso/profiledef.sh | cut -d'"' -f2)
+          echo ":: Detected Rain OS version: $VERSION"
           mkdir -p out/packages
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
-          tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
+          tar -czf "out/rain-os-packages-${VERSION}.tar.gz" -C repository/repo .
           echo ":: Copying branding assets and creating clean source archive..."
           cp branding/rain-wallpaper-4k.jpg out/
           cp branding/rain-logo-4k.png out/
           cp branding/rain-umbrella.svg out/
           git config --global --add safe.directory '*' || true
           export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD || tar -czf out/rain-os-1.0.0-source.tar.gz --exclude='.git' --exclude='out' --exclude='work' --transform='s,^\.,rain-os-1.0.0,' .
+          git archive --format=tar.gz --prefix="rain-os-${VERSION}/" -o "out/rain-os-${VERSION}-source.tar.gz" HEAD || tar -czf "out/rain-os-${VERSION}-source.tar.gz" --exclude='.git' --exclude='out' --exclude='work' --transform="s,^\.,rain-os-${VERSION}," .
           cd out
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS

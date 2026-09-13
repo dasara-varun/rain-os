@@ -113,10 +113,10 @@ echo ""
 echo -e "${BOLD}${CYAN}Graphics & Display Subsystem:${RESET}"
 if [[ -n "$gpu_lines" ]]; then
     while IFS= read -r line; do
-        echo -e "  ? ${line}"
+        echo -e "  - ${line}"
     done <<< "$gpu_lines"
 else
-    echo "  ? Integrated display / standard graphics controller detected."
+    echo "  - Integrated display / standard graphics controller detected."
 fi
 
 echo ""
@@ -147,7 +147,7 @@ fi
 echo ""
 echo -e "${BOLD}${CYAN}Network & Wireless:${RESET}"
 if [[ -n "$wifi_devs" ]]; then
-    echo -e "  ? ${wifi_devs}"
+    echo -e "  - ${wifi_devs}"
     if [[ "$has_broadcom_wl" -eq 1 ]]; then
         echo -e "  [${YELLOW}NOTICE${RESET}] Broadcom wireless chip detected. If Wi-Fi is inactive, install:"
         echo -e "           ${BOLD}sudo pacman -S broadcom-wl-dkms${RESET}"
@@ -155,7 +155,7 @@ if [[ -n "$wifi_devs" ]]; then
         echo -e "  [${GREEN}ACTIVE${RESET}] Wireless adapter supported by native Linux kernel modules."
     fi
 else
-    echo -e "  ? Ethernet / Standard network interfaces managed by NetworkManager."
+    echo -e "  - Ethernet / Standard network interfaces managed by NetworkManager."
 fi
 
 echo ""

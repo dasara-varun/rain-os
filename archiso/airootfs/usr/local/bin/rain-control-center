@@ -107,7 +107,7 @@ class RainControlCenter(tk.Tk):
 
         import platform
         vitals = [
-            ("Operating System", "Rain OS 1.1.0 (Arch Linux baseline)"),
+            ("Operating System", "Rain OS 1.2.0 (Arch Linux baseline)"),
             ("Active Kernel", platform.release()),
             ("System Architecture", platform.machine()),
             ("Telemetry & Tracking", "Strictly Disabled (Zero Telemetry)"),
@@ -256,7 +256,7 @@ class RainControlCenter(tk.Tk):
         for name, desc in checks:
             row = tk.Frame(card, bg=CARD_BG)
             row.pack(fill="x", padx=20, pady=5)
-            tk.Label(row, text="?", font=("Segoe UI", 12, "bold"), fg=ACCENT_COLOR, bg=CARD_BG, width=3).pack(side="left")
+            tk.Label(row, text="[OK]", font=("Segoe UI", 10, "bold"), fg=ACCENT_COLOR, bg=CARD_BG, width=3).pack(side="left")
             cf = tk.Frame(row, bg=CARD_BG)
             cf.pack(side="left", fill="both", expand=True)
             tk.Label(cf, text=name, font=("Segoe UI", 10, "bold"), fg=TEXT_COLOR, bg=CARD_BG).pack(anchor="w")

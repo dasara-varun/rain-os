@@ -2,10 +2,10 @@
 # shellcheck disable=SC2034
 
 iso_name="rain-os"
-iso_label="RAIN_110"
+iso_label="RAIN_120"
 iso_publisher="Rain OS Contributors <https://github.com/dasara-varun/rain-os>"
 iso_application="Rain OS Live & Installation Media"
-iso_version="1.1.0"
+iso_version="1.2.0"
 install_dir="rain"
 buildmodes=('iso')
 bootmodes=('bios.syslinux' 'uefi.systemd-boot')
@@ -21,6 +21,7 @@ file_permissions=(
   ["/usr/local/bin/rain-install-launcher"]="0:0:755"
   ["/usr/local/bin/rain-live-setup"]="0:0:755"
   ["/usr/local/bin/rain-control-center"]="0:0:755"
+  ["/usr/local/bin/rain-first-run"]="0:0:755"
   ["/usr/local/bin/rain-first-run-gui"]="0:0:755"
   ["/usr/local/bin/rain-btrfs-snapshot"]="0:0:755"
   ["/usr/local/bin/rain-hardware-report"]="0:0:755"

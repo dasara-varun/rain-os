@@ -49,8 +49,8 @@ cmd_rollback() {
     fi
     echo ""
     echo -e "${BOLD}Rollback Procedures:${RESET}"
-    echo "  ? If system boots: Choose previous kernel in boot menu (linux-lts)."
-    echo "  ? If root filesystem rollback is needed:"
+    echo "  - If system boots: Choose previous kernel in boot menu (linux-lts)."
+    echo "  - If root filesystem rollback is needed:"
     echo "    1. Boot from Rain OS Live USB"
     echo "    2. Mount your Btrfs top-level subvolume:"
     echo "       sudo mount -o subvolid=5 /dev/disk/by-label/RAIN_ROOT /mnt"

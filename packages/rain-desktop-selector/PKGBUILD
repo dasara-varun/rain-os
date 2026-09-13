@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-desktop-selector
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Rain OS Desktop Environment and Window Manager Selector"
 arch=('any')
@@ -17,6 +17,6 @@ sha256sums=(
 )
 
 package() {
-  install -Dm755 "/bin/rain-desktop-selector" "/usr/bin/rain-desktop-selector"
-  install -Dm644 "/rain-desktop-selector.desktop" "/usr/share/applications/rain-desktop-selector.desktop"
+  install -Dm755 "${srcdir}/bin/rain-desktop-selector" "${pkgdir}/usr/bin/rain-desktop-selector"
+  install -Dm644 "${srcdir}/rain-desktop-selector.desktop" "${pkgdir}/usr/share/applications/rain-desktop-selector.desktop"
 }

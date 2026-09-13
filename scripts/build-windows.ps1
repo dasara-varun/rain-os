@@ -17,12 +17,12 @@ $ErrorActionPreference = "Stop"
 
 function Write-Header {
     Write-Host ""
-    Write-Host "  _____       _             ____   _____ " -ForegroundColor Cyan
-    Write-Host " |  __ \     (_)           / __ \ / ____|" -ForegroundColor Cyan
-    Write-Host " | |__) |__ _ _ _ __ _____| |  | | (___  " -ForegroundColor Cyan
-    Write-Host " |  _  // _` | | '_ \____/| |  | |\___ \ " -ForegroundColor Cyan
-    Write-Host " | | \ \ (_| | | | | |    | |__| |____) |" -ForegroundColor Cyan
-    Write-Host " |_|  \_\__,_|_|_| |_|     \____/|_____/ " -ForegroundColor Cyan
+    Write-Host " ██████╗   █████╗  ██╗ ███╗   ██╗     ██████╗  ███████╗" -ForegroundColor Cyan
+    Write-Host " ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║    ██╔═══██╗ ██╔════╝" -ForegroundColor Cyan
+    Write-Host " ██████╔╝ ███████║ ██║ ██╔██╗ ██║    ██║   ██║ ███████╗" -ForegroundColor Cyan
+    Write-Host " ██╔══██╗ ██╔══██║ ██║ ██║╚██╗██║    ██║   ██║ ╚════██║" -ForegroundColor Cyan
+    Write-Host " ██║  ██║ ██║  ██║ ██║ ██║ ╚████║    ╚██████╔╝ ███████║" -ForegroundColor Cyan
+    Write-Host " ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═══╝     ╚═════╝  ╚══════╝" -ForegroundColor Cyan
     Write-Host ""
     Write-Host " Rain OS Windows Build Orchestrator" -ForegroundColor White
     Write-Host " ==========================================================" -ForegroundColor Gray

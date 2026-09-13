@@ -34,6 +34,41 @@ for i in $(seq 0 15); do
 done
 
 echo "=========================================================="
+echo "Preparing Rain OS airootfs configuration & services..."
+AIROOTFS="$PROFILE/airootfs"
+mkdir -p "$AIROOTFS/etc/systemd/system/graphical.target.wants"
+mkdir -p "$AIROOTFS/etc/systemd/system/multi-user.target.wants"
+mkdir -p "$AIROOTFS/etc/systemd/system/basic.target.wants"
+
+# Mask systemd-firstboot so boot never halts on console for timezone/locale
+ln -sf /dev/null "$AIROOTFS/etc/systemd/system/systemd-firstboot.service"
+
+# Pre-link timezone to UTC
+ln -sf /usr/share/zoneinfo/UTC "$AIROOTFS/etc/localtime"
+
+# Set default target to graphical desktop
+ln -sf /usr/lib/systemd/system/graphical.target "$AIROOTFS/etc/systemd/system/default.target"
+
+# Link SDDM display manager
+ln -sf /usr/lib/systemd/system/sddm.service "$AIROOTFS/etc/systemd/system/display-manager.service"
+ln -sf /usr/lib/systemd/system/sddm.service "$AIROOTFS/etc/systemd/system/graphical.target.wants/sddm.service"
+
+# Enable NetworkManager
+ln -sf /usr/lib/systemd/system/NetworkManager.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+
+# Enable rain-live-setup in basic.target
+ln -sf /etc/systemd/system/rain-live-setup.service "$AIROOTFS/etc/systemd/system/basic.target.wants/rain-live-setup.service"
+
+# Remove legacy/conflicting units
+rm -rf "$AIROOTFS/etc/systemd/system/getty@tty1.service.d" 2>/dev/null || true
+rm -f "$AIROOTFS/etc/systemd/system/multi-user.target.wants/display-manager.service" 2>/dev/null || true
+
+# Ensure permissions
+chmod 755 "$AIROOTFS/usr/local/bin"/* 2>/dev/null || true
+chmod 755 "$AIROOTFS/etc/skel/Desktop"/*.desktop 2>/dev/null || true
+chmod 750 "$AIROOTFS/etc/sudoers.d" 2>/dev/null || true
+chmod 440 "$AIROOTFS/etc/sudoers.d"/* 2>/dev/null || true
+
 echo "Starting Rain OS Archiso build..."
 echo "Profile directory: $PROFILE"
 echo "Output directory : $OUT"

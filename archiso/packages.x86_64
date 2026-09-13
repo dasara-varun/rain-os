@@ -96,3 +96,5 @@ i3status
 picom
 sway
 feh
+xorg-xwayland
+noto-fonts

@@ -17,7 +17,7 @@
 #include <sys/utsname.h>
 #include <sys/statvfs.h>
 
-#define RAIN_VERSION "1.0.0"
+#define RAIN_VERSION "1.2.0"
 
 typedef struct {
     char cpu_model[128];
@@ -246,7 +246,7 @@ int main(int argc, char *argv[]) {
         printf("  Multi-Display: %d active display connector%s detected\n",
                info.display_count, info.display_count == 1 ? "" : "s");
         for (int i = 0; i < info.display_count; i++) {
-            printf("    \033[32m?\033[0m %s\n", info.displays[i]);
+            printf("    \033[32m*\033[0m %s\n", info.displays[i]);
         }
         printf("\n\033[32mProbe completed in <1 ms.\033[0m\n");
     }

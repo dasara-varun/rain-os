@@ -7,9 +7,14 @@ USER_HOME="/home/$LIVE_USER"
 USER_DESKTOP="$USER_HOME/Desktop"
 
 if ! id "$LIVE_USER" >/dev/null 2>&1; then
-    useradd -m -g users -G wheel,video,audio,storage,network,power -s /bin/bash "$LIVE_USER"
+    useradd -m -g users -G wheel,video,audio,storage,network,power,autologin -s /bin/bash "$LIVE_USER"
+    passwd -d "$LIVE_USER" >/dev/null 2>&1 || true
     echo "$LIVE_USER:$LIVE_USER" | chpasswd >/dev/null 2>&1 || true
+    passwd -d root >/dev/null 2>&1 || true
     echo "root:rain" | chpasswd >/dev/null 2>&1 || true
+else
+    usermod -aG wheel,video,audio,storage,network,power,autologin "$LIVE_USER" 2>/dev/null || true
+    passwd -d "$LIVE_USER" >/dev/null 2>&1 || true
 fi
 
 # Ensure sudo rights without password for wheel

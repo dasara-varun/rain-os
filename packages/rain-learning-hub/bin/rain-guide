@@ -22,7 +22,7 @@ RED="\033[31m"
 RESET="\033[0m"
 
 cmd_list() {
-    echo -e "${BOLD}${CYAN}Rain OS Learning Hub ? Available Lessons${RESET}"
+    echo -e "${BOLD}${CYAN}Rain OS Learning Hub - Available Lessons${RESET}"
     echo "=========================================================="
     if [[ -d "$LESSONS_DIR" ]]; then
         for f in "$LESSONS_DIR"/*.md; do
@@ -132,7 +132,7 @@ cmd_status() {
 }
 
 cmd_doctor() {
-    echo -e "${BOLD}${CYAN}Rain OS Guide Doctor ? Health Check${RESET}"
+    echo -e "${BOLD}${CYAN}Rain OS Guide Doctor - Health Check${RESET}"
     echo "=========================================================="
     local errors=0
 

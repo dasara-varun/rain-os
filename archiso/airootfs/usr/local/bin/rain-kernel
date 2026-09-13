@@ -26,18 +26,18 @@ cmd_list() {
             if echo "$running_kernel" | grep -q "$kname"; then
                 marker=" ${GREEN}(RUNNING)${RESET}"
             fi
-            echo -e "  ? ${BOLD}${kname}${RESET}${marker}"
+            echo -e "  - ${BOLD}${kname}${RESET}${marker}"
             count=$((count + 1))
         fi
     done
     if [[ "$count" -eq 0 ]]; then
-        echo "  ? No kernels in /boot (Live ISO / container environment)"
+        echo "  - No kernels in /boot (Live ISO / container environment)"
     fi
 
     echo ""
     echo -e "${BOLD}Dual-Kernel Guarantee:${RESET}"
-    echo "  ? linux:      Rolling generic kernel with newest hardware drivers."
-    echo "  ? linux-lts:  Long-Term Support kernel for certified stability and fallback."
+    echo "  - linux:      Rolling generic kernel with newest hardware drivers."
+    echo "  - linux-lts:  Long-Term Support kernel for certified stability and fallback."
     echo ""
     echo "Commands:"
     echo "  rain-kernel set-default lts       Set Linux LTS as default boot kernel"

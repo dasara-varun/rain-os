@@ -1,13 +1,12 @@
-  _____       _             ____   _____ 
- |  __ \     (_)           / __ \ / ____|
- | |__) |__ _ _ _ __ _____| |  | | (___  
- |  _  // _` | | '_ \____/| |  | |\___ \ 
- | | \ \ (_| | | | | |    | |__| |____) |
- |_|  \_\__,_|_|_| |_|     \____/|_____/ 
-                                         
- Rain OS 1.1.0 Core (\l)
+ ██████╗   █████╗  ██╗ ███╗   ██╗     ██████╗  ███████╗
+ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║    ██╔═══██╗ ██╔════╝
+ ██████╔╝ ███████║ ██║ ██╔██╗ ██║    ██║   ██║ ███████╗
+ ██╔══██╗ ██╔══██║ ██║ ██║╚██╗██║    ██║   ██║ ╚════██║
+ ██║  ██║ ██║  ██║ ██║ ██║ ╚████║    ╚██████╔╝ ███████║
+ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═══╝     ╚═════╝  ╚══════╝
+
+ Rain OS 1.2.0 Core (\l)
  Shelter from complexity, without hiding the system.
 
  Welcome to the live environment. Default live user: liveuser (passwordless sudo)
- Type 'rain-first-run' or launch 'Install Rain OS' directly from the desktop.
-
+ Type 'rain-desktop-selector' or 'rain-control-center' from terminal or desktop.
