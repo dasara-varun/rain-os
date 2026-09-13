@@ -9,9 +9,9 @@ windowPlacement: center
 strings:
     productName:         "Rain OS"
     shortProductName:    "Rain"
-    version:             "1.2.0"
+    version:             "1.2.1"
     shortVersion:        "1.2"
-    versionedName:       "Rain OS 1.2.0 (Core)"
+    versionedName:       "Rain OS 1.2.1 (Core)"
     shortVersionedName:  "Rain OS 1.2"
     bootloaderEntryName: "Rain OS"
     productUrl:          "https://github.com/dasara-varun/rain-os"

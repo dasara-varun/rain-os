@@ -17,7 +17,7 @@
 #include <sys/utsname.h>
 #include <sys/statvfs.h>
 
-#define RAIN_VERSION "1.2.0"
+#define RAIN_VERSION "1.2.1"
 
 typedef struct {
     char cpu_model[128];

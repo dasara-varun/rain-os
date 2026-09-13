@@ -613,7 +613,15 @@ class DesktopSelectorGUI(tk.Tk):
         if manifest_path and os.path.exists(manifest_path):
             try:
                 with open(manifest_path, "r", encoding="utf-8") as f:
-                    themes_data = json.load(f)
+                    raw_data = json.load(f)
+                    if isinstance(raw_data, list):
+                        for item in raw_data:
+                            if isinstance(item, dict):
+                                tid = item.get("id") or item.get("name")
+                                if tid:
+                                    themes_data[tid] = item
+                    elif isinstance(raw_data, dict):
+                        themes_data = raw_data
             except Exception:
                 pass
 
@@ -653,6 +661,12 @@ class DesktopSelectorGUI(tk.Tk):
             left_info = tk.Frame(c_inner, bg=CARD_BG)
             left_info.pack(side="left", fill="both", expand=True)
 
+            bg_col = colors.get("bg", colors.get("background", "#000000"))
+            card_col = colors.get("card", colors.get("muted", "#111111"))
+            prim_col = colors.get("primary", colors.get("foreground", "#ffffff"))
+            acc_col = colors.get("accent", "#e83e38")
+            border_col = colors.get("active_border", colors.get("accent", "#e83e38"))
+
             tk.Label(
                 left_info,
                 text=colors.get("name", theme_id),
@@ -663,7 +677,7 @@ class DesktopSelectorGUI(tk.Tk):
 
             tk.Label(
                 left_info,
-                text=f"Theme ID: {theme_id} | Accent: {colors.get('accent')} | BG: {colors.get('bg')}",
+                text=f"Theme ID: {theme_id} | Accent: {acc_col} | BG: {bg_col}",
                 font=("Segoe UI", 8),
                 fg=TEXT_MUTED,
                 bg=CARD_BG
@@ -674,11 +688,11 @@ class DesktopSelectorGUI(tk.Tk):
             swatch_frame.pack(anchor="w")
 
             for label, color_code in [
-                ("BG", colors.get("bg", "#000000")),
-                ("Card", colors.get("card", "#111111")),
-                ("Primary", colors.get("primary", "#ffffff")),
-                ("Accent", colors.get("accent", "#e83e38")),
-                ("Border", colors.get("active_border", "#e83e38"))
+                ("BG", bg_col),
+                ("Card", card_col),
+                ("Primary", prim_col),
+                ("Accent", acc_col),
+                ("Border", border_col)
             ]:
                 s_box = tk.Frame(swatch_frame, bg=CARD_BG)
                 s_box.pack(side="left", padx=(0, 10))

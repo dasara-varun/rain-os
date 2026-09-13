@@ -107,7 +107,7 @@ class RainControlCenter(tk.Tk):
 
         import platform
         vitals = [
-            ("Operating System", "Rain OS 1.0.0 (Arch Linux baseline)"),
+            ("Operating System", "Rain OS 1.2.1 (Arch Linux baseline)"),
             ("Active Kernel", platform.release()),
             ("System Architecture", platform.machine()),
             ("Telemetry & Tracking", "Strictly Disabled (Zero Telemetry)"),

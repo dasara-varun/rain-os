@@ -13,6 +13,13 @@ if command -v calamares >/dev/null 2>&1; then
         exec calamares "$@"
     fi
 elif command -v archinstall >/dev/null 2>&1; then
+    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+        if command -v konsole >/dev/null 2>&1; then
+            exec konsole --new-window -e sudo archinstall "$@"
+        elif command -v xterm >/dev/null 2>&1; then
+            exec xterm -e sudo archinstall "$@"
+        fi
+    fi
     if [ "$(id -u)" -ne 0 ]; then
         exec sudo archinstall "$@"
     else

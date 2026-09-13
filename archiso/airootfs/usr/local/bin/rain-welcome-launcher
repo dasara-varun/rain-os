@@ -2,6 +2,12 @@
 # Rain OS Live Desktop Welcome Launcher
 set -euo pipefail
 
+if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if command -v rain-first-run-gui >/dev/null 2>&1; then
+        exec rain-first-run-gui "$@"
+    fi
+fi
+
 if command -v rain-first-run >/dev/null 2>&1; then
     exec rain-first-run "$@"
 elif [[ -f /usr/share/rain/welcome.txt ]]; then

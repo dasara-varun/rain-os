@@ -33,9 +33,12 @@ if [ -d "$USER_DESKTOP" ]; then
     chmod +x "$USER_DESKTOP"/*.desktop 2>/dev/null || true
 fi
 
-# Autostart Rain Welcome on first login
+# Autostart Rain Desktop Selector and Welcome on first login
 AUTOSTART_DIR="$USER_HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
+if [ -f /usr/share/applications/rain-desktop-selector.desktop ]; then
+    cp /usr/share/applications/rain-desktop-selector.desktop "$AUTOSTART_DIR/"
+fi
 if [ -f /usr/share/applications/rain-welcome.desktop ]; then
     cp /usr/share/applications/rain-welcome.desktop "$AUTOSTART_DIR/"
 fi
