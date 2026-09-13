@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-control-center
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Rain OS Control Center for health, profiles, kernels, and update safety"
 arch=('any')

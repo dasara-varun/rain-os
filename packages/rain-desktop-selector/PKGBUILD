@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-desktop-selector
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Rain OS Desktop Environment and Window Manager Selector"
 arch=('any')

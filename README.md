@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO"></a>
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml/badge.svg" alt="Validate Spec"></a>
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.0.0" alt="Release Pipeline"></a>
+  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.1.0" alt="Release Pipeline"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg" alt="License: GPL 3.0"></a>
 </p>
 
@@ -153,53 +153,36 @@ sudo ./scripts/build-iso.sh
 ## Releases & Package Distribution
 
 ### Official Version Releases & Tags
-Releases are cryptographically signed and tagged with semantic versioning (`v1.0.0`, `v1.1.0`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
+Releases are cryptographically signed and tagged with semantic versioning (`v1.1.0`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
 
 ```bash
-# Tag and trigger a commercial release
-git tag -a v1.0.0 -m "Rain OS Version 1.0.0 Production Release"
-git push origin v1.0.0
+# Tag and trigger a release
+git tag -a v1.1.0 -m "Rain OS Version 1.1.0 Production Release"
+git push origin v1.1.0
 ```
 
 ### Released Assets & Manifests
 Every official release provides the following downloadable artifacts:
-1. **`rain-os-1.0.0-x86_64.iso`**: The full bootable live distribution ISO with Calamares graphical installer, hardware drivers, KDE Plasma 6, COSMIC profile, and universal app ecosystem.
-2. **`rain-os-1.0.0-source.tar.gz`**: Full, auditable source code repository tree for clean offline builds and open inspection.
-3. **`rain-os-packages-1.0.0.tar.gz`**: Archive containing the compiled Rain OS local package repository (`rain.db.tar.zst`) and all pre-built `.pkg.tar.zst` packages.
-4. **`rain-wallpaper-4k.jpg`**: Official 4K Ultra-HD default wallpaper (3840×2160, `#1E222B` Urban Rain palette).
+1. **`rain-os-1.1.0-x86_64.iso`**: The full bootable live distribution ISO with Calamares graphical installer, hardware drivers, KDE Plasma 6, COSMIC profile, universal boot media auto-detection, and universal app ecosystem.
+2. **`rain-os-1.1.0-source.tar.gz`**: Full, auditable source code repository tree for clean offline builds and open inspection.
+3. **`rain-os-packages-1.1.0.tar.gz`**: Archive containing the compiled Rain OS local package repository (`rain.db.tar.zst`) and all pre-built `.pkg.tar.zst` packages.
+4. **`rain-wallpaper-4k.jpg`**: Official 4K Ultra-HD default wallpaper (3840×2160, Rainy Shibuya Bus Stop).
 5. **`rain-logo-4k.png`**: High-resolution 4096×4096 transparent master umbrella emblem.
 6. **`rain-umbrella.svg`**: Scalable vector master logo and desktop application icon.
 7. **`rain-os-sbom.json`**: CycloneDX v1.5 Software Bill of Materials cataloging all bundled software, libraries, and open-source licenses.
 8. **`SHA256SUMS` & `SHA512SUMS`**: SHA-256 and SHA-512 cryptographic hashes for verifying file integrity before flashing.
-9. **Standalone Packages (`*.pkg.tar.zst`)**:
-   - `rain-branding`: Icons, 4K wallpapers, and color schemes
-   - `rain-control-center`: Unified GUI control center & profile manager
-   - `rain-first-run`: Onboarding wizard and hardware detector
-   - `rain-learning-hub`: Interactive offline guides and `rain-guide`
-   - `rain-recovery-tools`: Btrfs rollback guide and diagnostic bundler
-   - `rain-update-preflight`: Pre-transaction snapshot and kernel safety checks
-   - `rain-probe`: High-performance native C hardware & display probe
 
-### CI/CD Reliability & Release Engineering
-All historical GitHub Actions workflow bottlenecks have been diagnosed and permanently resolved:
-- **Two-Stage Container Pipeline**: Split build and release execution into an isolated privileged Arch Linux build container and a GitHub-native Ubuntu runner with authenticated GitHub API integration.
-- **Single Direct ISO Delivery**: Implemented high-efficiency SquashFS `xz -Xbcj x86 -b 1M` compression and trimmed multilib bloat so the live image stays safely beneath GitHub Release's 2.0 GiB limit for single-file downloading and flashing.
-- **Automated QEMU Smoke Boot Verification**: Headless 35-second smoke boot validation executes on every ISO build to ensure the kernel, initramfs, and systemd reach user space without panics.
-- **Defensive Checksum Generation**: File-filtered cryptographic hashing (`find . -type f ! -name "SHA*SUMS"`) guarantees clean checksum manifests without directory traversal errors.
-
-### Installing Packages on Existing Systems
-```bash
-# Extract the repository archive or install individual packages directly:
-sudo pacman -U packages/rain-control-center-1.0.0-1-any.pkg.tar.zst
-sudo pacman -U packages/rain-probe-1.0.0-1-x86_64.pkg.tar.zst
-```
+### Universal Bootloader Resilience
+Rain OS 1.1.0 features automated storage scan fallback (`archisosearchfilename`):
+- **Universal Flashing Compatibility**: Works effortlessly whether flashed via Rufus in **ISO Image Mode**, Rufus in **DD Image Mode**, **Ventoy**, or direct `dd`.
+- **Intel LPSS / IRQ Conflict Protection**: Includes `irqpoll` and dedicated Safe Mode boot entries (`03-rain-compatibility.conf`) protecting newer Intel Core and Core Ultra laptop platforms from interrupt storms.
 
 ### Flashing to USB
-- **Ventoy**: Simply copy `rain-os-1.0.0-x86_64.iso` to your Ventoy USB drive.
-- **Rufus (Windows)**: Select the ISO, choose Partition Scheme `GPT` or `MBR`, and select **DD Image mode** when prompted.
+- **Ventoy**: Simply copy `rain-os-1.1.0-x86_64.iso` to your Ventoy USB drive.
+- **Rufus (Windows)**: Select the ISO, choose Partition Scheme `GPT` or `MBR`, and click Start (both ISO mode and DD mode are fully supported).
 - **Linux (`dd`)**:
   ```bash
-  sudo dd if=rain-os-1.0.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
+  sudo dd if=rain-os-1.1.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
   ```
 
 ---

@@ -1,7 +1,7 @@
 NAME="Rain OS"
-PRETTY_NAME="Rain OS 1.0.0 (Core)"
-VERSION="1.0.0 (Core)"
-VERSION_ID=1.0.0
+PRETTY_NAME="Rain OS 1.1.0 (Core)"
+VERSION="1.1.0 (Core)"
+VERSION_ID=1.1.0
 ID=rain-os
 ID_LIKE=arch
 BUILD_ID=rolling

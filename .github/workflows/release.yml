@@ -69,16 +69,18 @@ jobs:
       - name: Bundle Package Repository & Generate Checksums
         run: |
           echo ":: Bundling Rain OS package repository..."
+          VERSION=$(grep '^iso_version=' archiso/profiledef.sh | cut -d'"' -f2)
+          echo ":: Detected Rain OS version: $VERSION"
           mkdir -p out/packages
           cp repository/repo/*.pkg.tar.zst out/packages/ 2>/dev/null || true
-          tar -czf out/rain-os-packages-1.0.0.tar.gz -C repository/repo .
+          tar -czf "out/rain-os-packages-${VERSION}.tar.gz" -C repository/repo .
           echo ":: Copying branding assets and creating clean source archive..."
           cp branding/rain-wallpaper-4k.jpg out/
           cp branding/rain-logo-4k.png out/
           cp branding/rain-umbrella.svg out/
           git config --global --add safe.directory '*' || true
           export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-          git archive --format=tar.gz --prefix=rain-os-1.0.0/ -o out/rain-os-1.0.0-source.tar.gz HEAD || tar -czf out/rain-os-1.0.0-source.tar.gz --exclude='.git' --exclude='out' --exclude='work' --transform='s,^\.,rain-os-1.0.0,' .
+          git archive --format=tar.gz --prefix="rain-os-${VERSION}/" -o "out/rain-os-${VERSION}-source.tar.gz" HEAD || tar -czf "out/rain-os-${VERSION}-source.tar.gz" --exclude='.git' --exclude='out' --exclude='work' --transform="s,^\.,rain-os-${VERSION}," .
           cd out
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
@@ -128,15 +130,15 @@ jobs:
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
           cat SHA256SUMS
 
-          cat << 'EOF' > /tmp/release_notes.md
-          ## Rain OS Version 1.0.0 Commercial Production Release
+          cat << EOF > /tmp/release_notes.md
+          ## Rain OS Version ${GITHUB_REF_NAME#v} Production Release
 
           **Shelter from complexity, without hiding the system.**
 
           ### Official Release Assets
-          - `rain-os-1.0.0-x86_64.iso`: Single bootable live installation medium with Plasma 6 Desktop, CachyOS-style Desktop & WM Selector, Omarchy Themes, Calamares installer, and dual-kernel stack.
-          - `rain-os-1.0.0-source.tar.gz`: Complete, clean source code repository tree for offline builds and auditable verification.
-          - `rain-os-packages-1.0.0.tar.gz`: Pre-built custom Rain OS pacman package repository archive.
+          - \`rain-os-${GITHUB_REF_NAME#v}-x86_64.iso\`: Single bootable live installation medium with Plasma 6 Desktop, CachyOS-style Desktop & WM Selector, Omarchy Themes, Calamares installer, and dual-kernel stack.
+          - \`rain-os-${GITHUB_REF_NAME#v}-source.tar.gz\`: Complete, clean source code repository tree for offline builds and auditable verification.
+          - \`rain-os-packages-${GITHUB_REF_NAME#v}.tar.gz\`: Pre-built custom Rain OS pacman package repository archive.
           - `rain-wallpaper-4k.jpg`: Official 4K high-resolution default desktop wallpaper (3840x2160).
           - `rain-logo-4k.png`: Official 4K transparent branding emblem (3840x2160).
           - `rain-umbrella.svg`: Scalable vector emblem and application icon.

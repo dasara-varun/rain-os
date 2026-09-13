@@ -2,10 +2,10 @@
 # shellcheck disable=SC2034
 
 iso_name="rain-os"
-iso_label="RAIN_100"
+iso_label="RAIN_110"
 iso_publisher="Rain OS Contributors <https://github.com/dasara-varun/rain-os>"
 iso_application="Rain OS Live & Installation Media"
-iso_version="1.0.0"
+iso_version="1.1.0"
 install_dir="rain"
 buildmodes=('iso')
 bootmodes=('bios.syslinux' 'uefi.systemd-boot')

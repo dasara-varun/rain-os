@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "guide_version": "1.0.0",
-  "minimum_rain_version": "1.0.0",
+  "guide_version": "1.1.0",
+  "minimum_rain_version": "1.1.0",
   "generated_at": "RELEASE_BUILD_TIME",
-  "bundle_url": "https://docs.example.invalid/rain-guide-1.0.0.tar.zst",
+  "bundle_url": "https://docs.example.invalid/rain-guide-1.1.0.tar.zst",
   "bundle_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-  "signature_url": "https://docs.example.invalid/rain-guide-1.0.0.sig",
+  "signature_url": "https://docs.example.invalid/rain-guide-1.1.0.sig",
   "pages": [
     {
       "id": "core.update",

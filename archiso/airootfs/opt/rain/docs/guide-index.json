@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "guide_version": "1.0.0",
-  "minimum_rain_version": "1.0.0",
-  "generated_at": "2026-09-12T12:00:00Z",
-  "bundle_url": "https://github.com/dasara-varun/rain-os/releases/download/v1.0.0/rain-guide-1.0.0.tar.zst",
+  "guide_version": "1.1.0",
+  "minimum_rain_version": "1.1.0",
+  "generated_at": "2026-09-13T12:00:00Z",
+  "bundle_url": "https://github.com/dasara-varun/rain-os/releases/download/v1.1.0/rain-guide-1.1.0.tar.zst",
   "bundle_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "signature_url": "https://github.com/dasara-varun/rain-os/releases/download/v1.0.0/rain-guide-1.0.0.sig",
+  "signature_url": "https://github.com/dasara-varun/rain-os/releases/download/v1.1.0/rain-guide-1.1.0.sig",
   "pages": [
     {
       "id": "welcome.start",
