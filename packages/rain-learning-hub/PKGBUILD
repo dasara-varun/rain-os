@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-learning-hub
-pkgver=1.2.1
+pkgver=1.3.0
 pkgrel=1
 pkgdesc="Rain OS offline learning curriculum, state-aware guides, and lesson viewer"
 arch=('any')

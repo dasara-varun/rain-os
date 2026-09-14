@@ -22,14 +22,14 @@ def generate_sbom(packages_file, output_file):
     components = []
     # Rain OS Core Packages
     rain_packages = [
-        ("rain-branding", "1.2.1", "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
-        ("rain-first-run", "1.2.1", "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
-        ("rain-control-center", "1.2.1", "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
-        ("rain-learning-hub", "1.2.1", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
-        ("rain-recovery-tools", "1.2.1", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
-        ("rain-update-preflight", "1.2.1", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
-        ("rain-probe", "1.2.1", "GPL-3.0-or-later", "High-performance native C hardware and display probe"),
-        ("rain-desktop-selector", "1.2.1", "GPL-3.0-or-later", "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes")
+        ("rain-branding", "1.3.0", "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
+        ("rain-first-run", "1.3.0", "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
+        ("rain-control-center", "1.3.0", "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
+        ("rain-learning-hub", "1.3.0", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
+        ("rain-recovery-tools", "1.3.0", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
+        ("rain-update-preflight", "1.3.0", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
+        ("rain-probe", "1.3.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe"),
+        ("rain-desktop-selector", "1.3.0", "GPL-3.0-or-later", "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes")
     ]
 
     for name, ver, lic, desc in rain_packages:

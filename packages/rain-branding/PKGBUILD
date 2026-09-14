@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-branding
-pkgver=1.2.1
+pkgver=1.3.0
 pkgrel=1
 pkgdesc="Rain OS branding assets, color schemes, and desktop identity"
 arch=('any')
