@@ -19,17 +19,28 @@ def generate_sbom(packages_file, output_file):
 
     now = datetime.now(timezone.utc).isoformat()
 
+    # Detect current Rain OS version from profiledef.sh
+    version = "1.3.1"
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    profile_path = os.path.join(root_dir, "archiso", "profiledef.sh")
+    if os.path.exists(profile_path):
+        with open(profile_path, "r", encoding="utf-8") as pf:
+            for line in pf:
+                if line.startswith("iso_version="):
+                    version = line.split("=")[1].strip().strip('"').strip("'")
+                    break
+
     components = []
     # Rain OS Core Packages
     rain_packages = [
-        ("rain-branding", "1.3.0", "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
-        ("rain-first-run", "1.3.0", "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
-        ("rain-control-center", "1.3.0", "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
-        ("rain-learning-hub", "1.3.0", "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
-        ("rain-recovery-tools", "1.3.0", "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
-        ("rain-update-preflight", "1.3.0", "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
-        ("rain-probe", "1.3.0", "GPL-3.0-or-later", "High-performance native C hardware and display probe"),
-        ("rain-desktop-selector", "1.3.0", "GPL-3.0-or-later", "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes")
+        ("rain-branding", version, "GPL-3.0-or-later", "Rain OS visual assets, wallpapers, and desktop themes"),
+        ("rain-first-run", version, "GPL-3.0-or-later", "Welcome assistant, baseline hardware inspector, and onboarding"),
+        ("rain-control-center", version, "GPL-3.0-or-later", "Unified system control center, profiles, and software hub"),
+        ("rain-learning-hub", version, "GPL-3.0-or-later", "Offline curriculum, signed guide index, and rain-guide viewer"),
+        ("rain-recovery-tools", version, "GPL-3.0-or-later", "Health diagnostics, log secret scrubber, and Btrfs rollback guide"),
+        ("rain-update-preflight", version, "GPL-3.0-or-later", "Pre-transaction safety checks and snapshot verifier"),
+        ("rain-probe", version, "GPL-3.0-or-later", "High-performance native C hardware and display probe"),
+        ("rain-desktop-selector", version, "GPL-3.0-or-later", "CachyOS-style Desktop Environment and Window Manager Selector with Omarchy themes")
     ]
 
     for name, ver, lic, desc in rain_packages:

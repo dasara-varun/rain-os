@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260912200255",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260914172635",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-12T14:32:55.131537+00:00",
+    "timestamp": "2026-09-14T11:56:35.303362+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -23,7 +23,7 @@
     {
       "type": "application",
       "name": "rain-branding",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -38,7 +38,7 @@
     {
       "type": "application",
       "name": "rain-first-run",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -53,7 +53,7 @@
     {
       "type": "application",
       "name": "rain-control-center",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -68,7 +68,7 @@
     {
       "type": "application",
       "name": "rain-learning-hub",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -83,7 +83,7 @@
     {
       "type": "application",
       "name": "rain-recovery-tools",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -98,7 +98,7 @@
     {
       "type": "application",
       "name": "rain-update-preflight",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -113,7 +113,7 @@
     {
       "type": "application",
       "name": "rain-probe",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -128,7 +128,7 @@
     {
       "type": "application",
       "name": "rain-desktop-selector",
-      "version": "1.0.0",
+      "version": "1.3.1",
       "publisher": "Rain OS Contributors",
       "licenses": [
         {
@@ -184,7 +184,133 @@
     },
     {
       "type": "operating-system",
-      "name": "linux-firmware",
+      "name": "linux-firmware-whence",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-amdgpu",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-intel",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-realtek",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-broadcom",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-atheros",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-amd",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-mediatek",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-marvell",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "linux-firmware-qcom",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -296,6 +422,48 @@
     },
     {
       "type": "operating-system",
+      "name": "sof-firmware",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "alsa-firmware",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "alsa-ucm-conf",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
       "name": "plasma-desktop",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -352,21 +520,7 @@
     },
     {
       "type": "operating-system",
-      "name": "konsole",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "kate",
+      "name": "alacritty",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -604,20 +758,6 @@
     },
     {
       "type": "operating-system",
-      "name": "okular",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "firefox",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -633,20 +773,6 @@
     {
       "type": "operating-system",
       "name": "archlinux-keyring",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "reflector",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -716,20 +842,6 @@
     },
     {
       "type": "operating-system",
-      "name": "vim",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "nano",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -745,20 +857,6 @@
     {
       "type": "operating-system",
       "name": "htop",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "btop",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -842,20 +940,6 @@
     },
     {
       "type": "operating-system",
-      "name": "fwupd",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "power-profiles-daemon",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -899,34 +983,6 @@
     {
       "type": "operating-system",
       "name": "lm_sensors",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "apparmor",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "snapper",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1052,7 +1108,7 @@
     },
     {
       "type": "operating-system",
-      "name": "edk2-shell",
+      "name": "cosmic-session",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1066,7 +1122,7 @@
     },
     {
       "type": "operating-system",
-      "name": "memtest86+",
+      "name": "cosmic-store",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1080,7 +1136,7 @@
     },
     {
       "type": "operating-system",
-      "name": "memtest86+-efi",
+      "name": "cosmic-terminal",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1094,21 +1150,7 @@
     },
     {
       "type": "operating-system",
-      "name": "discover",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "packagekit-qt6",
+      "name": "cosmic-files",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1123,20 +1165,6 @@
     {
       "type": "operating-system",
       "name": "flatpak",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "archlinux-appstream-data",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1261,50 +1289,8 @@
       "origin": "https://archlinux.org/packages/"
     },
     {
-      "type": "operating-system",
-      "name": "cifs-utils",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
       "type": "library",
       "name": "libmtp",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "kio-extras",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "gvfs-smb",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1332,35 +1318,7 @@
     },
     {
       "type": "operating-system",
-      "name": "xf86-video-ati",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "xf86-video-nouveau",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
-      "name": "xf86-video-intel",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [
@@ -1444,20 +1402,6 @@
     },
     {
       "type": "operating-system",
-      "name": "iwd",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "hyprland",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -1528,20 +1472,6 @@
     },
     {
       "type": "operating-system",
-      "name": "kitty",
-      "version": "rolling",
-      "publisher": "Arch Linux Upstream",
-      "licenses": [
-        {
-          "license": {
-            "id": "OpenSource"
-          }
-        }
-      ],
-      "origin": "https://archlinux.org/packages/"
-    },
-    {
-      "type": "operating-system",
       "name": "i3-wm",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
@@ -1598,7 +1528,21 @@
     },
     {
       "type": "operating-system",
-      "name": "feh",
+      "name": "xorg-xwayland",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "operating-system",
+      "name": "noto-fonts",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [

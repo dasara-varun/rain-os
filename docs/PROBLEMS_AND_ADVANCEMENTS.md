@@ -652,3 +652,37 @@ On **September 14, 2026**, the core distribution team officially published **Rai
 ---
 
 *This specification is maintained under version control in the Rain OS repository tree at `docs/PROBLEMS_AND_ADVANCEMENTS.md`.*
+
+---
+
+## 14. Bare-Metal Hardware Hardening & Self-Hosted Runner Architecture (v1.3.1)
+
+Following the publication of Rain OS v1.3.0, bare-metal boot testing on modern laptop hardware (Intel Core / Intel Core Ultra mobile platform) identified a physical hardware initialization challenge during early initramfs boot:
+
+### 14.1 Diagnostic Analysis: Physical Hardware Boot Log
+When booting `rain-os-1.3.0-x86_64.iso` on real laptop hardware, the bootloader cleanly loaded the Linux kernel and initialized `systemd-udevd`. However, at second 2.97, the kernel encountered:
+```text
+[ 2.973037] irq 27: nobody cared (try booting with the "irqpoll" option)
+[ 2.973109] handlers:
+[ 2.973114] [<0000000081649370>] idma64_irq [idma64]
+[ 2.973122] [<0000000006dae9015>] i2c_dw_isr
+[ 2.973128] Disabling IRQ #27
+:: Searching for '/rain/x86_64/airootfs.sfs' in '/dev/nvme0n1p1'
+:: Searching for '/rain/x86_64/airootfs.sfs' in '/dev/nvme0n1p2'
+ERROR: No device containing the file '/rain/x86_64/airootfs.sfs' found
+sh: can't access tty; job control turned off
+[rootfs ~]#
+```
+
+### 14.2 Root-Cause Identification
+1. **USB Bus Settle Timing**: Modern USB 3.0 / USB-C controllers require up to 5–10 seconds to enumerate block devices. Without an explicit delay parameter, `archiso` completed its device scan at 3.0 seconds, prior to the USB flash drive being registered as a scsi/sata device.
+2. **Intel LPSS / I2C Interrupt Storm**: Intel DesignWare I2C controllers shared IRQ 27 with system peripherals. When the unhandled interrupt was disabled by the kernel, USB controller communication stalled.
+3. **Initramfs Hook Order Inversion**: In `airootfs/etc/mkinitcpio.conf.d/archiso.conf`, the `block` hook was located after `archiso`, causing media discovery to execute before low-level block driver discovery.
+
+### 14.3 Engineering Resolutions Implemented in v1.3.1
+1. **Kernel Boot Delay**: Added `archisodelay=15` across all bootloader profiles (`01-rain-linux.conf`, `02-rain-linux-lts.conf`, `03-rain-compatibility.conf`, and `syslinux/archiso.cfg`).
+2. **Interrupt Conflict Mitigation**: Enabled `irqpoll` across default boot entries.
+3. **Initramfs Hook Sequencing**: Corrected `HOOKS=(base udev memdisk block archiso archiso_loop_mnt filesystems keyboard)` so all storage and USB devices are registered and keyboard support is active before media mounting.
+4. **Firmware Stack Expansion**: Restored `linux-firmware-mediatek`, `linux-firmware-marvell`, `linux-firmware-qcom`, `sof-firmware`, `alsa-firmware`, and `alsa-ucm-conf` for complete laptop Wi-Fi and audio support.
+5. **Self-Hosted Runner Architecture**: Updated `.github/workflows/build-iso.yml` and `.github/workflows/release.yml` with dual runner support (`self-hosted` or `ubuntu-latest`), enabling fast, local builds on physical hardware without cloud runner disk or size limitations. Guide published at `docs/SELF_HOSTED_RUNNER_GUIDE.md`.
+
