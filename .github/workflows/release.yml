@@ -1,9 +1,6 @@
 name: Release Rain OS
 
 on:
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       runner:

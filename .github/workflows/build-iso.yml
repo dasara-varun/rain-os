@@ -1,13 +1,6 @@
 name: Build Rain OS ISO
 
 on:
-  push:
-    branches: [ main ]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - 'LICENSE'
-      - '.gitignore'
   workflow_dispatch:
     inputs:
       runner:
