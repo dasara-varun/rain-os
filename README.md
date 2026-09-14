@@ -115,7 +115,7 @@ Switch system profiles instantly in the Control Center or terminal (`rain-profil
 - **Master Emblem**: Ultra-HD 4096×4096 glowing umbrella logo mark ([`branding/rain-logo-4k.png`](branding/rain-logo-4k.png)).
 - **4K UHD Wallpaper**: Native 3840×2160 background canvas ([`branding/rain-wallpaper-4k.jpg`](branding/rain-wallpaper-4k.jpg)).
 - **Palette**: **Urban Rain** (`#1E222B` dark slate background, `#282D37` surface cards, `#E83E38` crimson accent).
-- **Terminal Fastfetch**: Beautiful Rain OS ASCII umbrella logo displayed on Konsole launch.
+- **Terminal Fastfetch**: Beautiful Rain OS ASCII umbrella logo displayed on terminal launch (`cosmic-terminal`, `alacritty`).
 
 ---
 

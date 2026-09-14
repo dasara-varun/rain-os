@@ -6,6 +6,8 @@ The desktop experience has four persistent entry points:
 
 | Entry point | Job |
 |---|---|
+| Rain Installer | Graphical Calamares / CLI archinstall with integrated Vertical Desktop & WM Selector |
+| Rain App Store | Lightning-fast COSMIC Store for native packages and Flatpaks with zero database locking |
 | Rain Welcome | First boot, setup checklist, profile selection |
 | Rain Control Center | System health, updates, security, hardware, recovery |
 | Rain Learning Hub | Guided curriculum and searchable local documentation |
@@ -15,19 +17,15 @@ The desktop experience has four persistent entry points:
 
 ```mermaid
 flowchart TD
-  A[Boot ISO] --> B[Check firmware, network, disk]
-  B --> C{Simple or Advanced?}
-  C -->|Simple| D[Choose keyboard, timezone, user]
-  C -->|Advanced| E[Partition, filesystem, bootloader]
-  D --> F[Choose Core profile]
-  E --> G[Choose encryption, Btrfs, profile]
-  F --> H[Review exact changes]
+  A["Boot ISO (Clean Live Desktop)"] --> B["Launch 'Install Rain OS to Disk'"]
+  B --> C["Vertical Desktop & WM Selector"]
+  C --> D["Choose Flagship COSMIC / Hyprland / Plasma / GNOME / Tiling"]
+  D --> E{"Calamares (GUI) or Archinstall (CLI)?"}
+  E -->|Calamares GUI| F["Interactive Partitioning, Btrfs Subvolumes, User Setup"]
+  E -->|Archinstall CLI| G["Guided Terminal Installer Cascade"]
+  F --> H["Apply System Installation & Write Configuration"]
   G --> H
-  H --> I{Validation passes?}
-  I -->|No| J[Explain issue and return to choice]
-  J --> H
-  I -->|Yes| K[Install and write report]
-  K --> L[Reboot into Rain Welcome]
+  H --> I["Reboot into Selected Desktop Environment"]
 ```
 
 ## 3. First-run flow

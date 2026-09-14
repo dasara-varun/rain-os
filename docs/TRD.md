@@ -32,7 +32,7 @@ The ISO consists of a Core profile, an optional Flow/Forge/Shield selection mech
 | Security tooling | Athena role/repository organization and documented security model | Curate, isolate, sign, and explain tools |
 | Disk erasure | Athena `devotio` only if legal and tested | Place in Rescue ISO, never normal desktop |
 | Installer security | Athena installer concepts and encryption workflow | Integrate only tested LUKS2/TPM/Secure Boot behavior |
-| Desktop | Upstream KDE/XFCE and Arch packages | Theme, default, document |
+| Desktop & App Store | Upstream COSMIC Desktop, cosmic-store, KDE/Hyprland, and Arch packages | Theme, configure defaults, provide vertical selector |
 | Learning | Rain-original content and navigation | Own and maintain |
 | Control Center | Rain integration layer | Use existing commands through PolicyKit; avoid duplicating package managers |
 

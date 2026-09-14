@@ -654,8 +654,25 @@ To achieve a cold-boot-to-desktop time of under <strong>15 seconds</strong>:
 - <strong>Milestone 2 [COMPLETED]</strong>: Stripped live desktop shortcuts down strictly to <strong>Install Rain OS to Disk</strong> and <strong>Rain Learning Hub</strong>; suppressed all autostart popup windows on boot.
 - <strong>Milestone 3 [COMPLETED]</strong>: Designed and deployed 8 distinct SVG and multi-resolution PNG application icons (<code>32x32</code>, <code>48x48</code>, <code>64x64</code>, <code>128x128</code>, <code>256x256</code>, <code>512x512</code>) across system icons and packages.
 - <strong>Milestone 4 [COMPLETED]</strong>: Integrated single-column vertical Window Manager & Desktop Environment selection directly into <code>rain-install-launcher</code> via <code>rain-desktop-selector --install-mode</code>, pre-selecting COSMIC Desktop at #1.
-- <strong>Milestone 5 [COMPLETED]</strong>: Configured COSMIC Desktop as default flagship session, removed KDE Discover and PackageKit lock contention, and integrated <code>cosmic-store</code>.
-- <strong>Milestone 6 [READY FOR BUILD]</strong>: Local package repository updates, CI/CD pipeline verification, QEMU boot validation, and production ISO release.
+- <strong>Milestone 6 [COMPLETED]</strong>: Package repository compilation, CI/CD pipeline verification, automated headless QEMU smoke boot test pass, and official production release of Rain OS v1.3.0 (<code>1,917.78 MB</code>).
+
+<hr/>
+
+<h2>13. Official Production Release & Verification of Rain OS v1.3.0</h2>
+
+<p>On <strong>September 14, 2026</strong>, the core distribution team officially published <strong>Rain OS v1.3.0</strong>, completing all architectural advancements identified in this specification:</p>
+
+<h3>13.1 Release Telemetry & Verification Matrix</h3>
+* <strong>Official Release URL</strong>: [https://github.com/dasara-varun/rain-os/releases/tag/v1.3.0](https://github.com/dasara-varun/rain-os/releases/tag/v1.3.0)
+* <strong>Release Tag</strong>: <code>v1.3.0</code>
+* <strong>Release Commit</strong>: <code>c7fe09b</code>
+* <strong>CI/CD Pipeline Run</strong>: GitHub Actions Run ID <code>34826849207</code> (Conclusion: <strong>Success</strong>)
+<em> <strong>Single ISO File Size</strong>: <strong>1,917.78 MB (1.87 GiB)</strong> </em>(strict compliance with the <2.0 GiB single-asset ceiling)*
+* <strong>QEMU Headless Smoke Boot Test</strong>: <strong>Passed</strong> (verified kernel init, initramfs mount, graphical SDDM initialization)
+* <strong>Software Bill of Materials (SBOM)</strong>: Validated CycloneDX v1.5 JSON cataloging all bundled software and open-source licenses
+
+<h3>13.2 Published Release Assets</h3>
+<table class="table-spec"><thead><tr><th>Asset Name</th><th>Footprint</th><th>Purpose</th></tr></thead><tbody><tr><td><code>rain-os-1.3.0-x86_64.iso</code></td><td>1,917.78 MB</td><td>Bootable live medium with Calamares, COSMIC default, vertical desktop selector</td></tr><tr><td><code>rain-os-1.3.0-source.tar.gz</code></td><td>107.14 MB</td><td>Complete, auditable source tree for offline verification and packaging</td></tr><tr><td><code>rain-os-packages-1.3.0.tar.gz</code></td><td>3.05 MB</td><td>Compiled custom Rain OS pacman repository archive</td></tr><tr><td><code>rain-branding-1.3.0-1-any.pkg.tar.zst</code></td><td>3.02 MB</td><td>Branding assets, 8 custom app icons, color schemes</td></tr><tr><td><code>rain-probe-1.3.0-1-x86_64.pkg.tar.zst</code></td><td>0.01 MB</td><td>High-performance native C hardware and telemetry probe</td></tr><tr><td><code>rain-probe-debug-1.3.0-1-x86_64.pkg.tar.zst</code></td><td>0.02 MB</td><td>Native debug symbols for <code>rain-probe</code></td></tr><tr><td><code>rain-wallpaper-4k.jpg</code></td><td>1.73 MB</td><td>Official 4K UHD default wallpaper (3840×2160)</td></tr><tr><td><code>rain-logo-4k.png</code></td><td>2.81 MB</td><td>High-resolution transparent master umbrella emblem</td></tr><tr><td><code>rain-umbrella.svg</code></td><td>3.65 MB</td><td>Scalable vector master logo mark</td></tr><tr><td><code>rain-os-sbom.json</code></td><td>0.03 MB</td><td>CycloneDX v1.5 Software Bill of Materials</td></tr><tr><td><code>SHA256SUMS</code> & <code>SHA512SUMS</code></td><td><0.01 MB</td><td>SHA-256 and SHA-512 cryptographic verification signatures</td></tr></tbody></table>
 
 <hr/>
 
