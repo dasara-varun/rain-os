@@ -137,16 +137,7 @@ jobs:
           find . -mindepth 2 -type f -exec mv -t . {} +
           find . -type d -empty -delete
 
-          for f in *; do
-            if [ -f "$f" ]; then
-              fsize=$(stat -c%s "$f")
-              if [ "$fsize" -ge 2140000000 ]; then
-                echo "Notice: $f is ${fsize} bytes (exceeds GitHub Release 2GB ceiling). Splitting into multi-part files..."
-                split -b 1800M "$f" "${f}.part-"
-                rm -f "$f"
-              fi
-            fi
-          done
+          echo ":: Preserving single monolithic ISO image (no splitting)..."
 
           echo ":: Final Release SHA256SUMS:"
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
@@ -190,22 +181,6 @@ jobs:
           EOF
           sed "s/__VERSION__/$VER/g" /tmp/release_notes_template.md | sed 's/^          //' > /tmp/release_notes.md
 
-          if ls *.part-* 1> /dev/null 2>&1; then
-            cat << 'PARTEOF' | sed 's/^          //' >> /tmp/release_notes.md
-
-          ### Reassembling Multi-Part ISO
-          Due to GitHub Release's 2.0 GiB ceiling per asset, large images are provided as multi-part assets:
-          - **Linux / macOS**:
-            ```bash
-            cat rain-os-*.iso.part-* > rain-os-assembled.iso
-            sha256sum -c SHA256SUMS
-            ```
-          - **Windows (PowerShell / Command Prompt)**:
-            ```cmd
-            copy /b rain-os-*.iso.part-aa + rain-os-*.iso.part-ab rain-os-assembled.iso
-            ```
-          PARTEOF
-          fi
 
           mapfile -t ASSETS < <(find . -type f)
           echo ":: Publishing ${#ASSETS[@]} release asset(s) to $GITHUB_REPOSITORY ($GITHUB_REF_NAME)..."
