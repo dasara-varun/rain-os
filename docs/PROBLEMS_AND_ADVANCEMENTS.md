@@ -712,4 +712,45 @@ Rain OS v1.3.2 establishes the **Self-Hosted Runner** as the primary build engin
 - **Structured Wi-Fi Diagnostics**: Expanded `rain-hardware-report` JSON output with structured status reporting for Intel, Realtek, MediaTek, and Broadcom wireless chipsets.
 - **Autonomous Local ISO Builder**: Updated `scripts/build-iso.sh` to automatically compile `src/rain-probe.c` and package the local pacman repository before invoking `mkarchiso`.
 
+---
+
+## 16. Daily-Driver Operating System Stack, Calamares Target Automation & Monolithic ISO Architecture (v1.3.2 Production Update)
+
+Following the initial ISO verification, a comprehensive subsystem review identified key architectural requirements to transform Rain OS into an uncompromising, out-of-the-box daily-driver operating system.
+
+### 16.1 System Administration & Privilege Delegation (`sudo`)
+- **Missing Administrative Binary**: In modern Arch Linux, the `base` metapackage does not include `sudo`. Without `sudo`, newly created user accounts could not perform administrative operations or install software.
+- **Resolution**: Explicitly packaged `sudo` into `archiso/packages.x86_64`. Configured live environment sudoers (`/etc/sudoers.d/00_g_wheel`) for passwordless live usage, and created automated target provisioning (`/etc/sudoers.d/00_wheel_installed`) granting full administrative permissions to users in the `wheel` group upon installation.
+
+### 16.2 CPU Microcode Errata & Thermal Protection (`intel-ucode`, `amd-ucode`)
+- **Diagnostic Risk**: Modern x86_64 processors (Intel Core 10th-14th Gen, AMD Zen 2-5) require vendor microcode updates loaded early during the boot sequence to patch CPU errata, prevent stability panics, and optimize thermal throttle behavior.
+- **Resolution**: Integrated both `intel-ucode` and `amd-ucode` packages into the live squashfs and bootloader configurations (`syslinux`, `systemd-boot`, and target `grub`), ensuring silicon errata mitigation is active before kernel initialization.
+
+### 16.3 Target Disk Bootloader Stack (`grub`, `efibootmgr`, `os-prober`)
+- **Missing Target Bootloader Packages**: While `archiso` boots via `syslinux` (BIOS) and `systemd-boot` (UEFI), installing the operating system to a target NVMe/SSD requires bootloader installation utilities in the rootfs.
+- **Resolution**: Added `grub`, `efibootmgr`, and `os-prober` to `archiso/packages.x86_64`. Configured Calamares `bootloader.conf` to install GRUB to `/boot/efi` with EFI fallback support and automatic Windows/Linux dual-boot partition detection.
+
+### 16.4 Printing & Peripheral Subsystem (`cups`)
+- **Resolution**: Pre-installed the complete Common Unix Printing System stack (`cups`, `cups-pdf`, `system-config-printer`) and enabled `cups.service` automatically in systemd multi-user targets, providing instant USB and network printer discovery.
+
+### 16.5 Wayland Application Sandboxing & Desktop Portals
+- **Resolution**: Integrated `xdg-desktop-portal`, `xdg-desktop-portal-kde`, and `xdg-desktop-portal-gtk`, enabling Wayland screen sharing (OBS, Discord, WebRTC browsers), native file chooser dialogs, and seamless Flatpak application integration.
+
+### 16.6 Automated Calamares Target Chroot Configuration (`rain-post-install`)
+- **Automated Desktop Session Linking**: Calamares execution sequence was updated in `settings.conf` to invoke `shellprocess` before unmounting target disks.
+- **Target Customization Hook**: The newly developed `/usr/local/bin/rain-post-install` script executes inside the target chroot to:
+  1. Detect the user's chosen desktop environment (COSMIC, KDE Plasma, Hyprland, i3, Sway) and configure SDDM and AccountsService sessions.
+  2. Populate the primary user's `$HOME` from `/etc/skel` and remove installer desktop shortcuts.
+  3. Grant administrative `%wheel` sudo privileges.
+  4. Regenerate target initramfs with `mkinitcpio -P` and update GRUB (`grub-mkconfig`).
+  5. Enable essential services: `NetworkManager`, `bluetooth`, `power-profiles-daemon`, `cups`, `sddm`, and `fstrim.timer`.
+
+### 16.7 Universal Terminal Runner (`rain-term-run`)
+- **Elimination of Terminal Dependency Crashes**: Replaced hardcoded `konsole -e` calls in `.desktop` application entries and installer launcher scripts with `rain-term-run`, which dynamically searches for and launches whatever terminal is available (`cosmic-terminal`, `alacritty`, `konsole`, `kitty`, or `xterm`).
+
+### 16.8 Enforced Monolithic Single-ISO Architecture & Compute Conservation
+- **Permanent Purge of Split Logic**: Removed all file-splitting (`split -b`) commands from all workflows. All ISO builds strictly produce a single, monolithic `.iso` image directly in `out/`.
+- **Manual On-Demand CI (`workflow_dispatch` Only)**: Disabled all automatic triggers on `push` across all GitHub Actions workflows to eliminate unwanted compute waste. All CI runs now require explicit manual confirmation.
+
+
 
