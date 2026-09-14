@@ -58,22 +58,10 @@ if command -v calamares >/dev/null 2>&1; then
     fi
 elif command -v archinstall >/dev/null 2>&1; then
     echo "Starting Archinstall system installer..."
-    TERM_CMD=""
     if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
-        if command -v cosmic-terminal >/dev/null 2>&1; then
-            TERM_CMD="cosmic-terminal -e"
-        elif command -v alacritty >/dev/null 2>&1; then
-            TERM_CMD="alacritty -e"
-        elif command -v konsole >/dev/null 2>&1; then
-            TERM_CMD="konsole --new-window -e"
-        elif command -v kitty >/dev/null 2>&1; then
-            TERM_CMD="kitty"
-        elif command -v xterm >/dev/null 2>&1; then
-            TERM_CMD="xterm -e"
+        if command -v rain-term-run >/dev/null 2>&1; then
+            exec rain-term-run bash -c 'echo "Rain OS System Installer"; echo "============================================================"; sudo archinstall "$@"; ret=$?; echo ""; if [ $ret -eq 0 ]; then echo "Installation complete! Press Enter to close..."; else echo "Installer exited with code $ret. Press Enter to return..."; fi; read -r' _ "$@"
         fi
-    fi
-    if [ -n "$TERM_CMD" ]; then
-        exec $TERM_CMD bash -c 'echo "Rain OS System Installer"; echo "============================================================"; sudo archinstall "$@"; ret=$?; echo ""; if [ $ret -eq 0 ]; then echo "Installation complete! Press Enter to close..."; else echo "Installer exited with code $ret. Press Enter to return..."; fi; read -r' _ "$@"
     fi
     if [ "$(id -u)" -ne 0 ]; then
         exec sudo archinstall "$@"

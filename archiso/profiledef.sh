@@ -3,7 +3,7 @@
 
 iso_name="rain-os"
 iso_label="RAIN_132"
-iso_publisher="Rain OS Contributors <https://github.com/dasara-varun/rain-os>"
+iso_publisher="Rain OS Contributors <https://github.com/is-it-raining-now/rain-os>"
 iso_application="Rain OS Live & Installation Media"
 iso_version="1.3.2"
 install_dir="rain"
@@ -35,5 +35,6 @@ file_permissions=(
   ["/usr/local/bin/rain-install-cosmic"]="0:0:755"
   ["/usr/local/bin/rain-desktop-selector"]="0:0:755"
   ["/usr/local/bin/rain-term-run"]="0:0:755"
+  ["/usr/local/bin/rain-post-install"]="0:0:755"
   ["/opt/rain"]="0:0:755"
 )

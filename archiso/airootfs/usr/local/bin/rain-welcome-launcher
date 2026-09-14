@@ -14,5 +14,5 @@ elif [[ -f /usr/share/rain/welcome.txt ]]; then
     cat /usr/share/rain/welcome.txt
 else
     echo "Welcome to Rain OS Live Environment."
-    echo "Documentation: https://github.com/dasara-varun/rain-os"
+    echo "Documentation: https://github.com/is-it-raining-now/rain-os"
 fi

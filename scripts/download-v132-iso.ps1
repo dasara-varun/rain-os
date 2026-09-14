@@ -8,7 +8,7 @@ if (-not (Test-Path $OutDir)) {
     New-Item -ItemType Directory -Path $OutDir | Out-Null
 }
 
-$BaseUrl = "https://github.com/dasara-varun/rain-os/releases/download/v1.3.2"
+$BaseUrl = "https://github.com/is-it-raining-now/rain-os/releases/download/v1.3.2"
 $PartAA = Join-Path $OutDir "rain-os-1.3.2-x86_64.iso.part-aa"
 $PartAB = Join-Path $OutDir "rain-os-1.3.2-x86_64.iso.part-ab"
 $OutputIso = Join-Path $OutDir "rain-os-1.3.2-x86_64.iso"

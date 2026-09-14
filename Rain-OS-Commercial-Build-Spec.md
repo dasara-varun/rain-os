@@ -3,7 +3,7 @@
 **Document type:** single integrated product, technical, architecture, operations, and implementation specification  
 **Revision:** 1.1 GitHub Actions parallel-build update  
 **Generated:** 2026-09-12  
-**Public repository audited:** `https://github.com/dasara-varun/rain-os`  
+**Public repository audited:** `https://github.com/is-it-raining-now/rain-os`  
 **Audited commit:** `d41587f56bc09b3b9a81804477673264433213b0`  
 **Primary build system:** GitHub Actions parallel build pipeline with Arch Linux container/self-hosted runner options  
 **Developer fallback:** Windows 10/11 with WSL2 and an official Arch Linux WSL distribution  
@@ -5521,7 +5521,7 @@ flowchart LR
 
 # References
 
-[1]: https://github.com/dasara-varun/rain-os "Public Rain OS repository audited for this specification"
+[1]: https://github.com/is-it-raining-now/rain-os "Public Rain OS repository audited for this specification"
 [2]: https://wiki.archlinux.org/title/Archiso "ArchWiki Archiso documentation"
 [3]: https://gitlab.archlinux.org/archlinux/archiso/-/blob/master/docs/README.profile.rst "Archiso profile documentation"
 [4]: https://learn.microsoft.com/en-us/windows/wsl/install "Microsoft WSL installation documentation"

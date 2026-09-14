@@ -626,7 +626,7 @@ gantt
 On **September 14, 2026**, the core distribution team officially published **Rain OS v1.3.0**, completing all architectural advancements identified in this specification:
 
 ### 13.1 Release Telemetry & Verification Matrix
-* **Official Release URL**: [https://github.com/dasara-varun/rain-os/releases/tag/v1.3.0](https://github.com/dasara-varun/rain-os/releases/tag/v1.3.0)
+* **Official Release URL**: [https://github.com/is-it-raining-now/rain-os/releases/tag/v1.3.0](https://github.com/is-it-raining-now/rain-os/releases/tag/v1.3.0)
 * **Release Tag**: `v1.3.0`
 * **Release Commit**: `c7fe09b`
 * **CI/CD Pipeline Run**: GitHub Actions Run ID `34826849207` (Conclusion: **Success**)

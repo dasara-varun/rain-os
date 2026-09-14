@@ -24,7 +24,7 @@ If you discover a security vulnerability within Rain OS or any of its integratio
 
 1. **Do not** create a public GitHub issue.
 2. Please privately report the issue via GitHub's **Security Advisories** tab on the repository:
-   https://github.com/dasara-varun/rain-os/security/advisories
+   https://github.com/is-it-raining-now/rain-os/security/advisories
 3. Provide:
    - Detailed description of the vulnerability.
    - Steps to reproduce or proof-of-concept.

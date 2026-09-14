@@ -74,7 +74,7 @@ if (-not $WslInstalled) {
     Write-Host "Recommended Options to Build:" -ForegroundColor Cyan
     Write-Host "--------------------------------------------------------" -ForegroundColor Gray
     Write-Host "Option A: Cloud Build via GitHub Actions (Zero Local Setup)" -ForegroundColor Green
-    Write-Host "  Simply push your commits to https://github.com/dasara-varun/rain-os"
+    Write-Host "  Simply push your commits to https://github.com/is-it-raining-now/rain-os"
     Write-Host "  The included GitHub Actions workflow automatically builds the ISO"
     Write-Host "  and attaches the downloadable ISO to your repository Releases!"
     Write-Host ""

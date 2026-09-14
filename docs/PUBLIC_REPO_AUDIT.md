@@ -1,6 +1,6 @@
 # Public Rain OS Repository Audit
 
-**Repository:** https://github.com/dasara-varun/rain-os  
+**Repository:** https://github.com/is-it-raining-now/rain-os  
 **Audited clone:** `/home/ubuntu/rain-os-public`  
 **Audited commit:** `d41587f56bc09b3b9a81804477673264433213b0`  
 **Working-tree files audited:** 138

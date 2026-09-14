@@ -42,7 +42,7 @@ chmod +x scripts/setup-self-hosted-runner.sh
 ```
 
 ### Step 4: Enter GitHub Registration Token
-1. In your browser, open: [GitHub Actions Runners Settings](https://github.com/dasara-varun/rain-os/settings/actions/runners/new)
+1. In your browser, open: [GitHub Actions Runners Settings](https://github.com/is-it-raining-now/rain-os/settings/actions/runners/new)
 2. Copy the token generated on that page.
 3. Paste it into the script prompt.
 
@@ -55,7 +55,7 @@ The runner will connect and listen for build jobs immediately!
 If you have a spare PC, laptop, or a free cloud VM (e.g. Oracle Cloud 4-core Ampere with 24GB RAM):
 
 ```bash
-git clone https://github.com/dasara-varun/rain-os.git
+git clone https://github.com/is-it-raining-now/rain-os.git
 cd rain-os
 chmod +x scripts/setup-self-hosted-runner.sh
 ./scripts/setup-self-hosted-runner.sh

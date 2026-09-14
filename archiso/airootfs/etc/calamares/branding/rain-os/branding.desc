@@ -14,10 +14,10 @@ strings:
     versionedName:       "Rain OS 1.3.2 (Core)"
     shortVersionedName:  "Rain OS 1.3"
     bootloaderEntryName: "Rain OS"
-    productUrl:          "https://github.com/dasara-varun/rain-os"
-    supportUrl:          "https://github.com/dasara-varun/rain-os/issues"
-    knownIssuesUrl:      "https://github.com/dasara-varun/rain-os/issues"
-    releaseNotesUrl:     "https://github.com/dasara-varun/rain-os/releases"
+    productUrl:          "https://github.com/is-it-raining-now/rain-os"
+    supportUrl:          "https://github.com/is-it-raining-now/rain-os/issues"
+    knownIssuesUrl:      "https://github.com/is-it-raining-now/rain-os/issues"
+    releaseNotesUrl:     "https://github.com/is-it-raining-now/rain-os/releases"
 
 images:
     productLogo:         "rain-logo.png"

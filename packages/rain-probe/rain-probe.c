@@ -1,6 +1,6 @@
 /*
  * Rain OS High-Performance Native System & Display Probe
- * Copyright (c) 2026 Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+ * Copyright (c) 2026 Rain OS Contributors <https://github.com/is-it-raining-now/rain-os>
  * License: GPL-3.0-or-later
  *
  * Designed for sub-millisecond hardware profiling, multi-display discovery,

@@ -5,7 +5,7 @@ set -euo pipefail
 
 RUNNER_VERSION="2.321.0"
 RUNNER_DIR="$HOME/actions-runner"
-REPO_URL="https://github.com/dasara-varun/rain-os"
+REPO_URL="https://github.com/is-it-raining-now/rain-os"
 
 echo "=========================================================="
 echo "    Rain OS - GitHub Actions Self-Hosted Runner Setup"
@@ -54,7 +54,7 @@ fi
 echo ""
 echo "----------------------------------------------------------"
 echo "To register this runner with your repository:"
-echo "1. Go to: https://github.com/dasara-varun/rain-os/settings/actions/runners/new"
+echo "1. Go to: https://github.com/is-it-raining-now/rain-os/settings/actions/runners/new"
 echo "2. Copy the token provided on that page."
 echo "----------------------------------------------------------"
 echo ""

@@ -77,6 +77,13 @@ ln -sf /usr/lib/systemd/system/power-profiles-daemon.service "$AIROOTFS/etc/syst
 # Enable Avahi mDNS Daemon
 ln -sf /usr/lib/systemd/system/avahi-daemon.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
 
+# Enable Printing Daemon
+ln -sf /usr/lib/systemd/system/cups.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/cups.service"
+
+# Enable SSD TRIM timer
+mkdir -p "$AIROOTFS/etc/systemd/system/timers.target.wants"
+ln -sf /usr/lib/systemd/system/fstrim.timer "$AIROOTFS/etc/systemd/system/timers.target.wants/fstrim.timer"
+
 # Enable rain-live-setup in basic.target
 ln -sf /etc/systemd/system/rain-live-setup.service "$AIROOTFS/etc/systemd/system/basic.target.wants/rain-live-setup.service"
 

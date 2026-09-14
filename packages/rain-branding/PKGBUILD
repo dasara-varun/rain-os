@@ -1,10 +1,10 @@
-# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+# Maintainer: Rain OS Contributors <https://github.com/is-it-raining-now/rain-os>
 pkgname=rain-branding
 pkgver=1.3.2
 pkgrel=1
 pkgdesc="Rain OS branding assets, color schemes, and desktop identity"
 arch=('any')
-url="https://github.com/dasara-varun/rain-os"
+url="https://github.com/is-it-raining-now/rain-os"
 license=('GPL3')
 depends=()
 source=(

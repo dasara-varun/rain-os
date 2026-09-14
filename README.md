@@ -9,11 +9,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO"></a>
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml/badge.svg" alt="Validate Spec"></a>
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.3.2" alt="Release Pipeline"></a>
+  <a href="https://github.com/is-it-raining-now/rain-os/actions/workflows/build-iso.yml"><img src="https://github.com/is-it-raining-now/rain-os/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO"></a>
+  <a href="https://github.com/is-it-raining-now/rain-os/actions/workflows/validate.yml"><img src="https://github.com/is-it-raining-now/rain-os/actions/workflows/validate.yml/badge.svg" alt="Validate Spec"></a>
+  <a href="https://github.com/is-it-raining-now/rain-os/actions/workflows/release.yml"><img src="https://github.com/is-it-raining-now/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.3.2" alt="Release Pipeline"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg" alt="License: GPL 3.0"></a>
-  <a href="https://github.com/dasara-varun/rain-os/releases/tag/v1.3.2"><img src="https://img.shields.io/badge/Release-v1.3.2-success.svg" alt="Latest Release"></a>
+  <a href="https://github.com/is-it-raining-now/rain-os/releases/tag/v1.3.2"><img src="https://img.shields.io/badge/Release-v1.3.2-success.svg" alt="Latest Release"></a>
 </p>
 
 ---

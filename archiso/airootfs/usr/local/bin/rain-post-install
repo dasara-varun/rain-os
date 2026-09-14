@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# Rain OS Post-Installation Chroot Setup
+# Executed by Calamares inside the newly installed root environment
+set -euo pipefail
+
+echo "=========================================================="
+echo "          Rain OS Target System Post-Install Setup        "
+echo "=========================================================="
+
+# 1. Detect Selected Desktop
+DESKTOP="cosmic"
+SESSION_NAME="cosmic"
+if [ -f "/etc/rain-os/install-desktop.conf" ]; then
+    DESKTOP="$(grep -E '^DesktopId=' /etc/rain-os/install-desktop.conf | cut -d'=' -f2 | tr -d '[:space:]' || echo 'cosmic')"
+    SESSION_NAME="$(grep -E '^SessionFile=' /etc/rain-os/install-desktop.conf | cut -d'=' -f2 | tr -d '[:space:]' || echo 'cosmic')"
+fi
+echo "Target Desktop Environment: ${DESKTOP} (session: ${SESSION_NAME})"
+
+# 2. Configure Display Manager (SDDM) default session
+mkdir -p /etc/sddm.conf.d
+cat << EOF > /etc/sddm.conf.d/10-session.conf
+[General]
+InputMethod=
+
+[Theme]
+Current=breeze
+
+[Users]
+RememberLastSession=true
+RememberLastUser=true
+EOF
+
+# 3. Configure accounts for primary user session
+PRIMARY_USER="$(id -un 1000 2>/dev/null || ls /home | head -n 1 || true)"
+if [ -n "$PRIMARY_USER" ] && [ -d "/home/$PRIMARY_USER" ]; then
+    echo "Configuring desktop defaults for primary user: ${PRIMARY_USER}"
+    usermod -aG wheel,video,audio,storage,network,power "$PRIMARY_USER" 2>/dev/null || true
+
+    # Create user autostart and desktop configuration
+    mkdir -p "/home/$PRIMARY_USER/.config"
+    cp -rT /etc/skel "/home/$PRIMARY_USER" 2>/dev/null || true
+    
+    # Remove installer shortcut from user's installed desktop
+    rm -f "/home/$PRIMARY_USER/Desktop/rain-installer.desktop" 2>/dev/null || true
+    
+    chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER" 2>/dev/null || true
+
+    # Set user session in AccountsService
+    if [ -d /var/lib/AccountsService/users ]; then
+        mkdir -p /var/lib/AccountsService/users
+        cat << EOF > "/var/lib/AccountsService/users/$PRIMARY_USER"
+[User]
+Session=${SESSION_NAME}
+XSession=${SESSION_NAME}
+Icon=
+SystemAccount=false
+EOF
+    fi
+fi
+
+# 4. Ensure sudo privileges for wheel group
+mkdir -p /etc/sudoers.d
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/00_wheel_installed
+chmod 440 /etc/sudoers.d/00_wheel_installed
+
+# 5. Clean up live-only artifacts
+rm -f /etc/sudoers.d/00_g_wheel 2>/dev/null || true
+rm -f /etc/sudoers.d/g_wheel 2>/dev/null || true
+rm -f /etc/systemd/system/basic.target.wants/rain-live-setup.service 2>/dev/null || true
+rm -f /etc/systemd/system/rain-live-setup.service 2>/dev/null || true
+rm -rf /etc/sddm.conf.d/autologin.conf 2>/dev/null || true
+
+# 6. Regenerate Initramfs
+if command -v mkinitcpio >/dev/null 2>&1; then
+    echo "Regenerating initramfs for installed kernels..."
+    mkinitcpio -P || true
+fi
+
+# 7. Update GRUB Configuration if GRUB is present
+if [ -f /boot/grub/grub.cfg ] || command -v grub-mkconfig >/dev/null 2>&1; then
+    echo "Updating GRUB bootloader configuration..."
+    mkdir -p /boot/grub
+    grub-mkconfig -o /boot/grub/grub.cfg || true
+fi
+
+echo "=========================================================="
+echo "Rain OS target configuration completed successfully!"
+echo "=========================================================="
+exit 0

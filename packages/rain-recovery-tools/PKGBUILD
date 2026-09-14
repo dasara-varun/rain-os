@@ -1,10 +1,10 @@
-# Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
+# Maintainer: Rain OS Contributors <https://github.com/is-it-raining-now/rain-os>
 pkgname=rain-recovery-tools
 pkgver=1.3.2
 pkgrel=1
 pkgdesc="Rain OS system health, recovery runbooks, and secret-scrubbed diagnostics"
 arch=('any')
-url="https://github.com/dasara-varun/rain-os"
+url="https://github.com/is-it-raining-now/rain-os"
 license=('GPL3')
 depends=('bash' 'coreutils' 'sed' 'util-linux')
 source=(
