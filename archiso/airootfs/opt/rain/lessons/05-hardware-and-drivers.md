@@ -21,3 +21,9 @@ To switch power profiles on laptops:
 powerprofilesctl set performance
 powerprofilesctl set power-saver
 ```
+
+## CPU Microcode & Thermal Errata Protection
+Rain OS pre-installs `amd-ucode` and `intel-ucode` directly in the bootloader configuration. The kernel applies processor microcode patches before mounting rootfs, ensuring optimal thermal behavior, hardware stability, and silicon errata mitigation.
+
+## Printing & Hardware Peripherals
+The CUPS printing stack (`cups.service`) is enabled by default. Add network or USB printers using **Print Settings** (`system-config-printer`) or the browser interface at `http://localhost:631`.

@@ -79,8 +79,7 @@ sudo ./svc.sh start
    * `self-hosted`: Builds on your local fast machine.
    * `ubuntu-latest`: Builds in the standard GitHub cloud.
 
-### Automatic Repository Variable (Default to Self-Hosted):
-If you want every git push to build on your self-hosted runner automatically:
-1. Go to repository **Settings** -> **Secrets and variables** -> **Actions** -> **Variables**.
-2. Click **New repository variable**.
-3. Set Name to `BUILD_RUNNER` and Value to `self-hosted`.
+### On-Demand Execution (Conserving Compute):
+All workflows are configured for manual execution (`workflow_dispatch`) to ensure compute is only used when deliberately requested. To run:
+1. Navigate to **Actions** -> select the workflow.
+2. Click **Run workflow** -> choose runner -> execute.

@@ -140,12 +140,13 @@ Switch system profiles instantly in the Control Center or terminal (`rain-profil
 
 ## Building Rain OS
 
-### Automated Cloud Build (GitHub Actions)
-Every commit to `main` is automatically compiled and verified inside an official Arch Linux container on GitHub Actions.
+### On-Demand Cloud & Self-Hosted Build (GitHub Actions)
+Builds are triggered on-demand via manual workflow dispatch (`workflow_dispatch`) to conserve compute resources:
 - Workflow: [`.github/workflows/build-iso.yml`](.github/workflows/build-iso.yml)
-- Automated QA: Every ISO build is subjected to a headless 35-second **QEMU smoke boot test** to verify kernel initialization and systemd readiness before release.
-- Self-Hosted Runner Option: Build directly on your local workstation with unlimited CPU cores and zero 2GB limits. See [Self-Hosted Runner Guide](docs/SELF_HOSTED_RUNNER_GUIDE.md).
-- Output: Download the bootable ISO, `SHA256SUMS`, and CycloneDX `rain-os-sbom.json` directly from the Actions artifact tab.
+- Single Monolithic ISO: Builds strictly produce a single, complete `.iso` image directly into `out/` with zero multi-part splitting.
+- Automated QA: Every ISO build is subjected to a headless 35-second **QEMU smoke boot test** to verify kernel initialization and systemd readiness before artifact bundling.
+- Self-Hosted Runner Option: Build directly on your local workstation with unlimited CPU cores and zero storage limits. See [Self-Hosted Runner Guide](docs/SELF_HOSTED_RUNNER_GUIDE.md).
+- Output: The bootable single ISO, `SHA256SUMS`, and CycloneDX `rain-os-sbom.json` are packaged cleanly in the build artifacts.
 
 ### Local Build on Linux / WSL2
 ```bash
@@ -157,16 +158,23 @@ sudo ./scripts/build-iso.sh
 
 ---
 
+## Daily-Driver Operating System Stack
+
+Rain OS v1.3.2 includes a complete production package stack for daily computing:
+- **Administrative Privileges**: Out-of-the-box `sudo` with `%wheel` rights for live and installed systems.
+- **CPU Microcode Errata Protection**: Pre-bundled `amd-ucode` and `intel-ucode` packages for CPU stability and thermal regulation.
+- **Target Disk Bootloaders**: Pre-installed `grub`, `efibootmgr`, and `os-prober` for UEFI and Legacy BIOS disk installations with multi-boot detection.
+- **Printing Subsystem**: Full CUPS printing stack (`cups`, `cups-pdf`, `system-config-printer`) with automated system service startup.
+- **Wayland Desktop Portals**: Native XDG portal integration (`xdg-desktop-portal`, `xdg-desktop-portal-kde`, `xdg-desktop-portal-gtk`) for Wayland screen-sharing, open-file dialogues, and Flatpaks.
+- **Calamares Post-Install Automation**: Automated post-install hook (`rain-post-install`) that applies the user's selected desktop session to SDDM and AccountsService, regenerates initramfs (`mkinitcpio -P`), and updates GRUB.
+- **Universal Terminal Integration**: Dynamic fallback launcher (`rain-term-run`) resolving terminal emulators across COSMIC, Alacritty, Konsole, Kitty, and Xterm.
+
+---
+
 ## Releases & Package Distribution
 
-### Official Version Releases & Tags
-Releases are cryptographically signed and tagged with semantic versioning (`v1.3.2`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
-
-```bash
-# Tag and trigger a release
-git tag -a v1.3.2 -m "Rain OS Version 1.3.2 Production Release"
-git push origin v1.3.2
-```
+### Version Releases
+Releases are cryptographically signed and tagged with semantic versioning (`v1.3.2`, etc.). The [Release Pipeline](.github/workflows/release.yml) builds, validates, QEMU-tests, packages, and outputs a single monolithic bootable ISO image.
 
 ### Released Assets & Manifests
 Every official release provides the following downloadable artifacts:
