@@ -4,11 +4,9 @@ linux-lts
 linux-firmware-whence
 linux-firmware-amdgpu
 linux-firmware-intel
-linux-firmware-nvidia
 linux-firmware-realtek
 linux-firmware-broadcom
 linux-firmware-atheros
-linux-firmware-mediatek
 linux-firmware-amd
 networkmanager
 firewalld
@@ -21,7 +19,6 @@ plasma-desktop
 plasma-workspace
 plasma-nm
 dolphin
-konsole
 alacritty
 sddm
 mesa
@@ -64,7 +61,6 @@ python
 python-pillow
 tk
 syslinux
-memtest86+
 cosmic-session
 cosmic-store
 cosmic-terminal
@@ -86,7 +82,6 @@ xf86-video-vesa
 exfatprogs
 wireless-regdb
 iw
-iwd
 hyprland
 waybar
 rofi
@@ -96,6 +91,5 @@ i3-wm
 i3status
 picom
 sway
-feh
 xorg-xwayland
 noto-fonts

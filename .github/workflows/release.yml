@@ -125,46 +125,82 @@ jobs:
         run: |
           echo ":: Inspecting downloaded release assets:"
           cd release-assets
+          find . -mindepth 2 -type f -exec mv -t . {} +
+          find . -type d -empty -delete
+
+          for f in *; do
+            if [ -f "$f" ]; then
+              fsize=$(stat -c%s "$f")
+              if [ "$fsize" -ge 2140000000 ]; then
+                echo "Notice: $f is ${fsize} bytes (exceeds GitHub Release 2GB ceiling). Splitting into multi-part files..."
+                split -b 1800M "$f" "${f}.part-"
+                rm -f "$f"
+              fi
+            fi
+          done
+
           echo ":: Final Release SHA256SUMS:"
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha256sum {} + | sed 's| \./| |' > SHA256SUMS
           find . -type f ! -name "SHA256SUMS" ! -name "SHA512SUMS" -exec sha512sum {} + | sed 's| \./| |' > SHA512SUMS
           cat SHA256SUMS
 
-          cat << EOF > /tmp/release_notes.md
-          ## Rain OS Version ${GITHUB_REF_NAME#v} Production Release
+          VER="${GITHUB_REF_NAME#v}"
+          cat << 'EOF' > /tmp/release_notes_template.md
+## Rain OS Version __VERSION__ Production Release
 
-          **Shelter from complexity, without hiding the system.**
+**Shelter from complexity, without hiding the system.**
 
-          ### Official Release Assets
-          - \`rain-os-${GITHUB_REF_NAME#v}-x86_64.iso\`: Single bootable live installation medium with Plasma 6 Desktop, CachyOS-style Desktop & WM Selector, Omarchy Themes, Calamares installer, and dual-kernel stack.
-          - \`rain-os-${GITHUB_REF_NAME#v}-source.tar.gz\`: Complete, clean source code repository tree for offline builds and auditable verification.
-          - \`rain-os-packages-${GITHUB_REF_NAME#v}.tar.gz\`: Pre-built custom Rain OS pacman package repository archive.
-          - `rain-wallpaper-4k.jpg`: Official 4K high-resolution default desktop wallpaper (3840x2160).
-          - `rain-logo-4k.png`: Official 4K transparent branding emblem (3840x2160).
-          - `rain-umbrella.svg`: Scalable vector emblem and application icon.
-          - `rain-os-sbom.json`: Full CycloneDX v1.5 Software Bill of Materials cataloging all bundled software and open-source licenses.
-          - `SHA256SUMS` & `SHA512SUMS`: Cryptographic integrity checksums for all release files.
+### Official Release Assets
+- `rain-os-__VERSION__-x86_64.iso`: Single bootable live installation medium with COSMIC Desktop, vertical installer Desktop & WM Selector, Omarchy Themes, Calamares installer, cosmic-store, and dual-kernel stack.
+- `rain-os-__VERSION__-source.tar.gz`: Complete, clean source code repository tree for offline builds and auditable verification.
+- `rain-os-packages-__VERSION__.tar.gz`: Pre-built custom Rain OS pacman package repository archive.
+- `rain-wallpaper-4k.jpg`: Official 4K high-resolution default desktop wallpaper (3840x2160).
+- `rain-logo-4k.png`: Official 4K transparent branding emblem (3840x2160).
+- `rain-umbrella.svg`: Scalable vector emblem and application icon.
+- `rain-os-sbom.json`: Full CycloneDX v1.5 Software Bill of Materials cataloging all bundled software and open-source licenses.
+- `SHA256SUMS` & `SHA512SUMS`: Cryptographic integrity checksums for all release files.
 
-          ### Key Included Capabilities
-          - **CachyOS-Style Desktop & WM Selector**: Interactive graphical and CLI switcher (`rain-desktop-selector`) supporting KDE Plasma 6, Hyprland, GNOME Shell, i3-wm, Sway, Niri, River, Gamescope+MangoHUD, COSMIC Desktop, and XFCE4.
-          - **Omarchy Themes Engine**: 22 signature themes adapted from `omacom/omarchy` with unified palettes across Hyprland, Waybar, Rofi, Alacritty, and desktop settings.
-          - **12 Pristine 4K Anime Wallpapers**: Razor-sharp, watermark-free, borderless 3840x2160 UHD wallpapers matching Rain OS aesthetic and Omarchy themes.
-          - **Universal Software Center**: KDE Discover, Flathub Flatpak integration, native AppImage execution (FUSE2), and Windows Compatibility Bridge (Bottles, Wine, Steam Proton, Quickemu).
-          - **Multi-Screen & Devices**: Multi-monitor assistant (`rain-display-manager`), fractional DPI scaling, KDE Connect phone pairing (Android/iOS), Bluetooth, and Avahi/Samba local network discovery.
-          - **Hardware Driver Stack**: Comprehensive drivers for NVIDIA, AMD Radeon, Intel Iris/Arc, and legacy fallback displays (`xf86-video-vesa`, `fbdev`), broad Wi-Fi chipsets, and dual-kernel stability (`linux` + `linux-lts`).
-          - **C Native Engine**: Compiled C system and display probe (`rain-probe`) with sub-millisecond execution.
-          - **Btrfs Snapshot Safety**: Automatic pre-upgrade snapshots (`00-rain-pre-snapshot.hook`), preflight health checks, and rollback utilities.
+### Key Included Capabilities
+- **COSMIC Desktop Session by Default**: Modern, rust-based flagship desktop with auto-tiling, Wayland layer-shell panels, and sub-300MB idle memory.
+- **Vertical Installation Desktop & WM Selector**: Interactive vertical selector inside the installer supporting COSMIC, Hyprland, KDE Plasma 6, GNOME, i3-wm, Sway, XFCE4, Niri, River, and Gamescope.
+- **Universal Software Center (`cosmic-store`)**: Fast GUI application manager integrating native packages and Flatpaks without database locking.
+- **Clean Live Boot Surface**: Only installer and learning hub shortcuts displayed; zero intrusive auto-spawning popups.
+- **Dedicated Application Iconography**: Unique vector-derived icons across all 8 Rain OS custom utilities.
+- **Omarchy Themes Engine**: 22 signature themes adapted from `omacom/omarchy` with unified palettes.
+- **12 Pristine 4K Wallpapers**: Razor-sharp, watermark-free UHD wallpapers matching Rain OS aesthetic.
+- **Hardware Driver Stack**: Intel, AMD, Realtek, Broadcom Wi-Fi/Bluetooth, and dual-kernel stability (`linux` + `linux-lts`).
+- **C Native Engine**: Compiled C system and display probe (`rain-probe`) with sub-millisecond execution.
+- **Btrfs Snapshot Safety**: Automatic pre-upgrade snapshots (`00-rain-pre-snapshot.hook`), preflight health checks, and rollback utilities.
 
-          ### Verification
-          Verify cryptographic integrity before flashing:
-          ```bash
-          sha256sum -c SHA256SUMS
-          sha512sum -c SHA512SUMS
-          ```
-          EOF
+### Verification
+Verify cryptographic integrity before flashing:
+```bash
+sha256sum -c SHA256SUMS
+sha512sum -c SHA512SUMS
+```
+EOF
+          sed "s/__VERSION__/$VER/g" /tmp/release_notes_template.md > /tmp/release_notes.md
+
+          if ls *.part-* 1> /dev/null 2>&1; then
+            cat << 'PARTEOF' >> /tmp/release_notes.md
+
+### Reassembling Multi-Part ISO
+Due to GitHub Release's 2.0 GiB ceiling per asset, large images are provided as multi-part assets:
+- **Linux / macOS**:
+  ```bash
+  cat rain-os-*.iso.part-* > rain-os-assembled.iso
+  sha256sum -c SHA256SUMS
+  ```
+- **Windows (PowerShell / Command Prompt)**:
+  ```cmd
+  copy /b rain-os-*.iso.part-aa + rain-os-*.iso.part-ab rain-os-assembled.iso
+  ```
+PARTEOF
+          fi
 
           mapfile -t ASSETS < <(find . -type f)
           echo ":: Publishing ${#ASSETS[@]} release asset(s) to $GITHUB_REPOSITORY ($GITHUB_REF_NAME)..."
+          gh release delete "$GITHUB_REF_NAME" --yes --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
           gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
             --repo "$GITHUB_REPOSITORY" \
             --title "Rain OS $GITHUB_REF_NAME" \
