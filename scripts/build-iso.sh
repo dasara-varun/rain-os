@@ -68,6 +68,15 @@ ln -sf /usr/lib/systemd/system/sddm.service "$AIROOTFS/etc/systemd/system/graphi
 # Enable NetworkManager
 ln -sf /usr/lib/systemd/system/NetworkManager.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
 
+# Enable Bluetooth
+ln -sf /usr/lib/systemd/system/bluetooth.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/bluetooth.service"
+
+# Enable Power Profiles Daemon
+ln -sf /usr/lib/systemd/system/power-profiles-daemon.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/power-profiles-daemon.service"
+
+# Enable Avahi mDNS Daemon
+ln -sf /usr/lib/systemd/system/avahi-daemon.service "$AIROOTFS/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
+
 # Enable rain-live-setup in basic.target
 ln -sf /etc/systemd/system/rain-live-setup.service "$AIROOTFS/etc/systemd/system/basic.target.wants/rain-live-setup.service"
 

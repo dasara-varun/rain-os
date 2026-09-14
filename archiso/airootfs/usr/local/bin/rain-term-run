@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Rain OS Universal Terminal Runner
+# Seamlessly executes interactive CLI applications in the best available terminal emulator
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+    echo "Usage: rain-term-run <command> [args...]" >&2
+    exit 1
+fi
+
+if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if command -v cosmic-terminal >/dev/null 2>&1; then
+        exec cosmic-terminal -e "$@"
+    elif command -v alacritty >/dev/null 2>&1; then
+        exec alacritty -e "$@"
+    elif command -v konsole >/dev/null 2>&1; then
+        exec konsole --new-window -e "$@"
+    elif command -v kitty >/dev/null 2>&1; then
+        exec kitty "$@"
+    elif command -v xterm >/dev/null 2>&1; then
+        exec xterm -e "$@"
+    fi
+fi
+
+exec "$@"

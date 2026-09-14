@@ -23,7 +23,12 @@ Write-Host ""
 # Download Part AA
 if (-not (Test-Path $PartAA)) {
     Write-Host "[1/4] Downloading ISO Part 1 (1,800 MB)..." -ForegroundColor Yellow
-    Invoke-WebRequest -Uri "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-aa" -OutFile $PartAA
+    if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
+        & curl.exe -L -# -o $PartAA "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-aa"
+    } else {
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-aa" -OutFile $PartAA
+    }
 } else {
     Write-Host "[1/4] ISO Part 1 already exists." -ForegroundColor Green
 }
@@ -31,7 +36,12 @@ if (-not (Test-Path $PartAA)) {
 # Download Part AB
 if (-not (Test-Path $PartAB)) {
     Write-Host "[2/4] Downloading ISO Part 2 (442 MB)..." -ForegroundColor Yellow
-    Invoke-WebRequest -Uri "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-ab" -OutFile $PartAB
+    if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
+        & curl.exe -L -# -o $PartAB "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-ab"
+    } else {
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri "$BaseUrl/rain-os-1.3.2-x86_64.iso.part-ab" -OutFile $PartAB
+    }
 } else {
     Write-Host "[2/4] ISO Part 2 already exists." -ForegroundColor Green
 }
