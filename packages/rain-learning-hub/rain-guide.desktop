@@ -2,7 +2,7 @@
 Name=Rain Learning Hub
 Comment=Offline curriculum and guided lessons for Rain OS
 Exec=rain-guide
-Icon=help-browser
+Icon=rain-learning-hub
 Terminal=true
 Type=Application
 Categories=Documentation;Education;

@@ -65,9 +65,10 @@ python-pillow
 tk
 syslinux
 memtest86+
-memtest86+-efi
-discover
-packagekit-qt6
+cosmic-session
+cosmic-store
+cosmic-terminal
+cosmic-files
 flatpak
 fuse2
 kscreen

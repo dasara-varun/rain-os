@@ -33,23 +33,33 @@ if [ -d "$USER_DESKTOP" ]; then
     chmod +x "$USER_DESKTOP"/*.desktop 2>/dev/null || true
 fi
 
-# Autostart Rain Desktop Selector and Welcome on first login
+# Clean Desktop Experience: No intrusive popup windows on boot
+# Desktop is kept clean with only Install Rain OS to Disk and Learning Hub.
 AUTOSTART_DIR="$USER_HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
-if [ -f /usr/share/applications/rain-desktop-selector.desktop ]; then
-    cp /usr/share/applications/rain-desktop-selector.desktop "$AUTOSTART_DIR/"
-fi
-if [ -f /usr/share/applications/rain-welcome.desktop ]; then
-    cp /usr/share/applications/rain-welcome.desktop "$AUTOSTART_DIR/"
-fi
+rm -f "$AUTOSTART_DIR"/*.desktop 2>/dev/null || true
+
+# Setup COSMIC Desktop default 4K wallpaper config
+COSMIC_BG_DIR="$USER_HOME/.config/cosmic/com.system76.CosmicBackground/v1"
+mkdir -p "$COSMIC_BG_DIR"
+cat << 'EOF' > "$COSMIC_BG_DIR/all"
+(
+    output: "all",
+    source: Path("/usr/share/wallpapers/rain-os/rain-wallpaper-01.jpg"),
+    filter_by_theme: false,
+    rotation_frequency: 0,
+    scaling_mode: Zoom,
+    sampling_method: Lanczos,
+)
+EOF
 
 # Setup KDE Plasma default 4K wallpaper config
 PLASMA_CONFIG_DIR="$USER_HOME/.config"
 mkdir -p "$PLASMA_CONFIG_DIR"
 cat << 'EOF' > "$PLASMA_CONFIG_DIR/plasma-org.kde.plasma.desktop-appletsrc"
 [Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/RainOS/contents/images/3840x2160.jpg
-SlidePaths=/usr/share/wallpapers/RainOS/contents/images/
+Image=file:///usr/share/wallpapers/rain-os/rain-wallpaper-01.jpg
+SlidePaths=/usr/share/wallpapers/rain-os/
 EOF
 
 chown -R "$LIVE_USER:users" "$USER_HOME"

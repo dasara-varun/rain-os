@@ -24,10 +24,22 @@ package() {
   install -Dm644 "${srcdir}/rain-umbrella.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/rain-os.svg"
   install -Dm644 "${srcdir}/rain-logo.png" "${pkgdir}/usr/share/pixmaps/rain-os.png"
   for s in 32 48 64 128 256 512; do
-    if [[ -f "${startdir:-.}/icons/${s}x${s}/rain-os.png" ]]; then
-      install -Dm644 "${startdir:-.}/icons/${s}x${s}/rain-os.png" "${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/rain-os.png"
+    mkdir -p "${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps"
+    if [[ -d "${startdir:-.}/icons/${s}x${s}/apps" ]]; then
+      cp -a "${startdir:-.}/icons/${s}x${s}/apps/"*.png "${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/" 2>/dev/null || true
+    fi
+    if [[ -d "${startdir:-.}/icons/${s}x${s}" ]]; then
+      cp -a "${startdir:-.}/icons/${s}x${s}/"*.png "${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/" 2>/dev/null || true
     fi
   done
+  if [[ -d "${startdir:-.}/icons/scalable/apps" ]]; then
+    mkdir -p "${pkgdir}/usr/share/icons/hicolor/scalable/apps"
+    cp -a "${startdir:-.}/icons/scalable/apps/"*.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/" 2>/dev/null || true
+  fi
+  if [[ -d "${startdir:-.}/icons/scalable" ]]; then
+    mkdir -p "${pkgdir}/usr/share/icons/hicolor/scalable/apps"
+    cp -a "${startdir:-.}/icons/scalable/"*.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/" 2>/dev/null || true
+  fi
   install -Dm644 "${srcdir}/rain-urban.colors" "${pkgdir}/usr/share/color-schemes/RainUrban.colors"
   install -Dm644 "${srcdir}/rain-rural.colors" "${pkgdir}/usr/share/color-schemes/RainRural.colors"
 }

@@ -252,12 +252,39 @@ Instead of horizontal tabs or multi-column grids, the Desktop & Window Manager s
 +----------------------------------------------------------------------------------------+
 ```
 
-### 4.4 Calamares & Archinstall Integration Mechanism
-1. **Calamares Custom Module**:
-   - Implement `archiso/airootfs/etc/calamares/modules/desktopselector.conf` and `desktopselector.py` executing before the `packages` module.
-   - The selected desktop sets the installation package group and SDDM session target in `/etc/sddm.conf.d/kde_settings.conf`.
-2. **Archinstall Pre-Execution Hook**:
-   - In `rain-install-launcher`, if Calamares is unavailable, present the vertical curses/dialog selector before invoking `archinstall --config /etc/rain-os/archinstall-cosmic.json`.
+### 4.4 Calamares & Archinstall Integration Mechanism (Implemented)
+The unified desktop selection workflow is implemented via a tight handoff between `rain-install-launcher` and `rain-desktop-selector --install-mode`:
+
+1. **Invocation via `rain-install-launcher`**:
+   When the user double-clicks "Install Rain OS to Disk" on the desktop, `rain-install-launcher` intercepts execution:
+   ```bash
+   # Launch Desktop Environment & Window Manager selector
+   if command -v rain-desktop-selector >/dev/null 2>&1; then
+       if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+           rain-desktop-selector --install-mode || exit 0
+       else
+           rain-desktop-selector --install-mode --cli || exit 0
+       fi
+   fi
+   ```
+2. **Dedicated Single-Column Vertical Selector (`InstallationDesktopSelectorGUI`)**:
+   - Presents a dedicated single-column vertical list with COSMIC Desktop as the pre-selected Flagship Default at #1, followed by Hyprland, KDE Plasma 6, GNOME, i3, Sway, XFCE, Niri, River, and Gamescope.
+   - Each card features custom badge iconography, compositor specifications, memory consumption, app store integration, and interactive card highlighting.
+   - Sticky action bar at the bottom with real-time selection feedback and a prominent "Continue to Disk Partitioning & Installation ➜" button.
+3. **Configuration Persistence**:
+   The selection writes the target configuration atomically to `/tmp/rain-install-desktop` and `/etc/rain-os/install-desktop.conf`:
+   ```ini
+   [Installation]
+   DesktopId=cosmic
+   DesktopName=COSMIC Desktop
+   SessionFile=cosmic.desktop
+   Compositor=cosmic-comp
+   Packages=cosmic-session cosmic-store cosmic-terminal cosmic-files cosmic-settings
+   ```
+4. **Installer Execution**:
+   - For graphical installs, launches Calamares with `pkexec` or `sudo`.
+   - For CLI/TTY installs, automatically invokes Archinstall in the user's preferred detected terminal (`cosmic-terminal`, `alacritty`, `konsole`, `kitty`, or `xterm`).
+
 
 ---
 
@@ -388,15 +415,19 @@ This violates fundamental UI heuristics (recognition over recall). Users should 
    - Palette: Bright Azure `#0284c7`, Cool Grey `#64748b`, Pure White `#ffffff`.
    - Desktop Entry: `Icon=rain-display`
 
-### 7.3 Installation Path Hierarchy
-All icons shall be generated in scalable vector SVG format and rendered to PNG across all XDG standard resolutions:
-- `/usr/share/icons/hicolor/scalable/apps/*.svg`
-- `/usr/share/icons/hicolor/32x32/apps/*.png`
-- `/usr/share/icons/hicolor/48x48/apps/*.png`
-- `/usr/share/icons/hicolor/64x64/apps/*.png`
-- `/usr/share/icons/hicolor/128x128/apps/*.png`
-- `/usr/share/icons/hicolor/256x256/apps/*.png`
-- `/usr/share/icons/hicolor/512x512/apps/*.png`
+### 7.3 Implementation & Installation Path Hierarchy (Completed)
+All 8 application icons were generated in scalable vector SVG format (`scripts/generate-svg-icons.py`) and rendered to crisp PNGs across all standard XDG hicolor resolutions via Pillow (`scripts/generate-app-icons.py`).
+
+They are permanently installed in the filesystem hierarchy and packaged inside `packages/rain-branding`:
+- `/usr/share/icons/hicolor/scalable/apps/*.svg` (Scalable vector master artwork)
+- `/usr/share/icons/hicolor/32x32/apps/*.png` (Panel and taskbar size)
+- `/usr/share/icons/hicolor/48x48/apps/*.png` (Standard desktop menu icon size)
+- `/usr/share/icons/hicolor/64x64/apps/*.png` (Application switcher size)
+- `/usr/share/icons/hicolor/128x128/apps/*.png` (Desktop grid and app store banner size)
+- `/usr/share/icons/hicolor/256x256/apps/*.png` (High-DPI 4K desktop launcher size)
+- `/usr/share/icons/hicolor/512x512/apps/*.png` (Ultra-HD / COSMIC App Library splash size)
+
+All corresponding `.desktop` files in `/usr/share/applications/` and `/home/liveuser/Desktop/` point directly to their unique icon names (`Icon=rain-control-center`, `Icon=rain-installer`, `Icon=rain-learning-hub`, `Icon=rain-desktop-selector`, `Icon=rain-store`, `Icon=rain-welcome`, `Icon=rain-hardware`, `Icon=rain-display`).
 
 ---
 
@@ -459,18 +490,18 @@ In previous builds, logging out of the session or disabling autologin would reve
 
 ## 9. Deep Codebase & Packaging Audit: Defect & Resolution Ledger
 
-| ID | Module / File | Severity | Diagnosis / Defect | Permanent Engineering Fix |
+| ID | Module / File | Severity | Diagnosis / Defect | Resolution & Deployment Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **AUD-01** | `archiso/airootfs/usr/local/bin/rain-install-launcher` | High | Hardcoded `konsole --new-window -e sudo archinstall`. On non-KDE environments (COSMIC, Hyprland), `konsole` is absent, causing the installer shortcut to fail silently. | Implement terminal auto-detection cascade: check for `cosmic-terminal`, `alacritty`, `konsole`, `xterm`, or `foot` before execution. |
-| **AUD-02** | `archiso/airootfs/usr/local/bin/rain-guide` | Medium | Opens `less` in a terminal window. Lacks graphical rich text, clickable links, or search. | Replace with `rain-learning-gui`, a lightweight graphical Markdown documentation viewer with sidebar lesson navigation. |
-| **AUD-03** | `archiso/airootfs/etc/sudoers.d/liveuser` | Medium | Liveuser has sudo, but Polkit rules for `udisks2` occasionally demand authentication when mounting external NVMe/USB drives. | Add `/etc/polkit-1/rules.d/49-nopasswd_liveuser.rules` granting unrestricted `org.freedesktop.udisks2.*` permissions to `liveuser`. |
-| **AUD-04** | `packages/rain-branding/icons/` | High | Only contains `rain-os.png` across resolutions. All 7 other system applications lack dedicated icons. | Populate all 8 custom icon sets into `packages/rain-branding/icons/{32,48,64,128,256,512}` and rebuild package. |
-| **AUD-05** | `archiso/airootfs/etc/skel/Desktop/` | High | Contains 6 desktop entries, creating desktop clutter. | Remove 4 entries; leave exclusively `rain-installer.desktop` and `rain-learning-hub.desktop`. |
-| **AUD-06** | `archiso/airootfs/etc/skel/.config/autostart/` | Medium | `rain-desktop-selector.desktop` launches automatically on boot, obstructing the clean desktop. | Delete desktop selector from autostart directory. |
-| **AUD-07** | `archiso/packages.x86_64` | High | Contains `discover` and `packagekit-qt6` (~80 MB) and lacks COSMIC packages. | Remove `discover`, `packagekit-qt6`; add `cosmic-*` stack. |
-| **AUD-08** | `archiso/airootfs/etc/sddm.conf.d/autologin.conf` | High | `Session=plasma` forces KDE Plasma session. | Update to `Session=cosmic.desktop`. |
-| **AUD-09** | `src/rain-probe.c` | Low | Hardcoded kernel version strings and display scan timeouts. | Dynamically query DRM connectors and optimize sysfs parsing to < 0.5ms. |
-| **AUD-10** | `archiso/airootfs/usr/local/bin/rain-desktop-selector` | High | Horizontal tabs and card layout; not integrated into installation. | Refactor into a vertical curses/GTK/Tk list integrated directly into `rain-install-launcher`. |
+| **AUD-01** | `archiso/airootfs/usr/local/bin/rain-install-launcher` | High | Hardcoded `konsole` failed silently on non-KDE environments. | **RESOLVED**: Integrated multi-terminal cascade (`cosmic-terminal`, `alacritty`, `konsole`, `kitty`, `xterm`). |
+| **AUD-02** | `archiso/airootfs/usr/local/bin/rain-guide` | Medium | Opens `less` in a terminal window without multi-terminal detection. | **RESOLVED**: Added `rain-guide-launcher` with multi-terminal support and updated markdown lessons. |
+| **AUD-03** | `archiso/airootfs/etc/sudoers.d/liveuser` | Medium | Polkit rules for `udisks2` occasionally demand authentication for liveuser. | **RESOLVED**: Added unrestricted NOPASSWD for wheel and udisks2 live privileges. |
+| **AUD-04** | `packages/rain-branding/icons/` | High | Identical umbrella icons across all apps. | **RESOLVED**: 8 dedicated multi-resolution icon sets generated and deployed across all hicolor directories. |
+| **AUD-05** | `archiso/airootfs/etc/skel/Desktop/` | High | Contains 6 desktop entries, creating cognitive clutter on boot. | **RESOLVED**: Stripped down to ONLY `rain-installer.desktop` and `rain-learning-hub.desktop`. |
+| **AUD-06** | `archiso/airootfs/etc/skel/.config/autostart/` | Medium | `rain-desktop-selector` popups up automatically on boot. | **RESOLVED**: Removed autostart desktop selector; suppressed all boot popup windows. |
+| **AUD-07** | `archiso/packages.x86_64` | High | Heavy `discover` and `packagekit-qt6` locks pacman database. | **RESOLVED**: Removed discover and packagekit-qt6; added full COSMIC Desktop suite and `cosmic-store`. |
+| **AUD-08** | `archiso/airootfs/etc/sddm.conf.d/autologin.conf` | High | `Session=plasma` forces heavy KDE Plasma session. | **RESOLVED**: Updated to `Session=cosmic`. |
+| **AUD-09** | `src/rain-probe.c` | Low | Hardcoded kernel version strings and display scan timeouts. | **PLANNED**: Dynamic DRM connector queries and sysfs optimization. |
+| **AUD-10** | `archiso/airootfs/usr/local/bin/rain-desktop-selector` | High | Horizontal tabs not integrated into installation. | **RESOLVED**: Implemented single-column vertical `--install-mode` invoked automatically by `rain-install-launcher`. |
 
 ---
 
@@ -581,13 +612,13 @@ gantt
     Production Release Tag & Verification :p4_3, after p4_2, 1d
 ```
 
-### Milestone Milestones
-- **Milestone 1 (Immediate)**: Commit comprehensive specification (`docs/PROBLEMS_AND_ADVANCEMENTS.md`), update `README.md`, and generate formatted PDF document.
-- **Milestone 2**: Strip desktop icons to Install & Learning only; remove desktop selector from autostart.
-- **Milestone 3**: Design 8 distinct SVG icons and distribute across all standard hicolor dimensions.
-- **Milestone 4**: Re-architect `rain-desktop-selector` into a vertical installer step inside `rain-install-launcher` and Calamares.
-- **Milestone 5**: Transition default session to COSMIC Desktop and app store to `cosmic-store`.
-- **Milestone 6**: Build, smoke-test, and publish **Rain OS v1.3.0**.
+### Milestone Progress & Status
+- **Milestone 1 [COMPLETED]**: Authored comprehensive architectural specification (`docs/PROBLEMS_AND_ADVANCEMENTS.md`), updated `README.md`, and compiled standalone PDF document (`docs/Rain_OS_Problems_and_Advancements_Specification.pdf`).
+- **Milestone 2 [COMPLETED]**: Stripped live desktop shortcuts down strictly to **Install Rain OS to Disk** and **Rain Learning Hub**; suppressed all autostart popup windows on boot.
+- **Milestone 3 [COMPLETED]**: Designed and deployed 8 distinct SVG and multi-resolution PNG application icons (`32x32`, `48x48`, `64x64`, `128x128`, `256x256`, `512x512`) across system icons and packages.
+- **Milestone 4 [COMPLETED]**: Integrated single-column vertical Window Manager & Desktop Environment selection directly into `rain-install-launcher` via `rain-desktop-selector --install-mode`, pre-selecting COSMIC Desktop at #1.
+- **Milestone 5 [COMPLETED]**: Configured COSMIC Desktop as default flagship session, removed KDE Discover and PackageKit lock contention, and integrated `cosmic-store`.
+- **Milestone 6 [READY FOR BUILD]**: Local package repository updates, CI/CD pipeline verification, QEMU boot validation, and production ISO release.
 
 ---
 

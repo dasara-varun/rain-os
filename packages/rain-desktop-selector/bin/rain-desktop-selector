@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """
-Rain OS Desktop Environment & Window Manager Selector (CachyOS Style)
+Rain OS Desktop Environment & Window Manager Selector
 Unified GUI & CLI utility to choose, install, configure, and switch between:
-  - KDE Plasma 6 (Flagship)
-  - Hyprland (Dynamic Wayland Tiling Compositor)
-  - GNOME (Modern Distraction-Free Shell)
-  - i3-wm (Lightweight X11 Tiling Window Manager)
-  - COSMIC Desktop (Rust-based Next-Gen Desktop)
-  - Sway (i3-Compatible Wayland Compositor)
-  - XFCE4 (Lightweight Classic Desktop)
+  1. COSMIC Desktop (Flagship Default - Rust-based Modern Desktop)
+  2. Hyprland (Dynamic Wayland Tiling Compositor & Omarchy Theming)
+  3. KDE Plasma 6 (Customizable Glass Desktop Environment)
+  4. GNOME Shell (Gesture-Driven Focused Shell)
+  5. i3-wm (Ultra-Lightweight Keyboard Tiling WM)
+  6. Sway (i3-Compatible Wayland Compositor)
+  7. XFCE 4 (Classic Lightweight Modular Desktop)
+  8. Niri (Scrollable-Tiling Infinite Ribbon Compositor)
+  9. River WM (Dynamic Tiling Wayland Compositor)
+  10. Gamescope + MangoHUD (SteamOS-Style Micro-Compositor Gaming Session)
 
-Also features:
-  - Omarchy Theme Engine: 10 signature themes adapted from omacom/omarchy
+Features:
+  - --install-mode: Vertical single-column selection integrated into system installer
+  - Omarchy Theme Engine: 22 signature themes
   - 4K Anime Rain Wallpaper Gallery: 12 pristine ultra-high-resolution wallpapers
+  - Multi-terminal auto-detection
 """
 import os
 import sys
@@ -26,131 +31,155 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 
-# Theme constants
 BG_COLOR = "#1e222b"
 CARD_BG = "#282d37"
+CARD_SELECTED = "#343d4e"
 CARD_HOVER = "#323846"
 TEXT_COLOR = "#f0f6fc"
 TEXT_MUTED = "#9ba3af"
 ACCENT_COLOR = "#e83e38"
 ACCENT_HOVER = "#ff5751"
 BORDER_COLOR = "#383e4c"
+BORDER_ACTIVE = "#e83e38"
 SUCCESS_COLOR = "#2ea043"
 INFO_COLOR = "#388bfd"
 
-# Desktop environments catalog
 DESKTOPS = [
     {
-        "id": "plasma",
-        "name": "KDE Plasma 6",
-        "category": "Full Desktop Environment",
-        "tagline": "Rain OS Flagship. Modern, customizable, translucent glass UI.",
-        "compositor": "KWin (Wayland / X11)",
-        "ram": "~450 MB",
-        "binary": "startplasma-wayland",
-        "fallback_bin": "startplasma-x11",
-        "session_name": "plasma",
-        "session_file": "plasma.desktop",
-        "packages": ["plasma-desktop", "plasma-workspace", "plasma-nm", "dolphin", "konsole", "sddm"],
-        "badge": "Default Flagship"
+        "id": "cosmic",
+        "name": "COSMIC Desktop",
+        "category": "Modern Rust Desktop Environment",
+        "tagline": "Rain OS Flagship Default. Written in Rust by System76. Modular, Wayland-native, high-performance.",
+        "compositor": "cosmic-comp (Wayland)",
+        "ram": "~380 MB",
+        "app_store": "cosmic-store",
+        "binary": "cosmic-session",
+        "fallback_bin": "cosmic-comp",
+        "session_name": "cosmic",
+        "session_file": "cosmic.desktop",
+        "packages": ["cosmic-session", "cosmic-store", "cosmic-terminal", "cosmic-files", "cosmic-settings"],
+        "badge": "FLAGSHIP DEFAULT",
+        "icon": "🚀",
+        "recommended": True
     },
     {
         "id": "hyprland",
         "name": "Hyprland",
         "category": "Dynamic Wayland Tiling Compositor",
-        "tagline": "Fluid animations, rounded corners, blur, and deep Omarchy theming.",
+        "tagline": "Fluid animations, rounded corners, dual borders, blur, and deep Omarchy theming integration.",
         "compositor": "Hyprland (Wayland)",
         "ram": "~220 MB",
+        "app_store": "cosmic-store / Flatpak",
         "binary": "Hyprland",
         "fallback_bin": "hyprland",
         "session_name": "hyprland",
         "session_file": "hyprland.desktop",
         "packages": ["hyprland", "waybar", "rofi", "swaybg", "dunst", "kitty"],
-        "badge": "Omarchy Native"
+        "badge": "OMARCHY TILING",
+        "icon": "⚡",
+        "recommended": False
+    },
+    {
+        "id": "plasma",
+        "name": "KDE Plasma 6",
+        "category": "Full Desktop Environment",
+        "tagline": "Fully customizable desktop with translucent glass UI, flexible panels, and rich widget ecosystem.",
+        "compositor": "KWin (Wayland / X11)",
+        "ram": "~450 MB",
+        "app_store": "cosmic-store / Discover",
+        "binary": "startplasma-wayland",
+        "fallback_bin": "startplasma-x11",
+        "session_name": "plasma",
+        "session_file": "plasma.desktop",
+        "packages": ["plasma-desktop", "plasma-workspace", "plasma-nm", "dolphin", "konsole", "sddm"],
+        "badge": "CUSTOMIZABLE DE",
+        "icon": "🪟",
+        "recommended": False
     },
     {
         "id": "gnome",
         "name": "GNOME Shell",
         "category": "Full Desktop Environment",
-        "tagline": "Distraction-free, gesture-driven desktop designed for focused workflows.",
+        "tagline": "Distraction-free, gesture-driven desktop shell designed for focused, keyboard-centric productivity.",
         "compositor": "Mutter (Wayland)",
         "ram": "~550 MB",
+        "app_store": "cosmic-store / gnome-software",
         "binary": "gnome-shell",
         "fallback_bin": "gnome-session",
         "session_name": "gnome",
         "session_file": "gnome.desktop",
         "packages": ["gnome-shell", "gnome-control-center", "nautilus"],
-        "badge": "Gesture Driven"
+        "badge": "GESTURE DRIVEN",
+        "icon": "🎯",
+        "recommended": False
     },
     {
         "id": "i3",
         "name": "i3-wm (Tiling)",
         "category": "Manual Tiling Window Manager",
-        "tagline": "Ultra-lightweight keyboard-driven tiling WM. Maximum speed on any hardware.",
+        "tagline": "Ultra-lightweight keyboard-driven X11 tiling window manager. Instant response on any hardware.",
         "compositor": "X11 (Picom Compositor)",
         "ram": "~120 MB",
+        "app_store": "pacman / Flatpak",
         "binary": "i3",
         "fallback_bin": "i3-wm",
         "session_name": "i3",
         "session_file": "i3.desktop",
         "packages": ["i3-wm", "i3status", "picom", "rofi", "kitty"],
-        "badge": "Ultra Lightweight"
-    },
-    {
-        "id": "cosmic",
-        "name": "COSMIC Desktop",
-        "category": "Modern Rust Desktop Environment",
-        "tagline": "Next-generation desktop written in Rust by System76. Built for high performance.",
-        "compositor": "cosmic-comp (Wayland)",
-        "ram": "~380 MB",
-        "binary": "cosmic-session",
-        "fallback_bin": "cosmic-comp",
-        "session_name": "cosmic",
-        "session_file": "cosmic.desktop",
-        "packages": ["cosmic-session"],
-        "badge": "Rust Engine"
+        "badge": "ULTRA LIGHTWEIGHT",
+        "icon": "⌨️",
+        "recommended": False
     },
     {
         "id": "sway",
         "name": "Sway",
         "category": "i3-Compatible Wayland Compositor",
-        "tagline": "Drop-in replacement for i3 on Wayland. Smooth tear-free rendering.",
+        "tagline": "Drop-in replacement for i3 on Wayland with zero tearing and smooth wlroots hardware acceleration.",
         "compositor": "wlroots (Wayland)",
         "ram": "~160 MB",
+        "app_store": "cosmic-store / Flatpak",
         "binary": "sway",
         "fallback_bin": "sway",
         "session_name": "sway",
         "session_file": "sway.desktop",
         "packages": ["sway", "waybar", "rofi", "swaybg"],
-        "badge": "Wayland Tiling"
+        "badge": "WAYLAND TILING",
+        "icon": "🌊",
+        "recommended": False
     },
     {
         "id": "xfce",
         "name": "XFCE 4",
         "category": "Lightweight Desktop Environment",
-        "tagline": "Classic, modular, battle-tested desktop for older hardware and low resources.",
+        "tagline": "Classic, modular, battle-tested desktop for older hardware and minimal resource consumption.",
         "compositor": "Xfwm4 (X11)",
         "ram": "~200 MB",
+        "app_store": "cosmic-store / Flatpak",
         "binary": "xfce4-session",
         "fallback_bin": "startxfce4",
         "session_name": "xfce",
         "session_file": "xfce.desktop",
         "packages": ["xfce4-session", "xfdesktop", "xfwm4", "xfce4-panel"],
-        "badge": "Classic Lightweight"
+        "badge": "CLASSIC MODULAR",
+        "icon": "🍃",
+        "recommended": False
     },
     {
         "id": "niri",
         "name": "Niri (Scrollable)",
         "category": "Scrollable-Tiling Wayland Compositor",
-        "tagline": "Infinite horizontal ribbon of windows. Fluid animations and touchpad gestures.",
+        "tagline": "Infinite horizontal ribbon of windows. Fluid animations and intuitive touchpad gestures.",
         "compositor": "Niri (Wayland)",
         "ram": "~180 MB",
+        "app_store": "cosmic-store / Flatpak",
         "binary": "niri",
         "fallback_bin": "niri-session",
         "session_name": "niri",
         "session_file": "niri.desktop",
         "packages": ["niri", "waybar", "rofi", "swaybg", "alacritty"],
-        "badge": "Scrollable Tiling"
+        "badge": "SCROLLABLE RIBBON",
+        "icon": "📜",
+        "recommended": False
     },
     {
         "id": "river",
@@ -159,33 +188,43 @@ DESKTOPS = [
         "tagline": "Flexible, dynamic tiling Wayland compositor with rich tag-based workspace management.",
         "compositor": "River (Wayland)",
         "ram": "~140 MB",
+        "app_store": "cosmic-store / Flatpak",
         "binary": "river",
         "fallback_bin": "river",
         "session_name": "river",
         "session_file": "river.desktop",
         "packages": ["river", "waybar", "rofi", "swaybg", "alacritty"],
-        "badge": "Dynamic Tiling"
+        "badge": "DYNAMIC TILING",
+        "icon": "🌊",
+        "recommended": False
     },
     {
         "id": "gamescope",
         "name": "Gamescope + MangoHUD",
         "category": "Gaming Micro-Compositor Session",
-        "tagline": "Optimized SteamOS-style gaming session with MangoHUD telemetry and integer scaling.",
+        "tagline": "Optimized SteamOS-style dedicated gaming session with MangoHUD telemetry and integer scaling.",
         "compositor": "Gamescope (Wayland/Xwayland)",
         "ram": "~150 MB",
+        "app_store": "Steam / Flatpak",
         "binary": "gamescope",
         "fallback_bin": "mangoapp",
         "session_name": "gamescope",
         "session_file": "gamescope-wayland.desktop",
         "packages": ["gamescope", "mangohud"],
-        "badge": "Gaming Edition"
+        "badge": "GAMING EDITION",
+        "icon": "🎮",
+        "recommended": False
     }
 ]
 
 def find_asset_path(subpath):
     candidates = [
+        os.path.join("/usr/share/icons/hicolor/128x128/apps", subpath),
+        os.path.join("/usr/share/pixmaps", subpath),
         os.path.join("/usr/share/rain-os", subpath),
+        os.path.join(os.path.dirname(__file__), "..", "..", "branding", "icons", "128x128", subpath),
         os.path.join(os.path.dirname(__file__), "..", "..", "branding", subpath),
+        os.path.join(r"E:\rain os\branding\icons\128x128", subpath),
         os.path.join(r"E:\rain os\branding", subpath)
     ]
     for c in candidates:
@@ -231,23 +270,23 @@ def get_active_desktop():
     cur = os.environ.get("XDG_CURRENT_DESKTOP", "").lower()
     sess = os.environ.get("DESKTOP_SESSION", "").lower()
     comb = f"{cur} {sess}"
-    if "plasma" in comb or "kde" in comb:
-        return "plasma"
+    if "cosmic" in comb:
+        return "cosmic"
     if "hyprland" in comb:
         return "hyprland"
+    if "plasma" in comb or "kde" in comb:
+        return "plasma"
     if "gnome" in comb:
         return "gnome"
     if "i3" in comb:
         return "i3"
-    if "cosmic" in comb:
-        return "cosmic"
     if "sway" in comb:
         return "sway"
     if "xfce" in comb:
         return "xfce"
-    # Process check fallback
     try:
         procs = subprocess.check_output(["ps", "-A"], text=True)
+        if "cosmic-comp" in procs or "cosmic-session" in procs: return "cosmic"
         if "Hyprland" in procs: return "hyprland"
         if "kwin" in procs: return "plasma"
         if "gnome-shell" in procs: return "gnome"
@@ -256,7 +295,7 @@ def get_active_desktop():
         if "xfce4-session" in procs: return "xfce"
     except Exception:
         pass
-    return "plasma"
+    return "cosmic"
 
 def switch_default_session(session_name):
     """Configures SDDM / display manager to boot into session_name by default."""
@@ -272,7 +311,6 @@ def switch_default_session(session_name):
             cmd = f"echo '{content}' | sudo tee {sddm_conf}"
             subprocess.run(cmd, shell=True, check=False)
         
-        # Also configure user's ~/.dmrc
         home = os.path.expanduser("~")
         dmrc = os.path.join(home, ".dmrc")
         try:
@@ -285,6 +323,40 @@ def switch_default_session(session_name):
         print(f"Error configuring default session: {e}", file=sys.stderr)
         return False
 
+def save_installation_choice(desktop_id):
+    """Saves the user's desktop choice for the installer."""
+    de = next((d for d in DESKTOPS if d["id"] == desktop_id), None)
+    if not de:
+        return False
+    
+    try:
+        with open("/tmp/rain-install-desktop", "w", encoding="utf-8") as f:
+            f.write(desktop_id)
+    except Exception:
+        pass
+    
+    try:
+        os.makedirs("/etc/rain-os", exist_ok=True)
+        conf_path = "/etc/rain-os/install-desktop.conf"
+        content = (
+            f"[Installation]\n"
+            f"DesktopId={de['id']}\n"
+            f"DesktopName={de['name']}\n"
+            f"SessionFile={de['session_file']}\n"
+            f"Compositor={de['compositor']}\n"
+            f"Packages={' '.join(de['packages'])}\n"
+        )
+        try:
+            with open(conf_path, "w", encoding="utf-8") as f:
+                f.write(content)
+        except PermissionError:
+            subprocess.run(f"echo '{content}' | sudo tee {conf_path}", shell=True, check=False)
+    except Exception:
+        pass
+    
+    switch_default_session(de["session_name"])
+    return True
+
 def apply_omarchy_theme(theme_id):
     """Applies an Omarchy theme to Hyprland, Waybar, Rofi, Kitty, and desktop."""
     themes_dir = find_themes_dir()
@@ -296,16 +368,13 @@ def apply_omarchy_theme(theme_id):
         return False, f"Theme '{theme_id}' not found"
 
     home = os.path.expanduser("~")
-    # 1. Hyprland
     hypr_conf_dir = os.path.join(home, ".config", "hypr")
     os.makedirs(hypr_conf_dir, exist_ok=True)
     src_hypr = os.path.join(theme_path, "hyprland.conf")
     if os.path.exists(src_hypr):
         shutil.copy2(src_hypr, os.path.join(hypr_conf_dir, "theme.conf"))
-        # Reload hyprland if active
         subprocess.run(["hyprctl", "reload"], capture_output=True, check=False)
 
-    # 2. Waybar
     waybar_dir = os.path.join(home, ".config", "waybar")
     os.makedirs(waybar_dir, exist_ok=True)
     src_waybar = os.path.join(theme_path, "waybar.css")
@@ -313,14 +382,12 @@ def apply_omarchy_theme(theme_id):
         shutil.copy2(src_waybar, os.path.join(waybar_dir, "style.css"))
         subprocess.run(["pkill", "-SIGUSR2", "waybar"], capture_output=True, check=False)
 
-    # 3. Rofi
     rofi_dir = os.path.join(home, ".config", "rofi")
     os.makedirs(rofi_dir, exist_ok=True)
     src_rofi = os.path.join(theme_path, "rofi.rasi")
     if os.path.exists(src_rofi):
         shutil.copy2(src_rofi, os.path.join(rofi_dir, "theme.rasi"))
 
-    # Save active theme record
     try:
         state_file = os.path.join(home, ".config", "rain-os", "active_theme.json")
         os.makedirs(os.path.dirname(state_file), exist_ok=True)
@@ -332,32 +399,35 @@ def apply_omarchy_theme(theme_id):
     return True, f"Theme '{theme_id}' successfully applied across desktop components!"
 
 def set_active_wallpaper(image_path):
-    """Sets wallpaper across KDE Plasma, Hyprland, Sway, i3, GNOME, or XFCE."""
+    """Sets wallpaper across COSMIC, KDE Plasma, Hyprland, Sway, i3, GNOME, or XFCE."""
     if not os.path.exists(image_path):
         return False, f"File does not exist: {image_path}"
     
-    # 1. KDE Plasma
+    home = os.path.expanduser("~")
+    cosmic_bg_file = os.path.join(home, ".config", "cosmic", "com.system76.CosmicBackground", "v1", "all")
+    try:
+        os.makedirs(os.path.dirname(cosmic_bg_file), exist_ok=True)
+        with open(cosmic_bg_file, "w", encoding="utf-8") as f:
+            f.write(f'(output: "all", source: Path("{os.path.abspath(image_path)}"), filter_by_theme: false, rotation_frequency: 0, filter_method: Lanczos)')
+    except Exception:
+        pass
+
     if shutil.which("plasma-apply-wallpaperimage"):
         subprocess.run(["plasma-apply-wallpaperimage", image_path], check=False)
     
-    # 2. Sway / Hyprland (swaybg)
     if shutil.which("swaybg"):
         subprocess.run(["pkill", "swaybg"], check=False)
         subprocess.Popen(["swaybg", "-m", "fill", "-i", image_path])
     
-    # 3. Feh (i3 / XFCE fallback)
     if shutil.which("feh"):
         subprocess.run(["feh", "--bg-fill", image_path], check=False)
         
-    # 4. GNOME gsettings
     if shutil.which("gsettings"):
         uri = f"file://{os.path.abspath(image_path)}"
         subprocess.run(["gsettings", "set", "org.gnome.desktop.background", "picture-uri", uri], check=False)
         subprocess.run(["gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", uri], check=False)
 
-    # Copy to default branding location if writable
     try:
-        home = os.path.expanduser("~")
         dest = os.path.join(home, ".config", "rain-os", "current-wallpaper.jpg")
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         shutil.copy2(image_path, dest)
@@ -366,13 +436,310 @@ def set_active_wallpaper(image_path):
 
     return True, f"Wallpaper set to {os.path.basename(image_path)}"
 
+def run_in_terminal(cmd_str, title="Rain OS"):
+    """Helper to run a shell command in any available terminal emulator."""
+    terminals = [
+        (["cosmic-terminal", "-e", "bash", "-c", f"{cmd_str}; echo 'Finished. Press Enter.'; read"], "cosmic-terminal"),
+        (["alacritty", "-e", "bash", "-c", f"{cmd_str}; echo 'Finished. Press Enter.'; read"], "alacritty"),
+        (["konsole", "--new-window", "-e", "bash", "-c", f"{cmd_str}; echo 'Finished. Press Enter.'; read"], "konsole"),
+        (["kitty", "bash", "-c", f"{cmd_str}; echo 'Finished. Press Enter.'; read"], "kitty"),
+        (["xterm", "-title", title, "-e", "bash", "-c", f"{cmd_str}; echo 'Finished. Press Enter.'; read"], "xterm")
+    ]
+    for cmd, bin_name in terminals:
+        if shutil.which(bin_name):
+            subprocess.Popen(cmd)
+            return True
+    threading.Thread(target=lambda: subprocess.run(cmd_str, shell=True), daemon=True).start()
+    return False
+
+class InstallationDesktopSelectorGUI(tk.Tk):
+    """
+    Dedicated Installation Window Manager / Desktop Selector.
+    Renders a clean, single-column vertical list of Desktop Environments.
+    """
+    def __init__(self):
+        super().__init__()
+        self.title("Rain OS System Installation — Select Desktop Environment")
+        self.geometry("920x720")
+        self.minsize(860, 640)
+        self.configure(bg=BG_COLOR)
+
+        self.selected_id = tk.StringVar(value="cosmic")
+        self.card_frames = {}
+        self.radio_widgets = {}
+
+        self._load_branding()
+        self._build_ui()
+
+    def _load_branding(self):
+        logo_path = (find_asset_path("rain-installer.png") or
+                     find_asset_path("rain-desktop-selector.png") or
+                     find_asset_path("rain-logo.png"))
+        self.tk_logo = None
+        if logo_path and os.path.exists(logo_path):
+            try:
+                img = Image.open(logo_path).resize((48, 48), Image.Resampling.LANCZOS)
+                self.tk_logo = ImageTk.PhotoImage(img)
+            except Exception:
+                pass
+
+    def _build_ui(self):
+        header = tk.Frame(self, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        header.pack(fill="x", padx=20, pady=(15, 10))
+
+        h_content = tk.Frame(header, bg=CARD_BG)
+        h_content.pack(fill="x", padx=18, pady=14)
+
+        if self.tk_logo:
+            tk.Label(h_content, image=self.tk_logo, bg=CARD_BG).pack(side="left", padx=(0, 15))
+
+        title_box = tk.Frame(h_content, bg=CARD_BG)
+        title_box.pack(side="left", fill="both", expand=True)
+
+        tk.Label(
+            title_box,
+            text="Choose Desktop Environment for Installation",
+            font=("Segoe UI", 16, "bold"),
+            fg=TEXT_COLOR,
+            bg=CARD_BG
+        ).pack(anchor="w")
+
+        tk.Label(
+            title_box,
+            text="Displayed in vertical priority order. COSMIC Desktop is the flagship default. Select your target environment below.",
+            font=("Segoe UI", 9),
+            fg=TEXT_MUTED,
+            bg=CARD_BG
+        ).pack(anchor="w", pady=(2, 0))
+
+        body_frame = tk.Frame(self, bg=BG_COLOR)
+        body_frame.pack(fill="both", expand=True, padx=20, pady=5)
+
+        canvas = tk.Canvas(body_frame, bg=BG_COLOR, highlightthickness=0)
+        scrollbar = tk.Scrollbar(body_frame, orient="vertical", command=canvas.yview)
+        self.scroll_frame = tk.Frame(canvas, bg=BG_COLOR)
+
+        self.scroll_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        canvas_window = canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw", width=870)
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        def _on_canvas_resize(event):
+            canvas.itemconfig(canvas_window, width=event.width)
+        canvas.bind("<Configure>", _on_canvas_resize)
+
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        for idx, de in enumerate(DESKTOPS):
+            self._create_vertical_card(self.scroll_frame, de, idx)
+
+        footer = tk.Frame(self, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
+        footer.pack(fill="x", padx=20, pady=(10, 15))
+
+        f_content = tk.Frame(footer, bg=CARD_BG)
+        f_content.pack(fill="x", padx=18, pady=12)
+
+        self.status_label = tk.Label(
+            f_content,
+            text="Selected: COSMIC Desktop (Rust Flagship Default)",
+            font=("Segoe UI", 10, "bold"),
+            fg=SUCCESS_COLOR,
+            bg=CARD_BG
+        )
+        self.status_label.pack(side="left")
+
+        btn_box = tk.Frame(f_content, bg=CARD_BG)
+        btn_box.pack(side="right")
+
+        cancel_btn = tk.Button(
+            btn_box,
+            text="Cancel",
+            font=("Segoe UI", 9),
+            fg=TEXT_MUTED,
+            bg="#20252e",
+            activebackground="#2c3340",
+            activeforeground=TEXT_COLOR,
+            relief="flat",
+            padx=14,
+            pady=7,
+            cursor="hand2",
+            command=self._on_cancel
+        )
+        cancel_btn.pack(side="left", padx=(0, 10))
+
+        continue_btn = tk.Button(
+            btn_box,
+            text="Continue to Disk Partitioning & Installation ➜",
+            font=("Segoe UI", 10, "bold"),
+            fg="#ffffff",
+            bg=ACCENT_COLOR,
+            activebackground=ACCENT_HOVER,
+            activeforeground="#ffffff",
+            relief="flat",
+            padx=18,
+            pady=7,
+            cursor="hand2",
+            command=self._on_continue
+        )
+        continue_btn.pack(side="left")
+
+        self._update_selection_highlight("cosmic")
+
+    def _create_vertical_card(self, parent, de, index):
+        de_id = de["id"]
+        is_default = (de_id == "cosmic")
+
+        card = tk.Frame(
+            parent,
+            bg=CARD_SELECTED if is_default else CARD_BG,
+            highlightbackground=BORDER_ACTIVE if is_default else BORDER_COLOR,
+            highlightthickness=2 if is_default else 1,
+            cursor="hand2"
+        )
+        card.pack(fill="x", pady=5, padx=2)
+        self.card_frames[de_id] = card
+
+        inner = tk.Frame(card, bg=card.cget("bg"))
+        inner.pack(fill="x", padx=16, pady=12)
+
+        left_col = tk.Frame(inner, bg=card.cget("bg"))
+        left_col.pack(side="left", padx=(0, 14))
+
+        rb = tk.Radiobutton(
+            left_col,
+            variable=self.selected_id,
+            value=de_id,
+            bg=card.cget("bg"),
+            activebackground=card.cget("bg"),
+            selectcolor="#0f141c",
+            command=lambda: self._on_card_click(de_id)
+        )
+        rb.pack(side="left")
+        self.radio_widgets[de_id] = rb
+
+        icon_lbl = tk.Label(
+            left_col,
+            text=de.get("icon", "📦"),
+            font=("Segoe UI Emoji", 20),
+            bg=card.cget("bg"),
+            fg=TEXT_COLOR
+        )
+        icon_lbl.pack(side="left", padx=(4, 0))
+
+        mid_col = tk.Frame(inner, bg=card.cget("bg"))
+        mid_col.pack(side="left", fill="both", expand=True)
+
+        title_row = tk.Frame(mid_col, bg=card.cget("bg"))
+        title_row.pack(fill="x")
+
+        tk.Label(
+            title_row,
+            text=f"{index+1}. {de['name']}",
+            font=("Segoe UI", 12, "bold"),
+            fg=TEXT_COLOR,
+            bg=card.cget("bg")
+        ).pack(side="left")
+
+        badge_bg = ACCENT_COLOR if is_default else "#394254"
+        badge_lbl = tk.Label(
+            title_row,
+            text=f" {de['badge']} ",
+            font=("Segoe UI", 8, "bold"),
+            fg="#ffffff",
+            bg=badge_bg,
+            padx=6,
+            pady=1
+        )
+        badge_lbl.pack(side="left", padx=10)
+
+        tk.Label(
+            mid_col,
+            text=de["tagline"],
+            font=("Segoe UI", 9),
+            fg=TEXT_MUTED,
+            bg=card.cget("bg"),
+            wraplength=580,
+            justify="left"
+        ).pack(anchor="w", pady=(2, 5))
+
+        meta_row = tk.Frame(mid_col, bg=card.cget("bg"))
+        meta_row.pack(fill="x")
+
+        for pill in [
+            f"🖵 {de['compositor']}",
+            f"⚡ RAM: {de['ram']}",
+            f"🛍️ Store: {de.get('app_store', 'cosmic-store')}"
+        ]:
+            tk.Label(
+                meta_row,
+                text=pill,
+                font=("Segoe UI", 8),
+                fg="#b4bcc8",
+                bg="#1a1e26",
+                padx=7,
+                pady=2
+            ).pack(side="left", padx=(0, 6))
+
+        for widget in [card, inner, left_col, mid_col, title_row, meta_row, icon_lbl]:
+            widget.bind("<Button-1>", lambda e, did=de_id: self._on_card_click(did))
+
+    def _on_card_click(self, de_id):
+        self.selected_id.set(de_id)
+        self._update_selection_highlight(de_id)
+
+    def _update_selection_highlight(self, selected_id):
+        de = next((d for d in DESKTOPS if d["id"] == selected_id), DESKTOPS[0])
+        self.status_label.config(text=f"Selected: {de['name']} ({de['badge']})")
+
+        for did, c_frame in self.card_frames.items():
+            is_cur = (did == selected_id)
+            new_bg = CARD_SELECTED if is_cur else CARD_BG
+            new_border = BORDER_ACTIVE if is_cur else BORDER_COLOR
+            new_thick = 2 if is_cur else 1
+
+            c_frame.config(bg=new_bg, highlightbackground=new_border, highlightthickness=new_thick)
+            for child in c_frame.winfo_children():
+                try:
+                    child.config(bg=new_bg)
+                    for subchild in child.winfo_children():
+                        try:
+                            subchild.config(bg=new_bg)
+                            for ssub in subchild.winfo_children():
+                                try:
+                                    if not isinstance(ssub, tk.Button) and not str(ssub.cget("text")).startswith("🖵") and not str(ssub.cget("text")).startswith("⚡") and not str(ssub.cget("text")).startswith("🛍️"):
+                                        ssub.config(bg=new_bg)
+                                except Exception:
+                                    pass
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+
+    def _on_continue(self):
+        chosen = self.selected_id.get()
+        save_installation_choice(chosen)
+        self.destroy()
+        sys.exit(0)
+
+    def _on_cancel(self):
+        self.destroy()
+        sys.exit(1)
+
 
 class DesktopSelectorGUI(tk.Tk):
+    """Standard Window Manager, Theme & Wallpaper Switcher."""
     def __init__(self):
         super().__init__()
         self.title("Rain OS Desktop & Window Manager Selector")
-        self.geometry("960x700")
-        self.minsize(880, 620)
+        self.geometry("960x720")
+        self.minsize(880, 640)
         self.configure(bg=BG_COLOR)
 
         self.active_de = get_active_desktop()
@@ -381,7 +748,9 @@ class DesktopSelectorGUI(tk.Tk):
         self._build_ui()
 
     def _load_branding(self):
-        logo_path = find_asset_path("rain-logo.png") or find_asset_path("rain-logo-4k.png")
+        logo_path = (find_asset_path("rain-desktop-selector.png") or
+                     find_asset_path("rain-logo.png") or
+                     find_asset_path("rain-logo-4k.png"))
         self.tk_logo = None
         if logo_path and os.path.exists(logo_path):
             try:
@@ -391,7 +760,6 @@ class DesktopSelectorGUI(tk.Tk):
                 pass
 
     def _build_ui(self):
-        # Header bar
         header = tk.Frame(self, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
         header.pack(fill="x", padx=20, pady=(15, 10))
 
@@ -420,7 +788,6 @@ class DesktopSelectorGUI(tk.Tk):
             bg=CARD_BG
         ).pack(anchor="w")
 
-        # Refresh button
         tk.Button(
             h_content,
             text="⟳ Refresh Status",
@@ -436,7 +803,6 @@ class DesktopSelectorGUI(tk.Tk):
             cursor="hand2"
         ).pack(side="right")
 
-        # Dark Notebook Tabs
         style = ttk.Style(self)
         style.theme_use("default")
         style.configure("TNotebook", background=BG_COLOR, borderwidth=0)
@@ -448,23 +814,19 @@ class DesktopSelectorGUI(tk.Tk):
         notebook = ttk.Notebook(self)
         notebook.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Tab 1: Desktops & Window Managers
         tab_desktops = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_desktops, text="  Window Managers & Desktops  ")
         self._build_desktops_tab(tab_desktops)
 
-        # Tab 2: Omarchy Themes Engine
         tab_themes = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_themes, text="  Omarchy Themes (22)  ")
         self._build_themes_tab(tab_themes)
 
-        # Tab 3: 4K Anime Wallpapers Gallery
         tab_wallpapers = tk.Frame(notebook, bg=BG_COLOR)
         notebook.add(tab_wallpapers, text="  4K Wallpaper Gallery (12)  ")
         self._build_wallpapers_tab(tab_wallpapers)
 
     def _build_desktops_tab(self, parent):
-        # Scrollable container
         canvas = tk.Canvas(parent, bg=BG_COLOR, highlightthickness=0)
         scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
         scroll_frame = tk.Frame(canvas, bg=BG_COLOR)
@@ -473,8 +835,16 @@ class DesktopSelectorGUI(tk.Tk):
             "<Configure>",
             lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
         )
-        canvas.create_window((0, 0), window=scroll_frame, anchor="nw", width=910)
+        canvas_win = canvas.create_window((0, 0), window=scroll_frame, anchor="nw", width=910)
         canvas.configure(yscrollcommand=scrollbar.set)
+
+        def _on_c_resize(e):
+            canvas.itemconfig(canvas_win, width=e.width)
+        canvas.bind("<Configure>", _on_c_resize)
+
+        def _on_wheel(e):
+            canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
+        canvas.bind_all("<MouseWheel>", _on_wheel)
 
         canvas.pack(side="left", fill="both", expand=True, pady=5)
         scrollbar.pack(side="right", fill="y", pady=5)
@@ -489,24 +859,20 @@ class DesktopSelectorGUI(tk.Tk):
             card_inner = tk.Frame(card, bg=CARD_BG)
             card_inner.pack(fill="x", padx=16, pady=14)
 
-            # Left Details
             left_box = tk.Frame(card_inner, bg=CARD_BG)
             left_box.pack(side="left", fill="both", expand=True)
 
-            # Title Row
             title_row = tk.Frame(left_box, bg=CARD_BG)
             title_row.pack(fill="x")
 
             tk.Label(
                 title_row,
-                text=de["name"],
+                text=f"{de.get('icon', '📦')}  {de['name']}",
                 font=("Segoe UI", 13, "bold"),
                 fg=TEXT_COLOR,
                 bg=CARD_BG
             ).pack(side="left")
 
-            # Category / Badge
-            badge_color = "#3b4354"
             if is_active:
                 badge_text = "CURRENTLY ACTIVE"
                 badge_color = SUCCESS_COLOR
@@ -514,7 +880,8 @@ class DesktopSelectorGUI(tk.Tk):
                 badge_text = "INSTALLED"
                 badge_color = INFO_COLOR
             else:
-                badge_text = "AVAILABLE TO INSTALL"
+                badge_text = f"AVAILABLE ({de['badge']})"
+                badge_color = "#3b4354"
 
             badge_lbl = tk.Label(
                 title_row,
@@ -527,7 +894,6 @@ class DesktopSelectorGUI(tk.Tk):
             )
             badge_lbl.pack(side="left", padx=10)
 
-            # Subtitle / Tagline
             tk.Label(
                 left_box,
                 text=de["tagline"],
@@ -538,14 +904,13 @@ class DesktopSelectorGUI(tk.Tk):
                 justify="left"
             ).pack(anchor="w", pady=(3, 6))
 
-            # Metadata tags (Compositor, RAM, Category)
             meta_row = tk.Frame(left_box, bg=CARD_BG)
             meta_row.pack(fill="x")
 
             meta_info = [
                 f"🖵 {de['compositor']}",
                 f"⚡ Memory: {de['ram']}",
-                f"📦 {de['category']}"
+                f"🛍️ {de.get('app_store', 'cosmic-store')}"
             ]
             for m in meta_info:
                 tk.Label(
@@ -558,7 +923,6 @@ class DesktopSelectorGUI(tk.Tk):
                     pady=2
                 ).pack(side="left", padx=(0, 6))
 
-            # Right Actions
             right_box = tk.Frame(card_inner, bg=CARD_BG)
             right_box.pack(side="right", padx=(15, 0))
 
@@ -635,7 +999,6 @@ class DesktopSelectorGUI(tk.Tk):
         )
         intro.pack(fill="x", padx=10, pady=(10, 5))
 
-        # Canvas for themes
         canvas = tk.Canvas(parent, bg=BG_COLOR, highlightthickness=0)
         scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
         scroll_frame = tk.Frame(canvas, bg=BG_COLOR)
@@ -657,7 +1020,6 @@ class DesktopSelectorGUI(tk.Tk):
             c_inner = tk.Frame(card, bg=CARD_BG)
             c_inner.pack(fill="x", padx=15, pady=10)
 
-            # Left theme title
             left_info = tk.Frame(c_inner, bg=CARD_BG)
             left_info.pack(side="left", fill="both", expand=True)
 
@@ -683,7 +1045,6 @@ class DesktopSelectorGUI(tk.Tk):
                 bg=CARD_BG
             ).pack(anchor="w", pady=(2, 6))
 
-            # Swatches Row
             swatch_frame = tk.Frame(left_info, bg=CARD_BG)
             swatch_frame.pack(anchor="w")
 
@@ -699,7 +1060,6 @@ class DesktopSelectorGUI(tk.Tk):
                 tk.Frame(s_box, bg=color_code, width=24, height=16, highlightbackground="#ffffff", highlightthickness=1).pack()
                 tk.Label(s_box, text=label, font=("Segoe UI", 7), fg=TEXT_MUTED, bg=CARD_BG).pack()
 
-            # Right Apply Button
             apply_btn = tk.Button(
                 c_inner,
                 text="Apply Theme",
@@ -733,7 +1093,7 @@ class DesktopSelectorGUI(tk.Tk):
 
         intro = tk.Label(
             parent,
-            text=f"12 Pristine 4K UHD Anime Rain Wallpapers (3840×2160). Select any wallpaper to set as your desktop background.",
+            text="12 Pristine 4K UHD Anime Rain Wallpapers (3840×2160). Select any wallpaper to set as your desktop background.",
             font=("Segoe UI", 9),
             fg=TEXT_MUTED,
             bg=BG_COLOR,
@@ -741,7 +1101,6 @@ class DesktopSelectorGUI(tk.Tk):
         )
         intro.pack(fill="x", padx=10, pady=(10, 5))
 
-        # Canvas for wallpapers
         canvas = tk.Canvas(parent, bg=BG_COLOR, highlightthickness=0)
         scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
         scroll_frame = tk.Frame(canvas, bg=BG_COLOR)
@@ -756,7 +1115,6 @@ class DesktopSelectorGUI(tk.Tk):
         canvas.pack(side="left", fill="both", expand=True, pady=5)
         scrollbar.pack(side="right", fill="y", pady=5)
 
-        # 4 columns grid
         row = 0
         col = 0
         for i, wp in enumerate(wallpapers):
@@ -767,7 +1125,6 @@ class DesktopSelectorGUI(tk.Tk):
             w_card = tk.Frame(scroll_frame, bg=CARD_BG, highlightbackground=BORDER_COLOR, highlightthickness=1)
             w_card.grid(row=row, column=col, padx=6, pady=6, sticky="nsew")
 
-            # Load thumbnail
             try:
                 pil_img = Image.open(wp).resize((200, 112), Image.Resampling.LANCZOS)
                 tk_img = ImageTk.PhotoImage(pil_img)
@@ -810,7 +1167,7 @@ class DesktopSelectorGUI(tk.Tk):
         confirm = messagebox.askyesno(
             "Switch Default Desktop Session",
             f"Set {de['name']} as your default desktop session?\n\n"
-            f"Next time you login or restart SDDM, {de['name']} will launch automatically."
+            f"Next time you login or restart display manager, {de['name']} will launch automatically."
         )
         if confirm:
             ok = switch_default_session(de["session_name"])
@@ -834,17 +1191,8 @@ class DesktopSelectorGUI(tk.Tk):
         if not confirm:
             return
 
-        # Terminal launcher or background install
-        cmd = f"sudo pacman -S --noconfirm {pkgs_str}"
-        if shutil.which("konsole"):
-            subprocess.Popen(["konsole", "-e", "bash", "-c", f"{cmd}; echo 'Installation finished. Press enter.'; read"])
-        elif shutil.which("kitty"):
-            subprocess.Popen(["kitty", "bash", "-c", f"{cmd}; echo 'Installation finished. Press enter.'; read"])
-        elif shutil.which("xterm"):
-            subprocess.Popen(["xterm", "-e", f"{cmd}"])
-        else:
-            threading.Thread(target=lambda: subprocess.run(cmd, shell=True), daemon=True).start()
-            messagebox.showinfo("Installation Started", f"Installing {de['name']} in background.")
+        cmd = f"sudo pacman -S --needed --noconfirm {pkgs_str}"
+        run_in_terminal(cmd, title=f"Installing {de['name']}")
 
     def _on_apply_theme(self, theme_id):
         ok, msg = apply_omarchy_theme(theme_id)
@@ -865,27 +1213,55 @@ class DesktopSelectorGUI(tk.Tk):
         app = DesktopSelectorGUI()
         app.mainloop()
 
+def run_cli_install_mode():
+    """Runs interactive vertical numbered menu in CLI mode."""
+    print("\n============================================================")
+    print("      Rain OS Installer - Select Desktop Environment        ")
+    print("============================================================")
+    print("Displayed in vertical priority order:")
+    for idx, de in enumerate(DESKTOPS):
+        default_tag = " [FLAGSHIP DEFAULT]" if de.get("recommended") else ""
+        print(f"  [{idx+1:2d}] {de['name']:<22} ({de['compositor']:<20}) {default_tag}")
+    print("============================================================")
+    
+    choice = input("\nEnter selection [1-10, default 1 (COSMIC)]: ").strip()
+    if not choice:
+        selected_de = DESKTOPS[0]
+    else:
+        try:
+            val = int(choice)
+            if 1 <= val <= len(DESKTOPS):
+                selected_de = DESKTOPS[val - 1]
+            else:
+                selected_de = DESKTOPS[0]
+        except ValueError:
+            selected_de = DESKTOPS[0]
+
+    print(f"\nConfigured {selected_de['name']} for target installation.")
+    save_installation_choice(selected_de["id"])
+    sys.exit(0)
 
 def main():
     parser = argparse.ArgumentParser(description="Rain OS Desktop Environment & Window Manager Selector")
+    parser.add_argument("--install-mode", action="store_true", help="Launch in installation desktop selection mode")
+    parser.add_argument("--cli", action="store_true", help="Run interactive CLI selector instead of GUI")
     parser.add_argument("--list", action="store_true", help="List all available desktop environments and status")
-    parser.add_argument("--switch", type=str, metavar="WM_ID", help="Switch default session to specified WM (plasma, hyprland, gnome, i3, cosmic, sway, xfce)")
-    parser.add_argument("--theme", type=str, metavar="THEME_ID", help="Apply Omarchy theme (tokyo-night, matte-black, etc.)")
-    parser.add_argument("--wallpaper", type=str, metavar="NUM_OR_PATH", help="Set wallpaper by number (e.g. 1) or image file path")
+    parser.add_argument("--switch", type=str, metavar="WM_ID", help="Switch default session to specified WM")
+    parser.add_argument("--theme", type=str, metavar="THEME_ID", help="Apply Omarchy theme")
+    parser.add_argument("--wallpaper", type=str, metavar="NUM_OR_PATH", help="Set wallpaper by number or path")
     parser.add_argument("--install", type=str, metavar="WM_ID", help="Install specified desktop environment")
     parser.add_argument("--current", action="store_true", help="Print active session name")
-    parser.add_argument("--gui", action="store_true", help="Force graphical interface")
 
     args = parser.parse_args()
 
     if args.list:
-        print(f"{'ID':<12} {'NAME':<20} {'STATUS':<15} {'COMPOSITOR':<25} {'RAM':<10}")
-        print("-" * 82)
+        print(f"{'ID':<12} {'NAME':<22} {'STATUS':<15} {'COMPOSITOR':<25} {'RAM':<10}")
+        print("-" * 84)
         active = get_active_desktop()
         for d in DESKTOPS:
             inst = is_desktop_installed(d)
             status = "ACTIVE" if d["id"] == active else ("INSTALLED" if inst else "AVAILABLE")
-            print(f"{d['id']:<12} {d['name']:<20} {status:<15} {d['compositor']:<25} {d['ram']:<10}")
+            print(f"{d['id']:<12} {d['name']:<22} {status:<15} {d['compositor']:<25} {d['ram']:<10}")
         sys.exit(0)
 
     if args.current:
@@ -902,7 +1278,7 @@ def main():
         if ok:
             print(f"Default session successfully switched to {match['name']} ({match['session_name']}).")
         else:
-            print(f"Failed to switch session.", file=sys.stderr)
+            print("Failed to switch session.", file=sys.stderr)
             sys.exit(1)
         sys.exit(0)
 
@@ -930,13 +1306,29 @@ def main():
             sys.exit(1)
         pkgs = " ".join(match["packages"])
         print(f"Installing {match['name']} ({pkgs})...")
-        res = subprocess.run(f"sudo pacman -S --noconfirm {pkgs}", shell=True)
+        res = subprocess.run(f"sudo pacman -S --needed --noconfirm {pkgs}", shell=True)
         sys.exit(res.returncode)
 
-    # Launch GUI
+    has_display = bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY") or sys.platform.startswith("win"))
+
+    if args.install_mode:
+        if args.cli or not has_display:
+            run_cli_install_mode()
+        else:
+            try:
+                app = InstallationDesktopSelectorGUI()
+                app.mainloop()
+            except Exception as e:
+                print(f"GUI launch failed ({e}), falling back to CLI...", file=sys.stderr)
+                run_cli_install_mode()
+        sys.exit(0)
+
+    if args.cli or not has_display:
+        print("Desktop Selector: No display found. Use --list, --switch <wm>, or run in a graphical session.")
+        sys.exit(1)
+
     app = DesktopSelectorGUI()
     app.mainloop()
-
 
 if __name__ == "__main__":
     main()

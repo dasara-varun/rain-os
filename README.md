@@ -21,12 +21,16 @@
 
 **Rain OS** is an independent, commercial-grade Linux distribution built on an Arch Linux foundation. It delivers a modern, resilient desktop engineered around safety, user empowerment, and honest computing:
 
-1. **Universal App Compatibility**: Seamlessly install and run native Linux packages, **KDE Discover Software Center**, **Flatpaks from Flathub**, portable **AppImages** (out-of-the-box FUSE2 support), and Windows `.exe` applications via the built-in **Windows Compatibility Bridge** (Bottles, Wine, Steam Proton, and Quickemu VM fallback).
-2. **Safe to Recover**: Automated pre-upgrade Btrfs snapshots (`00-rain-pre-snapshot.hook`), preflight update checks, dual bootable kernels (`linux` generic + `linux-lts` certified stability fallback), and offline recovery tools.
-3. **Multi-Screen & Device Connectivity**: Wayland/X11 multi-monitor management with per-screen fractional DPI scaling, variable refresh rates (FreeSync/G-Sync), **KDE Connect** for instant Android/iOS phone sync, Bluetooth pairing, and zero-configuration local network file sharing (Samba & Avahi).
-4. **Broad Hardware Support**: Complete driver coverage for modern GPUs (NVIDIA proprietary/nouveau, AMD Radeon, Intel Iris/Arc) and legacy systems (`xf86-video-vesa`, `fbdev`), broad Wi-Fi chipsets (Intel, Realtek, Broadcom), and low-power CPU governor tuning.
-5. **C & C++ Native Performance**: Core hardware and multi-screen telemetry powered by an ultra-fast compiled native C engine (`rain-probe`) with sub-millisecond execution.
-6. **Zero Telemetry & Private by Default**: No tracking identifiers, no telemetry daemons, no online accounts required. All machine state stays on your device.
+1. **COSMIC Desktop by Default**: Modern, lightning-fast Rust-based desktop environment by System76. Features native auto-tiling, Wayland layer-shell panels, sub-300MB idle memory, and smooth fractional scaling.
+2. **Vertical Installation Desktop Selector**: Choose your preferred desktop environment or window manager during system installation in a clean, scrollable vertical interface pre-selecting COSMIC Desktop.
+3. **Modern App Store (`cosmic-store`)**: Sub-second startup, Flathub Flatpak integration out of the box, and zero PackageKit pacman database lock contention.
+4. **Universal App Compatibility**: Seamlessly install and run native Linux packages, sandboxed **Flatpaks from Flathub**, portable **AppImages** (pre-configured FUSE2 support), and Windows `.exe` applications via the built-in **Windows Compatibility Bridge** (Bottles, Wine, Steam Proton, and Quickemu VM fallback).
+5. **Dedicated Application Iconography**: 8 unique, high-contrast application icons for the Control Center, Installer, Welcome GUI, Learning Hub, Desktop Selector, App Store, Hardware Wizard, and Display Manager.
+6. **Clean Live Desktop**: Minimalist, distraction-free live boot with only two desktop shortcuts: **Install Rain OS to Disk** and **Rain Learning Hub**, with all intrusive popup windows suppressed.
+7. **Safe to Recover**: Automated pre-upgrade Btrfs snapshots (`00-rain-pre-snapshot.hook`), preflight update checks, dual bootable kernels (`linux` generic + `linux-lts` certified stability fallback), and offline recovery tools.
+8. **Multi-Screen & Device Connectivity**: Wayland/X11 multi-monitor management with per-screen fractional DPI scaling, variable refresh rates (FreeSync/G-Sync), phone sync, Bluetooth pairing, and zero-configuration local network file sharing.
+9. **C & C++ Native Performance**: Core hardware and multi-screen telemetry powered by an ultra-fast compiled native C engine (`rain-probe`) with sub-millisecond execution.
+10. **Zero Telemetry & Private by Default**: No tracking identifiers, no telemetry daemons, no online accounts required. All machine state stays strictly on your device.
 
 ---
 
@@ -35,14 +39,14 @@
 ```text
 +---------------------------------------------------------------------------+
 |                              Rain OS Desktop                              |
-|    KDE Plasma 6 (Flagship) • Hyprland • GNOME • i3 • Sway • Niri • River  |
-|    Gamescope+MangoHUD • COSMIC Desktop • XFCE4 • Multi-Screen Support     |
+|   COSMIC Desktop (Flagship) • Hyprland • Plasma 6 • GNOME • i3 • Sway     |
+|   Niri • River • Gamescope+MangoHUD • XFCE4 • Multi-Screen Support        |
 +---------------------------------------------------------------------------+
 |          Native Linux Apps           |       Windows Compatibility        |
-|   Discover • Flatpak • AppImage      |  Bottles • Wine • Proton • Quickemu|
+|  COSMIC Store • Flatpak • AppImage   |  Bottles • Wine • Proton • Quickemu|
 +---------------------------------------------------------------------------+
 |                            Rain Integration Hub                           |
-|  Desktop Selector • Omarchy Engine • Control Center • Hardware Wizard     |
+|  Vertical Selector • Omarchy Engine • Control Center • Hardware Wizard    |
 +---------------------------------------------------------------------------+
 |                            Safety & Recovery                              |
 |     Btrfs Subvolumes (@, @home, @snapshots) • Pacman Pre-Snapshot Hook    |
@@ -53,21 +57,21 @@
 +---------------------------------------------------------------------------+
 ```
 
-### 1. CachyOS-Style Desktop & Window Manager Selector (`rain-desktop-selector`)
-- **1-Click Switching**: Seamlessly switch between or install full Desktop Environments and tiling compositors:
-  - **KDE Plasma 6**: Modern, translucent glass UI, customized as the default flagship.
-  - **Hyprland**: Dynamic Wayland tiling compositor with fluid animations, rounded corners, and blur.
-  - **GNOME Shell**: Distraction-free, gesture-driven workflow.
-  - **i3-wm**: Ultra-lightweight manual X11 tiling window manager.
-  - **Sway**: i3-compatible Wayland compositor with tear-free rendering.
-  - **Niri**: Modern scrollable-tiling Wayland compositor with endless horizontal ribbon workspace.
-  - **River**: Dynamic tiling Wayland compositor with rich tag-based workspace management.
-  - **Gamescope + MangoHUD**: SteamOS-style gaming session with integer scaling and performance HUD.
-  - **COSMIC Desktop**: System76 next-generation Rust-based desktop environment.
-  - **XFCE 4**: Classic, modular, low-overhead desktop for legacy hardware.
+### 1. Vertical Desktop & Window Manager Selection in Installer
+Integrated directly into `rain-install-launcher` and Calamares/archinstall, displaying options in a clean, scrollable **vertical order**:
+- **COSMIC Desktop [Flagship Default]**: Modern, memory-safe desktop written in Rust by System76. Modular, Wayland-native, and high-performance.
+- **Hyprland [Dynamic Tiling]**: Ultra-fluid Wayland dynamic tiling compositor with smooth animations, rounded corners, blur, and deep Omarchy theming.
+- **KDE Plasma 6 [Customizable DE]**: Customizable, feature-rich desktop with translucent glass UI and extensive widgets.
+- **GNOME Shell [Gesture Driven]**: Distraction-free, gesture-driven desktop shell designed for focused, keyboard-centric productivity.
+- **i3-wm [Ultra Lightweight]**: Ultra-lightweight keyboard-driven manual X11 tiling window manager.
+- **Sway [Wayland Tiling]**: Drop-in replacement for i3 on Wayland with zero tearing and smooth wlroots hardware acceleration.
+- **XFCE 4 [Classic Modular]**: Classic, modular, battle-tested desktop for older hardware.
+- **Niri [Scrollable Ribbon]**: Infinite horizontal ribbon of windows with fluid animations and intuitive touchpad gestures.
+- **River WM [Dynamic Tiling]**: Flexible, dynamic tiling Wayland compositor with rich tag-based workspace management.
+- **Gamescope + MangoHUD [Gaming Edition]**: Optimized SteamOS-style dedicated gaming session with MangoHUD telemetry and integer scaling.
 
 ### 2. Official Omarchy Themes Engine (22 Signature Themes)
-Integrated directly into the desktop selector, adapted from `omacom/omarchy` with unified palettes across Hyprland, Waybar, Rofi, Alacritty, and desktop settings:
+Integrated directly into `rain-desktop-selector`, adapted from `omacom/omarchy` with unified palettes across Hyprland, Waybar, Rofi, Alacritty, and desktop settings:
 - `tokyo-night` • `catppuccin` • `catppuccin-latte` • `everforest` • `gruvbox` • `kanagawa`
 - `matte-black` • `nord` • `rose-pine` • `solitude` • `vantablack` • `ethereal`
 - `flexoki-light` • `hackerman` • `last-horizon` • `lumon` • `lupine` • `miasma`
@@ -76,18 +80,19 @@ Integrated directly into the desktop selector, adapted from `omacom/omarchy` wit
 ### 3. 12 Pristine 4K Anime Rain Wallpapers
 - High-definition 3840×2160 UHD native wallpapers inspired by the Rain OS aesthetic.
 - Zero white cuts, zero watermarks, zero slogans, and zero blurriness.
-- 1-click wallpaper switcher built into `rain-desktop-selector` and KDE System Settings.
+- 1-click wallpaper switcher built into `rain-desktop-selector`.
+- Universal wallpaper parity across SDDM greeter, lockscreen, and desktop sessions.
 
 ### 4. App Store & Software Ecosystem
-- **KDE Discover**: Graphical Software Center for discovering and updating native packages and system add-ons.
+- **Rain App Store (`cosmic-store`)**: Modern Rust-based Software Center for discovering and installing native packages and Flatpaks with zero database lock contention.
 - **Flathub Integration**: One-click enablement for thousands of sandboxed Flatpak applications.
 - **Native AppImage Support**: `fuse2` compatibility layer pre-installed, allowing AppImages to launch instantly without manual terminal setup.
 - **Windows Apps & Gaming Bridge**: Direct control over Bottles, Wine, Steam Proton, and Quickemu/KVM virtual machine fallbacks directly in the Control Center.
 
 ### 5. Multi-Screen & Device Synchronization
-- **Multi-Monitor Display Manager**: Per-monitor refresh rates, fractional scaling (100%, 125%, 150%, 200%), monitor rotation, and primary display selection powered by `kscreen`.
-- **KDE Connect Integration**: Wirelessly link your Android or iOS smartphone to share clipboards, receive notifications, respond to messages, and transfer files.
-- **Local Network Sharing**: Samba and Avahi mDNS pre-configured for instant discovery of shared folders and NAS storage in Dolphin.
+- **Multi-Monitor Display Settings**: Per-monitor refresh rates, fractional scaling (100%, 125%, 150%, 200%), monitor rotation, and primary display selection.
+- **Phone Synchronization**: Wirelessly link your Android or iOS smartphone to share clipboards, receive notifications, respond to messages, and transfer files.
+- **Local Network Sharing**: Samba and Avahi mDNS pre-configured for instant discovery of shared folders and NAS storage.
 
 ### 3. Modular System Profiles (`rain-profile`)
 Switch system profiles instantly in the Control Center or terminal (`rain-profile set <profile>`):

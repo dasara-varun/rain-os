@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#292524"/>
+      <stop offset="100%" stop-color="#171717"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+  </defs>
+  <rect width="472" height="472" x="20" y="20" rx="100" fill="url(#bg)" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+  <rect x="136" y="136" width="240" height="240" rx="30" fill="#1e293b" stroke="url(#amber)" stroke-width="14"/>
+  <rect x="196" y="196" width="120" height="120" rx="16" fill="url(#amber)"/>
+  <line x1="200" y1="136" x2="200" y2="70" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="256" y1="136" x2="256" y2="70" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="312" y1="136" x2="312" y2="70" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="200" y1="376" x2="200" y2="442" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="256" y1="376" x2="256" y2="442" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="312" y1="376" x2="312" y2="442" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="136" y1="200" x2="70" y2="200" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="136" y1="256" x2="70" y2="256" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="136" y1="312" x2="70" y2="312" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="376" y1="200" x2="442" y2="200" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="376" y1="256" x2="442" y2="256" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+  <line x1="376" y1="312" x2="442" y2="312" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+</svg>

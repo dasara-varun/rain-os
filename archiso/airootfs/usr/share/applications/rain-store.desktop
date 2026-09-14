@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rain Software Store
+GenericName=App Store & Packages
+Comment=Discover and install applications and Flatpaks
+Exec=cosmic-store
+Icon=rain-store
+Terminal=false
+StartupNotify=true
+Categories=System;PackageManager;

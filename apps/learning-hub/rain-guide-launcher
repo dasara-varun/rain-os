@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Rain OS Guide Launcher
+# Launches the offline learning guide in the active terminal
+set -euo pipefail
+
+if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if command -v cosmic-terminal >/dev/null 2>&1; then
+        exec cosmic-terminal -e rain-guide "$@"
+    elif command -v alacritty >/dev/null 2>&1; then
+        exec alacritty -e rain-guide "$@"
+    elif command -v konsole >/dev/null 2>&1; then
+        exec konsole --new-window -e rain-guide "$@"
+    elif command -v xterm >/dev/null 2>&1; then
+        exec xterm -e rain-guide "$@"
+    fi
+fi
+
+exec rain-guide "$@"
