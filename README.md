@@ -11,9 +11,9 @@
 <p align="center">
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/build-iso.yml/badge.svg" alt="Build ISO"></a>
   <a href="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/validate.yml/badge.svg" alt="Validate Spec"></a>
-  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.3.1" alt="Release Pipeline"></a>
+  <a href="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml"><img src="https://github.com/dasara-varun/rain-os/actions/workflows/release.yml/badge.svg?branch=v1.3.2" alt="Release Pipeline"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg" alt="License: GPL 3.0"></a>
-  <a href="https://github.com/dasara-varun/rain-os/releases/tag/v1.3.1"><img src="https://img.shields.io/badge/Release-v1.3.1-success.svg" alt="Latest Release"></a>
+  <a href="https://github.com/dasara-varun/rain-os/releases/tag/v1.3.2"><img src="https://img.shields.io/badge/Release-v1.3.2-success.svg" alt="Latest Release"></a>
 </p>
 
 ---
@@ -160,19 +160,19 @@ sudo ./scripts/build-iso.sh
 ## Releases & Package Distribution
 
 ### Official Version Releases & Tags
-Releases are cryptographically signed and tagged with semantic versioning (`v1.3.1`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
+Releases are cryptographically signed and tagged with semantic versioning (`v1.3.2`, etc.). Pushing a release tag automatically triggers the automated [Release Pipeline](.github/workflows/release.yml) which builds, validates, QEMU-tests, packages, and attaches all assets to the GitHub Release.
 
 ```bash
 # Tag and trigger a release
-git tag -a v1.3.1 -m "Rain OS Version 1.3.1 Production Release"
-git push origin v1.3.1
+git tag -a v1.3.2 -m "Rain OS Version 1.3.2 Production Release"
+git push origin v1.3.2
 ```
 
 ### Released Assets & Manifests
 Every official release provides the following downloadable artifacts:
-1. **`rain-os-1.3.1-x86_64.iso`**: The full bootable live distribution ISO with Calamares graphical installer, hardware drivers, KDE Plasma 6, COSMIC profile, universal boot media auto-detection, and universal app ecosystem.
-2. **`rain-os-1.3.1-source.tar.gz`**: Full, auditable source code repository tree for clean offline builds and open inspection.
-3. **`rain-os-packages-1.3.1.tar.gz`**: Archive containing the compiled Rain OS local package repository (`rain.db.tar.zst`) and all pre-built `.pkg.tar.zst` packages.
+1. **`rain-os-1.3.2-x86_64.iso`**: The full bootable live distribution ISO with Calamares graphical installer, hardware drivers, KDE Plasma 6, COSMIC profile, universal boot media auto-detection, and universal app ecosystem.
+2. **`rain-os-1.3.2-source.tar.gz`**: Full, auditable source code repository tree for clean offline builds and open inspection.
+3. **`rain-os-packages-1.3.2.tar.gz`**: Archive containing the compiled Rain OS local package repository (`rain.db.tar.zst`) and all pre-built `.pkg.tar.zst` packages.
 4. **`rain-wallpaper-4k.jpg`**: Official 4K Ultra-HD default wallpaper (3840×2160).
 5. **`rain-logo-4k.png`**: High-resolution 4096×4096 transparent master umbrella emblem.
 6. **`rain-umbrella.svg`**: Scalable vector master logo and desktop application icon.
@@ -180,19 +180,19 @@ Every official release provides the following downloadable artifacts:
 8. **`SHA256SUMS` & `SHA512SUMS`**: SHA-256 and SHA-512 cryptographic hashes for verifying file integrity before flashing.
 
 ### Universal Bootloader & Bare-Metal Hardware Resilience
-Rain OS 1.3.1 includes critical bare-metal compatibility hardening:
+Rain OS 1.3.2 includes critical bare-metal compatibility hardening:
 - **USB Enumeration Settle Delay (`archisodelay=15`)**: Prevents early boot timeouts on slower USB 3.0/Type-C controllers, ensuring storage devices are detected before `archiso` attempts to mount `airootfs.sfs`.
 - **Pre-Discovery Storage Hook Sequence**: Enforces `block` device generation and `keyboard` availability prior to `archiso` filesystem discovery in initramfs.
 - **Intel LPSS & ACPI Interrupt Protection (`irqpoll`)**: Defeats unhandled IRQ collisions (e.g. IRQ 27) that otherwise freeze USB controllers on 10th–14th Gen Intel laptop platforms.
 - **Universal Flashing Compatibility**: Boots reliably via **BalenaEtcher**, Rufus in **DD Image Mode**, Rufus in **ISO Image Mode**, **Ventoy**, or direct `dd`.
 
 ### Flashing to USB
-- **BalenaEtcher (Recommended)**: Select `rain-os-1.3.1-x86_64.iso` and your USB flash drive, then click Flash.
+- **BalenaEtcher (Recommended)**: Select `rain-os-1.3.2-x86_64.iso` and your USB flash drive, then click Flash.
 - **Rufus (Windows)**: Select the ISO, choose Partition Scheme `GPT` or `MBR`, and click Start (choose **DD Image Mode** when prompted for maximum reliability).
-- **Ventoy**: Simply copy `rain-os-1.3.1-x86_64.iso` to your Ventoy USB drive.
+- **Ventoy**: Simply copy `rain-os-1.3.2-x86_64.iso` to your Ventoy USB drive.
 - **Linux (`dd`)**:
   ```bash
-  sudo dd if=rain-os-1.3.1-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
+  sudo dd if=rain-os-1.3.2-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
   ```
 
 ---

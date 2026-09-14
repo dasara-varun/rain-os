@@ -20,7 +20,7 @@ def generate_sbom(packages_file, output_file):
     now = datetime.now(timezone.utc).isoformat()
 
     # Detect current Rain OS version from profiledef.sh
-    version = "1.3.1"
+    version = "1.3.2"
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     profile_path = os.path.join(root_dir, "archiso", "profiledef.sh")
     if os.path.exists(profile_path):

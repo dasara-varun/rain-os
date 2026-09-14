@@ -684,5 +684,32 @@ sh: can't access tty; job control turned off
 2. **Interrupt Conflict Mitigation**: Enabled `irqpoll` across default boot entries.
 3. **Initramfs Hook Sequencing**: Corrected `HOOKS=(base udev memdisk block archiso archiso_loop_mnt filesystems keyboard)` so all storage and USB devices are registered and keyboard support is active before media mounting.
 4. **Firmware Stack Expansion**: Restored `linux-firmware-mediatek`, `linux-firmware-marvell`, `linux-firmware-qcom`, `sof-firmware`, `alsa-firmware`, and `alsa-ucm-conf` for complete laptop Wi-Fi and audio support.
-5. **Self-Hosted Runner Architecture**: Updated `.github/workflows/build-iso.yml` and `.github/workflows/release.yml` with dual runner support (`self-hosted` or `ubuntu-latest`), enabling fast, local builds on physical hardware without cloud runner disk or size limitations. Guide published at `docs/SELF_HOSTED_RUNNER_GUIDE.md`.
+5. **Self-Hosted Runner Architecture**: Added dual runner support (`self-hosted` or `ubuntu-latest`), enabling local builds on physical hardware without cloud runner disk or size limitations. Guide published at `docs/SELF_HOSTED_RUNNER_GUIDE.md`.
+
+---
+
+## 15. Self-Hosted Runner Activation & Production System Refinements (v1.3.2)
+
+Rain OS v1.3.2 establishes the **Self-Hosted Runner** as the primary build engine across all build and release pipelines, while completing a comprehensive audit and hardening of runtime initialization, desktop asset discovery, and installer reliability.
+
+### 15.1 Primary Build Engine: Self-Hosted Runner (`runs-on: self-hosted`)
+- **Default Runner Transition**: Both `.github/workflows/build-iso.yml` and `.github/workflows/release.yml` now default to `runs-on: self-hosted`. Pushing to `main` or tagging a release automatically executes on local runner hardware, utilizing host multi-core CPUs for 2–4 minute builds without 2.0 GiB file size boundaries.
+- **Graceful Fallback**: `workflow_dispatch` retains an optional fallback to `ubuntu-latest` if the local runner is temporarily offline.
+- **One-Click WSL2 Activation**: Enhanced `scripts/setup-wsl-admin.bat` with automated UAC privilege self-elevation and direct Ubuntu installation.
+- **Runner Daemon Orchestration**: Enhanced `scripts/setup-self-hosted-runner.sh` with automatic Docker service startup and socket permissions handling.
+
+### 15.2 Cross-Platform Dynamic Asset Resolution
+- **Elimination of Hardcoded Host Paths**: Removed all hardcoded Windows drive references (`E:\rain os`) across `rain-desktop-selector`, `rain-control-center`, `rain-first-run-gui`, `scripts/generate-svg-icons.py`, and `scripts/generate-app-icons.py`.
+- **Hierarchical Path Discovery**: Implemented recursive parent-directory resolution (`_find_repo_branding`) ensuring seamless asset resolution across installed environments, live media, container mounts, and arbitrary repository locations.
+
+### 15.3 Fail-Safe Live Environment Credentials
+- **Root & Liveuser Initialization**: Resolved a race condition where `systemd-sysusers` pre-creating `liveuser` bypassed root password definition. `rain-live-setup` now unconditionally sets both passwordless privileges and standard fallback credentials (`liveuser:liveuser`, `root:rain`) regardless of execution sequence.
+
+### 15.4 System Installer Robustness (`rain-install-launcher`)
+- **Persistent Terminal Execution**: Wrapped `archinstall` invocation inside interactive shell wrapper (`bash -c '... read -r'`), guaranteeing that terminal windows remain open with diagnostic status messages upon installer exit or failure rather than disappearing instantly.
+
+### 15.5 Fine-Grained Wi-Fi Telemetry & Build Self-Sufficiency
+- **Structured Wi-Fi Diagnostics**: Expanded `rain-hardware-report` JSON output with structured status reporting for Intel, Realtek, MediaTek, and Broadcom wireless chipsets.
+- **Autonomous Local ISO Builder**: Updated `scripts/build-iso.sh` to automatically compile `src/rain-probe.c` and package the local pacman repository before invoking `mkarchiso`.
+
 

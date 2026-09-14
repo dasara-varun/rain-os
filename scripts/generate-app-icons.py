@@ -286,10 +286,11 @@ def generate_icon(config, size):
     return img
 
 def main():
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     dest_dirs = [
-        r"E:\rain os\branding\icons",
-        r"E:\rain os\archiso\airootfs\usr\share\icons\hicolor",
-        r"E:\rain os\packages\rain-branding\icons"
+        os.path.join(repo_root, "branding", "icons"),
+        os.path.join(repo_root, "archiso", "airootfs", "usr", "share", "icons", "hicolor"),
+        os.path.join(repo_root, "packages", "rain-branding", "icons")
     ]
     
     for c in ICONS:

@@ -16,18 +16,25 @@ if ! command -v docker >/dev/null 2>&1; then
     echo "Notice: Docker is required to run the Archiso build container."
     echo "Installing Docker..."
     if command -v apt-get >/dev/null 2>&1; then
-        sudo apt-get update && sudo apt-get install -y docker.io curl tar
+        sudo apt-get update && sudo apt-get install -y docker.io curl tar libicu-dev
         sudo usermod -aG docker "$USER" || true
-        sudo systemctl enable --now docker || true
     elif command -v pacman >/dev/null 2>&1; then
-        sudo pacman -Syu --noconfirm docker curl tar
+        sudo pacman -Syu --noconfirm docker curl tar icu
         sudo usermod -aG docker "$USER" || true
-        sudo systemctl enable --now docker || true
     else
         echo "Error: Please install docker manually." >&2
         exit 1
     fi
 fi
+
+# Ensure Docker daemon is running
+if ! docker info >/dev/null 2>&1; then
+    echo "Starting Docker service..."
+    sudo service docker start 2>/dev/null || sudo systemctl start docker 2>/dev/null || true
+fi
+
+# Ensure user has access to Docker socket without needing a full logout/login
+sudo chmod 666 /var/run/docker.sock 2>/dev/null || true
 
 # Create runner directory
 mkdir -p "$RUNNER_DIR"

@@ -50,6 +50,15 @@ class RainWelcomeApp(tk.Tk):
         self._build_ui()
 
     def _find_logo(self):
+        cur = os.path.dirname(os.path.abspath(__file__))
+        repo_b = None
+        for _ in range(6):
+            b = os.path.join(cur, "branding")
+            if os.path.isdir(b):
+                repo_b = b
+                break
+            cur = os.path.dirname(cur)
+
         possible_paths = [
             "/usr/share/icons/hicolor/128x128/apps/rain-welcome.png",
             "/usr/share/pixmaps/rain-welcome.png",
@@ -57,9 +66,12 @@ class RainWelcomeApp(tk.Tk):
             "/usr/share/icons/hicolor/256x256/apps/rain-os.png",
             os.path.join(os.path.dirname(__file__), "..", "..", "branding", "icons", "128x128", "rain-welcome.png"),
             os.path.join(os.path.dirname(__file__), "..", "..", "branding", "rain-logo.png"),
-            r"E:\rain os\branding\icons\128x128\rain-welcome.png",
-            r"E:\rain os\branding\rain-logo.png"
         ]
+        if repo_b:
+            possible_paths.extend([
+                os.path.join(repo_b, "icons", "128x128", "rain-welcome.png"),
+                os.path.join(repo_b, "rain-logo.png")
+            ])
         self.logo_path = None
         for p in possible_paths:
             if os.path.exists(p):

@@ -99,7 +99,12 @@ if [[ -w /etc/rain-os ]]; then
     "amd": $((has_amd == 1 ? 1 : 0)),
     "intel": $((has_intel == 1 ? 1 : 0))
   },
-  "wifi_broadcom": $((has_broadcom_wl == 1 ? 1 : 0)),
+  "wifi": {
+    "broadcom": $((has_broadcom_wl == 1 ? 1 : 0)),
+    "intel": $((has_intel_wifi == 1 ? 1 : 0)),
+    "realtek": $((has_realtek_wifi == 1 ? 1 : 0)),
+    "mediatek": $((has_mediatek_wifi == 1 ? 1 : 0))
+  },
   "power_profile": "$power_profile",
   "scanned_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 }
@@ -110,7 +115,7 @@ if [[ "$output_json" -eq 1 ]]; then
     if [[ -f "$HARDWARE_JSON" ]]; then
         cat "$HARDWARE_JSON"
     else
-        echo "{\"cpu\":\"$cpu_model\",\"memory\":\"$total_mem\",\"nvidia\":$has_nvidia,\"amd\":$has_amd,\"intel\":$has_intel}"
+        echo "{\"cpu\":\"$cpu_model\",\"memory\":\"$total_mem\",\"nvidia\":$has_nvidia,\"amd\":$has_amd,\"intel\":$has_intel,\"wifi\":{\"intel\":$has_intel_wifi,\"realtek\":$has_realtek_wifi,\"mediatek\":$has_mediatek_wifi,\"broadcom\":$has_broadcom_wl}}"
     fi
     exit 0
 fi

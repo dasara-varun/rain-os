@@ -4,27 +4,28 @@ echo =======================================================
 echo     Rain OS - Enable WSL2 for Local ISO Building
 echo =======================================================
 echo.
-echo Checking administrator privileges...
+
+:: Self-elevate to administrator if not elevated
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    echo [!] This script must be run as Administrator.
-    echo Right-click 'setup-wsl-admin.bat' and select 'Run as administrator'.
-    echo.
-    pause
-    exit /b 1
+    echo [!] Requesting Administrator privileges...
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Process cmd -ArgumentList '/k \"\"%~f0\"\"' -Verb RunAs"
+    exit /b 0
 )
 
 echo [+] Administrator privileges confirmed.
-echo [*] Enabling Windows Subsystem for Linux (WSL2)...
-wsl.exe --install
+echo [*] Installing Windows Subsystem for Linux (WSL2) with Ubuntu...
+wsl.exe --install -d Ubuntu
 
 echo.
 echo =======================================================
-echo [!] IMPORTANT NEXT STEP:
-echo If Windows prompts to restart, please restart your computer now.
-echo After restart, open this folder and double-click:
-echo     scripts\build-windows.bat
-echo to build the Rain OS ISO locally!
+echo [!] WSL2 installation initialized!
+echo.
+echo 1. If Windows prompts to restart, restart your computer now.
+echo 2. After restart, open "Ubuntu" from your Windows Start Menu.
+echo 3. Inside Ubuntu, run:
+echo      /mnt/e/rain\ os/scripts/setup-self-hosted-runner.sh
 echo =======================================================
 echo.
 pause
+

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo "============================================================"
-echo "          Rain OS System Installer (v1.3.1)                 "
+echo "          Rain OS System Installer (v1.3.2)                 "
 echo "============================================================"
 
 # 1. Desktop / Window Manager Selection Step (Vertical List)
@@ -73,7 +73,7 @@ elif command -v archinstall >/dev/null 2>&1; then
         fi
     fi
     if [ -n "$TERM_CMD" ]; then
-        exec $TERM_CMD sudo archinstall "$@"
+        exec $TERM_CMD bash -c 'echo "Rain OS System Installer"; echo "============================================================"; sudo archinstall "$@"; ret=$?; echo ""; if [ $ret -eq 0 ]; then echo "Installation complete! Press Enter to close..."; else echo "Installer exited with code $ret. Press Enter to return..."; fi; read -r' _ "$@"
     fi
     if [ "$(id -u)" -ne 0 ]; then
         exec sudo archinstall "$@"

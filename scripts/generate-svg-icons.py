@@ -171,10 +171,11 @@ SVGS = {
 }
 
 def main():
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     target_dirs = [
-        r"E:\rain os\branding\icons",
-        r"E:\rain os\archiso\airootfs\usr\share\icons\hicolor\scalable\apps",
-        r"E:\rain os\packages\rain-branding\icons\scalable\apps"
+        os.path.join(repo_root, "branding", "icons"),
+        os.path.join(repo_root, "archiso", "airootfs", "usr", "share", "icons", "hicolor", "scalable", "apps"),
+        os.path.join(repo_root, "packages", "rain-branding", "icons", "scalable", "apps")
     ]
     for d in target_dirs:
         os.makedirs(d, exist_ok=True)

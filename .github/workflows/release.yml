@@ -7,20 +7,20 @@ on:
   workflow_dispatch:
     inputs:
       runner:
-        description: 'Runner environment (ubuntu-latest or self-hosted)'
+        description: 'Runner environment (self-hosted or ubuntu-latest)'
         required: false
-        default: 'ubuntu-latest'
+        default: 'self-hosted'
         type: choice
         options:
-          - 'ubuntu-latest'
           - 'self-hosted'
+          - 'ubuntu-latest'
 
 permissions:
   contents: write
 
 jobs:
   build:
-    runs-on: ${{ github.event.inputs.runner || (vars.BUILD_RUNNER != '' && vars.BUILD_RUNNER || 'ubuntu-latest') }}
+    runs-on: ${{ github.event.inputs.runner || (vars.BUILD_RUNNER != '' && vars.BUILD_RUNNER || 'self-hosted') }}
     container:
       image: archlinux:latest
       options: --privileged -v /dev:/dev

@@ -23,6 +23,18 @@ if [[ ! -d "$PROFILE" || ! -s "$PROFILE/packages.x86_64" ]]; then
   exit 1
 fi
 
+# Compile native C probe if make is available
+if command -v make >/dev/null 2>&1 && [[ -d "$ROOT/src" ]]; then
+  echo "Compiling native C probe..."
+  make -C "$ROOT/src" install DESTDIR="$PROFILE/airootfs" PREFIX=/usr/local || true
+fi
+
+# Build custom packages repository if not yet built
+if [[ -x "$ROOT/repository/build-repo.sh" && ! -f "$ROOT/repository/rain-repo/rain-os.db.tar.gz" ]]; then
+  echo "Building custom Rain OS repository packages..."
+  "$ROOT/repository/build-repo.sh" || true
+fi
+
 # Ensure loop device control exists (essential inside containers & CI runners)
 if [[ ! -c /dev/loop-control ]]; then
   mknod /dev/loop-control c 10 237 2>/dev/null || true

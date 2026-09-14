@@ -217,38 +217,55 @@ DESKTOPS = [
     }
 ]
 
+def _find_repo_branding():
+    cur = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(6):
+        b = os.path.join(cur, "branding")
+        if os.path.isdir(b):
+            return b
+        cur = os.path.dirname(cur)
+    return None
+
 def find_asset_path(subpath):
+    repo_b = _find_repo_branding()
     candidates = [
         os.path.join("/usr/share/icons/hicolor/128x128/apps", subpath),
         os.path.join("/usr/share/pixmaps", subpath),
         os.path.join("/usr/share/rain-os", subpath),
         os.path.join(os.path.dirname(__file__), "..", "..", "branding", "icons", "128x128", subpath),
         os.path.join(os.path.dirname(__file__), "..", "..", "branding", subpath),
-        os.path.join(r"E:\rain os\branding\icons\128x128", subpath),
-        os.path.join(r"E:\rain os\branding", subpath)
     ]
+    if repo_b:
+        candidates.extend([
+            os.path.join(repo_b, "icons", "128x128", subpath),
+            os.path.join(repo_b, subpath)
+        ])
     for c in candidates:
         if os.path.exists(c):
             return c
     return None
 
 def find_wallpaper_dir():
+    repo_b = _find_repo_branding()
     candidates = [
         "/usr/share/wallpapers/rain-os",
         os.path.join(os.path.dirname(__file__), "..", "..", "branding", "wallpapers"),
-        r"E:\rain os\branding\wallpapers"
     ]
+    if repo_b:
+        candidates.append(os.path.join(repo_b, "wallpapers"))
     for c in candidates:
         if os.path.isdir(c):
             return c
     return None
 
 def find_themes_dir():
+    repo_b = _find_repo_branding()
     candidates = [
         "/usr/share/rain-os/themes",
         os.path.join(os.path.dirname(__file__), "..", "..", "branding", "themes"),
-        r"E:\rain os\branding\themes"
     ]
+    if repo_b:
+        candidates.append(os.path.join(repo_b, "themes"))
     for c in candidates:
         if os.path.isdir(c):
             return c
