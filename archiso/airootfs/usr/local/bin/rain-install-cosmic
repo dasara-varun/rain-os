@@ -28,6 +28,7 @@ COSMIC_PKGS=(
     cosmic-settings
     cosmic-terminal
     cosmic-files
+    cosmic-store
 )
 
 if pacman -S --needed --noconfirm "${COSMIC_PKGS[@]}" 2>/dev/null; then

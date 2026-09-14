@@ -39,6 +39,7 @@ parted
 gptfdisk
 xdg-user-dirs
 xdg-utils
+librsvg
 gvfs
 polkit-kde-agent
 ark

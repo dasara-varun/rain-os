@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo "============================================================"
-echo "          Rain OS System Installer (v1.1.0)                 "
+echo "          Rain OS System Installer (v1.3.1)                 "
 echo "============================================================"
 
 # 1. Desktop / Window Manager Selection Step (Vertical List)

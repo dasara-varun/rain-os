@@ -58,10 +58,23 @@ fi
 # Network / Wi-Fi Detection
 wifi_devs=""
 has_broadcom_wl=0
+has_intel_wifi=0
+has_realtek_wifi=0
+has_mediatek_wifi=0
+
 if command -v lspci >/dev/null 2>&1; then
-    wifi_devs=$(lspci | grep -i "Network controller" || echo "")
+    wifi_devs=$(lspci | grep -i "Network controller\|Wireless" || echo "")
     if echo "$wifi_devs" | grep -qi "Broadcom"; then
         has_broadcom_wl=1
+    fi
+    if echo "$wifi_devs" | grep -qi "Intel"; then
+        has_intel_wifi=1
+    fi
+    if echo "$wifi_devs" | grep -qi "Realtek"; then
+        has_realtek_wifi=1
+    fi
+    if echo "$wifi_devs" | grep -qi "MediaTek"; then
+        has_mediatek_wifi=1
     fi
 fi
 
@@ -151,6 +164,12 @@ if [[ -n "$wifi_devs" ]]; then
     if [[ "$has_broadcom_wl" -eq 1 ]]; then
         echo -e "  [${YELLOW}NOTICE${RESET}] Broadcom wireless chip detected. If Wi-Fi is inactive, install:"
         echo -e "           ${BOLD}sudo pacman -S broadcom-wl-dkms${RESET}"
+    elif [[ "$has_intel_wifi" -eq 1 ]]; then
+        echo -e "  [${GREEN}ACTIVE${RESET}] Intel wireless adapter active with iwlwifi and linux-firmware-intel."
+    elif [[ "$has_realtek_wifi" -eq 1 ]]; then
+        echo -e "  [${GREEN}ACTIVE${RESET}] Realtek wireless adapter active with rtw88/rtw89 and linux-firmware-realtek."
+    elif [[ "$has_mediatek_wifi" -eq 1 ]]; then
+        echo -e "  [${GREEN}ACTIVE${RESET}] MediaTek Wi-Fi 6/6E adapter active with mt7921e and linux-firmware-mediatek."
     else
         echo -e "  [${GREEN}ACTIVE${RESET}] Wireless adapter supported by native Linux kernel modules."
     fi

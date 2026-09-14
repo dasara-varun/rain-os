@@ -1,6 +1,6 @@
 # Maintainer: Rain OS Contributors <https://github.com/dasara-varun/rain-os>
 pkgname=rain-update-preflight
-pkgver=1.3.0
+pkgver=1.3.1
 pkgrel=1
 pkgdesc="Rain OS pre-transaction update verification and safety wrapper"
 arch=('any')

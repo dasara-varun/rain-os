@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Extract and upscale 56 individual 4K UHD wallpapers from the user's aesthetic rain contact sheets.
 """

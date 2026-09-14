@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:rain-os-sbom-20260914172635",
+  "serialNumber": "urn:uuid:rain-os-sbom-20260914174253",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-14T11:56:35.303362+00:00",
+    "timestamp": "2026-09-14T12:12:53.714099+00:00",
     "tools": [
       {
         "vendor": "Rain OS",
@@ -703,6 +703,20 @@
     {
       "type": "operating-system",
       "name": "xdg-utils",
+      "version": "rolling",
+      "publisher": "Arch Linux Upstream",
+      "licenses": [
+        {
+          "license": {
+            "id": "OpenSource"
+          }
+        }
+      ],
+      "origin": "https://archlinux.org/packages/"
+    },
+    {
+      "type": "library",
+      "name": "librsvg",
       "version": "rolling",
       "publisher": "Arch Linux Upstream",
       "licenses": [

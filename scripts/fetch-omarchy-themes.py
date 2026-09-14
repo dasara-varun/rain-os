@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Fetch and adapt themes from omacom/omarchy for Rain OS.
 Adapts palettes for Hyprland, Waybar, Rofi, Kitty, Konsole, and KDE.
